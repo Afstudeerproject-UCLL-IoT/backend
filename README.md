@@ -5,5 +5,5 @@ Spring boot backend for our IoT application
 
 - Go to the src folder
 
-Building => gradlew clean build
+Building => gradlew clean build  
 Running => gradlew bootRun
