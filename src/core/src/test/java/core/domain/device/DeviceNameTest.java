@@ -32,7 +32,7 @@ class DeviceNameTest {
     }
 
     @DisplayName("Test device name string conversion")
-    @Test()
+    @Test
     public void deviceNameStringFormatIsCorrect() {
         var deviceNameOwner = DeviceName.For("puzzle1-Owner-1");
         var deviceNameSubscriber = DeviceName.For("AnAwesomePuzzleFrom343Technologies-Subscriber-25");
@@ -67,8 +67,6 @@ class DeviceNameTest {
         // more then 6 numbers
         // too mush dashes
 
-        assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For(incorrectDeviceName);
-        });
+        assertThrows(InvalidDeviceNameException.class, () -> DeviceName.For(incorrectDeviceName));
     }
 }
