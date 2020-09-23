@@ -2,13 +2,15 @@ package core.domain.device;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeviceNameTest {
 
     @DisplayName("Test device name creation")
-    @Test()
+    @Test
     public void shouldHaveCorrectDeviceName() {
         // test first device owner
         var deviceNameOwner = DeviceName.For("puzzle1-Owner-999999");
@@ -42,57 +44,31 @@ class DeviceNameTest {
     }
 
     @DisplayName("Test if an incorrect device name throws the correct exception")
-    @Test
-    // TODO move each case to separate private method
-    public void incorrectDeviceNameThrowsException(){
-        // null given as parameter
-        assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For(null);
-        });
-
-        // no data provided
-        assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For("");
-        });
-
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "",
+            "Subscriber-2",
+            "AwesomePuzzle--1",
+            "AwesomePuzzle-MasterMan-1",
+            "AwesomePuzzle-Subscriber-",
+            "AwesomePuzzle-Owner-",
+            "AnAwesomePuzzleFrom343Technologies Subscriber 25",
+            "AnAwesomePuzzleFrom343Technologies-Subscriber-1234567",
+            "-AnAwesomePuzzleFrom343Technologies-Subscriber-25-"
+    })
+    public void incorrectDeviceNameThrowsException(String incorrectDeviceName){
+        // test cases:
         // no puzzle name provided
-        assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For("Subscriber-2");
-        });
-
         // no role name provided
-        assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For("AwesomePuzzle--1");
-        });
-
         // incorrect role name provided
-        assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For("AwesomePuzzle-MasterMan-1");
-        });
-
         // no subscriber number provided
-        assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For("AwesomePuzzle-Subscriber-");
-        });
-
         // no owner number provided
-        assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For("AwesomePuzzle-Owner-");
-        });
-
         // missing dashes
-        assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For("AnAwesomePuzzleFrom343Technologies Subscriber 25");
-        });
-
         // more then 6 numbers
-        assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For("AnAwesomePuzzleFrom343Technologies-Subscriber-1234567");
-        });
-
         // too mush dashes
+
         assertThrows(InvalidDeviceNameException.class, () ->{
-            DeviceName.For("-AnAwesomePuzzleFrom343Technologies-Subscriber-25-");
+            DeviceName.For(incorrectDeviceName);
         });
     }
 }
