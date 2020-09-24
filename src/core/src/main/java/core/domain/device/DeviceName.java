@@ -1,5 +1,7 @@
 package core.domain.device;
 
+import core.exceptions.device.InvalidDeviceNameException;
+
 import java.util.regex.Pattern;
 
 public class DeviceName {
@@ -13,7 +15,7 @@ public class DeviceName {
         this.number = number;
     }
 
-    public static DeviceName For(String deviceName){
+    public static DeviceName instance(String deviceName){
         // validate device name with regex and null check
         if(deviceName == null || !Pattern.matches("^.+-(Owner|Subscriber)-[0-9]{1,6}+$", deviceName)){
             throw new InvalidDeviceNameException();
@@ -49,9 +51,6 @@ public class DeviceName {
 
     @Override
     public String toString() {
-        if(role == DeviceRole.Owner){
-            return String.format("%s-%s", puzzleName, role);
-        }
         return String.format("%s-%s-%d", puzzleName, role, number);
     }
 }
