@@ -1,6 +1,6 @@
 package core.domain.device;
 
-import core.exceptions.device.InvalidDeviceNameException;
+import core.exceptions.device.InvalidDeviceCreationInputException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,22 +11,37 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DeviceTest {
 
+    @DisplayName("Test if given the right input a device with puzzle is created")
     @Test
-    public void creatingADeviceFromADeviceNameGivesAValidDevice(){
-        var device = Device.instance("Puzzle1Awesome-Owner-1");
+    public void creatingAValidDeviceSucceeds(){
+        var device = Device.instance("ARDUINO-AwesomePuzzle1");
 
         assertNotNull(device);
-        assertNotNull(device.getName());
+        assertNotNull(device.getType());
         assertNotNull(device.getPuzzle());
 
-        assertEquals("Puzzle1Awesome", device.getPuzzle().getName());
+        assertEquals("AwesomePuzzle1", device.getPuzzle().getName());
     }
 
-    @DisplayName("Test when the device name is not valid, the right exception is thrown, this is already tested but now test if it's wrapped correctly")
+    @DisplayName("Test the toString method call")
+    @Test
+    public void testToStringMethod(){
+        var device = Device.instance("ARDUINO-AwesomePuzzle1");
+
+        assertEquals("ARDUINO-AwesomePuzzle1", device.toString());
+    }
+
+    @DisplayName("Invalid input for device creation throws an exception")
     @ParameterizedTest
     @NullAndEmptySource
-    @ValueSource(strings = {"Puzzle1", "Owner", "Puzzle1---", "Puzzle-Owner-"})
+    @ValueSource(strings = {
+            "bla-bla",
+            "arduino-puzzle1",
+            "bla-puzzle1",
+            "-ARDUINO-puzzle1",
+            "AARDUINO-puzzle1"
+    })
     public void creatingADeviceFromAWrongDeviceNameGivesAnException(String deviceNameInput){
-        assertThrows(InvalidDeviceNameException.class, () -> Device.instance(deviceNameInput));
+        assertThrows(InvalidDeviceCreationInputException.class, () -> Device.instance(deviceNameInput));
     }
 }
