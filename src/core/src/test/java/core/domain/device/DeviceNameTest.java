@@ -1,8 +1,10 @@
 package core.domain.device;
 
+import core.exceptions.device.InvalidDeviceNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,8 +14,8 @@ class DeviceNameTest {
     @DisplayName("Test device name creation")
     @Test
     public void shouldHaveCorrectDeviceName() {
-        // test first device owner
-        var deviceNameOwner = DeviceName.For("puzzle1-Owner-999999");
+        // test device owner
+        var deviceNameOwner = DeviceName.instance("puzzle1-Owner-999999");
 
         assertAll("correctDeviceName1",
                 () -> assertEquals("puzzle1", deviceNameOwner.getPuzzleName()),
@@ -22,7 +24,7 @@ class DeviceNameTest {
         );
 
         // test device subscriber
-        var deviceNameSubscriber = DeviceName.For("AnAwesomePuzzleFrom343Technologies-Subscriber-25");
+        var deviceNameSubscriber = DeviceName.instance("AnAwesomePuzzleFrom343Technologies-Subscriber-25");
 
         assertAll("correctDeviceName2",
                 () -> assertEquals("AnAwesomePuzzleFrom343Technologies", deviceNameSubscriber.getPuzzleName()),
@@ -32,21 +34,18 @@ class DeviceNameTest {
     }
 
     @DisplayName("Test device name string conversion")
-    @Test
-    public void deviceNameStringFormatIsCorrect() {
-        var deviceNameOwner = DeviceName.For("puzzle1-Owner-1");
-        var deviceNameSubscriber = DeviceName.For("AnAwesomePuzzleFrom343Technologies-Subscriber-25");
+    @ParameterizedTest
+    @ValueSource(strings = {"puzzle1-Owner-1", "AnAwesomePuzzleFrom343Technologies-Subscriber-25"})
+    public void deviceNameStringFormatIsCorrect(String deviceNameInput) {
+        var deviceName = Device.instance(deviceNameInput);
 
-        assertAll("Correct string conversion",
-                () -> assertEquals("puzzle1-Owner", deviceNameOwner.toString()),
-                () -> assertEquals("AnAwesomePuzzleFrom343Technologies-Subscriber-25", deviceNameSubscriber.toString())
-        );
+        assertEquals(deviceNameInput, deviceName.toString());
     }
 
     @DisplayName("Test if an incorrect device name throws the correct exception")
     @ParameterizedTest
+    @NullAndEmptySource
     @ValueSource(strings = {
-            "",
             "Subscriber-2",
             "AwesomePuzzle--1",
             "AwesomePuzzle-MasterMan-1",
@@ -67,6 +66,6 @@ class DeviceNameTest {
         // more then 6 numbers
         // too mush dashes
 
-        assertThrows(InvalidDeviceNameException.class, () -> DeviceName.For(incorrectDeviceName));
+        assertThrows(InvalidDeviceNameException.class, () -> DeviceName.instance(incorrectDeviceName));
     }
 }

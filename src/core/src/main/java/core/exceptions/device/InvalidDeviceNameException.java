@@ -1,4 +1,4 @@
-package core.domain.device;
+package core.exceptions.device;
 
 public class InvalidDeviceNameException extends RuntimeException {
 
