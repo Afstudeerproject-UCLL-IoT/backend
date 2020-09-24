@@ -1,13 +1,10 @@
 package core.domain.puzzle;
 
-import core.domain.device.Device;
-import core.exceptions.device.InvalidDeviceCreationInputException;
 import core.exceptions.puzzle.InvalidPuzzleNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,15 +28,13 @@ class PuzzleTest {
     public void testToStringMethod(){
         var puzzle = Puzzle.instance("AwesomePuzzle1", "");
 
-
         assertEquals("AwesomePuzzle1", puzzle.toString());
     }
 
     @DisplayName("Invalid input for puzzle creation throws an exception")
     @ParameterizedTest
     @NullAndEmptySource
-    public void creatingADeviceFromAWrongDeviceNameGivesAnException(String puzzleName){
+    public void creatingAPuzzleWithInvalidInputThrowsAnException(String puzzleName){
         assertThrows(InvalidPuzzleNameException.class, () -> Puzzle.instance(puzzleName, ""));
     }
-
 }

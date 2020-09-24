@@ -5,6 +5,7 @@ import core.domain.puzzle.Puzzle;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 
-public interface PuzzleRepository extends GenericRepository<Puzzle>{
-    ImmutablePair<Device, Device> addSubscription(Device subscriber, Puzzle puzzle);
+public interface PuzzleRepository extends GenericRepository<Puzzle> {
+
+    ImmutablePair<Device, Puzzle> addSubscription(Device subscriber, Puzzle puzzle);
 }

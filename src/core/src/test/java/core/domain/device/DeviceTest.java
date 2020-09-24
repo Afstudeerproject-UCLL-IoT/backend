@@ -11,15 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DeviceTest {
 
-    @DisplayName("Test if given the right input a device with puzzle is created")
+    @DisplayName("Test if given the right input a device with a puzzle is created")
     @Test
-    public void creatingAValidDeviceSucceeds(){
+    public void creatingAValidDeviceWithPuzzleSucceeds(){
         var device = Device.instance("ARDUINO-AwesomePuzzle1");
 
         assertNotNull(device);
         assertNotNull(device.getType());
         assertNotNull(device.getPuzzle());
 
+        assertEquals(DeviceType.ARDUINO, device.getType());
         assertEquals("AwesomePuzzle1", device.getPuzzle().getName());
     }
 
@@ -31,7 +32,7 @@ class DeviceTest {
         assertEquals("ARDUINO-AwesomePuzzle1", device.toString());
     }
 
-    @DisplayName("Invalid input for device creation throws an exception")
+    @DisplayName("Invalid input for the creation of a device throws an exception")
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {
@@ -41,7 +42,7 @@ class DeviceTest {
             "-ARDUINO-puzzle1",
             "AARDUINO-puzzle1"
     })
-    public void creatingADeviceFromAWrongDeviceNameGivesAnException(String deviceNameInput){
+    public void creatingADeviceWithInvalidInputThrowsAnException(String deviceNameInput){
         assertThrows(InvalidDeviceCreationInputException.class, () -> Device.instance(deviceNameInput));
     }
 }

@@ -14,12 +14,12 @@ import static org.mockito.Mockito.*;
 
 class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceUseCasesBase {
 
-    @DisplayName("Test device and it's puzzle registration")
+    @DisplayName("Test the registration of a device with it's puzzle")
     @ParameterizedTest
     @ValueSource(strings = {"ARDUINO-AwesomePuzzle1", "ARDUINO-AwesomePuzzle2"})
-    public void validDeviceWithPuzzleCanBeRegistered(String deviceName){
+    public void deviceWithPuzzleCanBeRegisteredWithTheRightInput(String input){
         // device registration
-        var device = deviceUseCases.registerDeviceWithPuzzle(deviceName);
+        var device = deviceUseCases.registerDeviceWithPuzzle(input);
         verify(deviceRepository).add(any(Device.class));
         verify(puzzleRepository).add(any(Puzzle.class));
 
@@ -29,8 +29,8 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceUseCasesBase {
         assertNotNull(device.getType());
 
         // data assertions
-        assertEquals(deviceName, device.toString());
-        assertEquals(deviceName.split("-")[1], device.getPuzzle().getName());
+        assertEquals(input, device.toString());
+        assertEquals(input.split("-")[1], device.getPuzzle().getName());
     }
 
     @DisplayName("Registering a device that already exists throws an exception")
