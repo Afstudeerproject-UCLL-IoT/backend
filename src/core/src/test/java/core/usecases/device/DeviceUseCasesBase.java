@@ -20,6 +20,8 @@ public class DeviceUseCasesBase {
     public void setUp(){
         deviceRepository = Mockito.mock(DeviceRepository.class);
         puzzleRepository = Mockito.mock(PuzzleRepository.class);
+        notificationService = Mockito.mock(NotificationService.class);
+
         deviceUseCases = new DeviceUseCasesImpl(deviceRepository, puzzleRepository, notificationService);
     }
 }

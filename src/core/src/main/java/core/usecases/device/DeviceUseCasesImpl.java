@@ -34,7 +34,7 @@ public class DeviceUseCasesImpl implements DeviceUseCases{
     }
 
     @Override
-    public void puzzleIsCompleted(String deviceName) {
-        PuzzleIsCompletedCommand.handle(deviceName, puzzleRepository, notificationService);
+    public void puzzleIsCompleted(String puzzleName) {
+        PuzzleIsCompletedCommand.handle(puzzleName, puzzleRepository, notificationService);
     }
 }
