@@ -1,11 +1,11 @@
 package core.usecases.device.command;
 
-import core.domain.device.Device;
-import core.domain.puzzle.Puzzle;
+import core.domain.Device;
+import core.domain.Puzzle;
 import core.exceptions.subscribe.CannotSubscribeToItselfException;
 import core.exceptions.subscribe.DeviceCannotSubscribeToPuzzleException;
-import core.interfaces.DeviceRepository;
-import core.interfaces.PuzzleRepository;
+import core.interfaces.repositories.DeviceRepository;
+import core.interfaces.repositories.PuzzleRepository;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class SubscribeToPuzzleCommand {

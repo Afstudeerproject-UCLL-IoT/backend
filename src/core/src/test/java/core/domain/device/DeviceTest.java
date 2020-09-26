@@ -1,5 +1,7 @@
 package core.domain.device;
 
+import core.domain.Device;
+import core.domain.DeviceType;
 import core.exceptions.device.InvalidDeviceCreationInputException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

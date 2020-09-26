@@ -1,6 +1,5 @@
-package core.domain.device;
+package core.domain;
 
-import core.domain.puzzle.Puzzle;
 import core.exceptions.device.InvalidDeviceCreationInputException;
 
 import java.util.Objects;

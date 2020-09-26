@@ -1,4 +1,4 @@
-package core.interfaces;
+package core.interfaces.repositories;
 
 public interface GenericRepository<T> {
     T add(T t);

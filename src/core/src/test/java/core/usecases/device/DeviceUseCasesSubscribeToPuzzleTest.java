@@ -1,7 +1,7 @@
 package core.usecases.device;
 
-import core.domain.device.Device;
-import core.domain.puzzle.Puzzle;
+import core.domain.Device;
+import core.domain.Puzzle;
 import core.exceptions.subscribe.CannotSubscribeToItselfException;
 import core.exceptions.subscribe.DeviceCannotSubscribeToPuzzleException;
 import org.junit.jupiter.api.DisplayName;

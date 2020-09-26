@@ -1,9 +1,9 @@
 package core.usecases.device.command;
 
-import core.domain.device.Device;
+import core.domain.Device;
 import core.exceptions.device.DeviceAlreadyExistsException;
-import core.interfaces.DeviceRepository;
-import core.interfaces.PuzzleRepository;
+import core.interfaces.repositories.DeviceRepository;
+import core.interfaces.repositories.PuzzleRepository;
 
 public class RegisterDeviceWithPuzzleCommand {
 

@@ -1,5 +1,6 @@
 package core.domain.puzzle;
 
+import core.domain.Puzzle;
 import core.exceptions.puzzle.InvalidPuzzleNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

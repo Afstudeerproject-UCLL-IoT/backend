@@ -1,4 +1,4 @@
-package core.domain.puzzle;
+package core.domain;
 
 import core.exceptions.puzzle.InvalidPuzzleNameException;
 

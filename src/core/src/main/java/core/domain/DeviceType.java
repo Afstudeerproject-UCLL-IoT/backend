@@ -1,4 +1,4 @@
-package core.domain.device;
+package core.domain;
 
 public enum  DeviceType {
     ARDUINO
