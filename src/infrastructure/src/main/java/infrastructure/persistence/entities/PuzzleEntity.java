@@ -1,5 +1,7 @@
 package infrastructure.persistence.entities;
 
+import core.domain.Puzzle;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,8 @@ public class PuzzleEntity {
     @OneToMany(
             mappedBy = "puzzle",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
     private List<PuzzleSubscriberEntity> subscribers = new ArrayList<>();
 
@@ -50,6 +53,14 @@ public class PuzzleEntity {
         this.subscribers = subscribers;
     }
 
+    public DeviceEntity getDevice() {
+        return device;
+    }
+
+    public void setDevice(DeviceEntity device) {
+        this.device = device;
+    }
+
     // equals and hashcode
     @Override
     public boolean equals(Object o) {
@@ -62,5 +73,13 @@ public class PuzzleEntity {
     @Override
     public int hashCode() {
         return Objects.hash(getName());
+    }
+
+    // mappings
+    public static PuzzleEntity from(Puzzle puzzle){
+        var entity = new PuzzleEntity();
+
+        entity.setName(puzzle.getName());
+        return entity;
     }
 }

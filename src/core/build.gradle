@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    // apache commons
+    // TODO fix global dependency
     implementation 'org.apache.commons:commons-lang3:3.11'
 
     // Use JUnit Jupiter API for testing.

@@ -1,5 +1,6 @@
 package infrastructure.persistence.entities;
 
+import core.domain.Device;
 import core.domain.DeviceType;
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
@@ -31,7 +32,8 @@ public class DeviceEntity {
     @OneToMany(
             mappedBy = "device",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
     private List<PuzzleSubscriberEntity> subscriptions = new ArrayList<>();
 
@@ -60,6 +62,14 @@ public class DeviceEntity {
         this.subscriptions = subscriptions;
     }
 
+    public PuzzleEntity getPuzzle() {
+        return puzzle;
+    }
+
+    public void setPuzzle(PuzzleEntity puzzle) {
+        this.puzzle = puzzle;
+    }
+
     // equals and hashcode
     @Override
     public boolean equals(Object o) {
@@ -73,5 +83,13 @@ public class DeviceEntity {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getType());
+    }
+
+    // mappings
+    public static DeviceEntity from (Device device){
+        var entity = new DeviceEntity();
+        entity.setType(device.getType());
+
+        return entity;
     }
 }

@@ -5,6 +5,9 @@ plugins {
 }
 
 dependencies {
+    // TODO fix global dependency
+    implementation 'org.apache.commons:commons-lang3:3.11'
+
     // Dependency on domain and application
     compileOnly project(':core')
 
