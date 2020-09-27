@@ -20,8 +20,7 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceUseCasesBase {
     public void deviceWithPuzzleCanBeRegisteredWithTheRightInput(String input){
         // device registration
         var device = deviceUseCases.registerDeviceWithPuzzle(input);
-        verify(deviceRepository).add(any(Device.class));
-        verify(puzzleRepository).add(any(Puzzle.class));
+        verify(deviceRepository).addDeviceWithPuzzle(any(Device.class));
 
         // null assertions
         assertNotNull(device);

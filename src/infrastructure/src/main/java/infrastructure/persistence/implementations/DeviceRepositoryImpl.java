@@ -3,9 +3,13 @@ package infrastructure.persistence.implementations;
 import core.domain.Device;
 import core.interfaces.repositories.DeviceRepository;
 import infrastructure.persistence.entities.DeviceEntity;
+import infrastructure.persistence.entities.PuzzleEntity;
 import infrastructure.persistence.jpa.DeviceRepositoryJpa;
 import infrastructure.persistence.jpa.PuzzleRepositoryJpa;
 
+import javax.transaction.Transactional;
+
+@Transactional
 public class DeviceRepositoryImpl implements DeviceRepository {
 
     private final DeviceRepositoryJpa deviceRepository;
@@ -17,26 +21,20 @@ public class DeviceRepositoryImpl implements DeviceRepository {
     }
 
     @Override
-    public Device add(Device device) {
-        var entity = DeviceEntity.from(device);
-        deviceRepository.saveAndFlush(entity);
-
-        return device;
-    }
-
-    @Override
     public boolean exists(Device device) {
         return puzzleRepository.existsById(device.getPuzzle().getName());
     }
 
     @Override
-    public boolean remove(Device device) {
-        var puzzle = puzzleRepository.findById(device.getPuzzle().getName());
+    public Device addDeviceWithPuzzle(Device device) {
+        var deviceEntity = DeviceEntity.from(device);
+        var puzzleEntity = PuzzleEntity.from(device.getPuzzle());
 
-        if(puzzle.isPresent()){
-            deviceRepository.delete(puzzle.get().getDevice());
-            return true;
-        }
-        return false;
+        deviceEntity.setPuzzle(puzzleEntity);
+        puzzleEntity.setDevice(deviceEntity);
+
+        deviceRepository.saveAndFlush(deviceEntity);
+
+        return device;
     }
 }

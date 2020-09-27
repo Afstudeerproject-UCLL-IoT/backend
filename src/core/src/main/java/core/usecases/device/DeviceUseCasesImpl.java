@@ -25,7 +25,7 @@ public class DeviceUseCasesImpl implements DeviceUseCases{
 
     @Override
     public Device registerDeviceWithPuzzle(String deviceName) {
-        return RegisterDeviceWithPuzzleCommand.handle(deviceName, deviceRepository, puzzleRepository);
+        return RegisterDeviceWithPuzzleCommand.handle(deviceName, deviceRepository);
     }
 
     @Override

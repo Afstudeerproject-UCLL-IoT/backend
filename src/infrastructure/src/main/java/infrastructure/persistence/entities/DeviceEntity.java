@@ -2,16 +2,18 @@ package infrastructure.persistence.entities;
 
 import core.domain.Device;
 import core.domain.DeviceType;
+import core.domain.Puzzle;
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "device")
-public class DeviceEntity {
+public class DeviceEntity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -32,8 +34,7 @@ public class DeviceEntity {
     @OneToMany(
             mappedBy = "device",
             cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
+            orphanRemoval = true
     )
     private List<PuzzleSubscriberEntity> subscriptions = new ArrayList<>();
 
@@ -91,5 +92,13 @@ public class DeviceEntity {
         entity.setType(device.getType());
 
         return entity;
+    }
+
+    // helpers
+    public void addSubscription(PuzzleEntity puzzleEntity){
+        // insert logic
+        var subscription = new PuzzleSubscriberEntity(this, puzzleEntity);
+        subscriptions.add(subscription);
+        puzzleEntity.getSubscribers().add(subscription);
     }
 }

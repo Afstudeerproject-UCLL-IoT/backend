@@ -7,7 +7,7 @@ import core.interfaces.repositories.PuzzleRepository;
 
 public class RegisterDeviceWithPuzzleCommand {
 
-    public static Device handle(String deviceName, DeviceRepository deviceRepository, PuzzleRepository puzzleRepository){
+    public static Device handle(String deviceName, DeviceRepository deviceRepository){
         // create the device
         var device = Device.instance(deviceName);
 
@@ -17,8 +17,7 @@ public class RegisterDeviceWithPuzzleCommand {
         // Notify that the device is registered (TODO)
 
         //persist device and puzzle
-        deviceRepository.add(device);
-        puzzleRepository.add(device.getPuzzle());
+        deviceRepository.addDeviceWithPuzzle(device);
 
         // return the device
         return device;

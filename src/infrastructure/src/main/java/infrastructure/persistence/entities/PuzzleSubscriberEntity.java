@@ -3,10 +3,11 @@ package infrastructure.persistence.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity(name = "puzzle_subscriber")
-public class PuzzleSubscriberEntity {
+public class PuzzleSubscriberEntity implements Serializable {
 
     @Id
     @ManyToOne
@@ -15,6 +16,15 @@ public class PuzzleSubscriberEntity {
     @Id
     @ManyToOne
     private PuzzleEntity puzzle;
+
+    // controllers
+    public PuzzleSubscriberEntity() {
+    }
+
+    public PuzzleSubscriberEntity(DeviceEntity device, PuzzleEntity puzzle) {
+        this.device = device;
+        this.puzzle = puzzle;
+    }
 
     // getters and setters
     public DeviceEntity getDevice() {

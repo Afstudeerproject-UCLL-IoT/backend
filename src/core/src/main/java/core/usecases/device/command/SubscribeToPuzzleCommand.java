@@ -26,6 +26,8 @@ public class SubscribeToPuzzleCommand {
         if(!deviceRepository.exists(device) || !puzzleRepository.exists(puzzle))
             throw new DeviceCannotSubscribeToPuzzleException();
 
+        // TODO check if they are not already subscribed
+
         // TODO a device is subscribed for a puzzle for a specific game
         // subscribe to the puzzle
         puzzleRepository.addSubscription(device, puzzle);

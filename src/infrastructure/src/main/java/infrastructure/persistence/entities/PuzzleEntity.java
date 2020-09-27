@@ -3,12 +3,13 @@ package infrastructure.persistence.entities;
 import core.domain.Puzzle;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "puzzle")
-public class PuzzleEntity {
+public class PuzzleEntity implements Serializable{
 
     @Id
     private String name;
@@ -23,8 +24,7 @@ public class PuzzleEntity {
     @OneToMany(
             mappedBy = "puzzle",
             cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
+            orphanRemoval = true
     )
     private List<PuzzleSubscriberEntity> subscribers = new ArrayList<>();
 
