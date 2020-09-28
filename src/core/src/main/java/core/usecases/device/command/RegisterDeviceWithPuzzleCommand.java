@@ -7,12 +7,14 @@ import core.interfaces.repositories.PuzzleRepository;
 
 public class RegisterDeviceWithPuzzleCommand {
 
-    public static Device handle(String deviceName, DeviceRepository deviceRepository){
-        // create the device
-        var device = Device.instance(deviceName);
+    public static Device handle(Device device, DeviceRepository deviceRepository){
+        // null check
+        if(device == null)
+            throw new IllegalArgumentException("Device cannot be null");
 
         // if the device already exists throw an exception
-        if(deviceRepository.exists(device)) throw new DeviceAlreadyExistsException();
+        if(deviceRepository.exists(device))
+            throw new DeviceAlreadyExistsException();
 
         // Notify that the device is registered (TODO)
 

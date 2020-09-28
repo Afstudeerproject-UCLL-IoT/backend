@@ -24,17 +24,17 @@ public class DeviceUseCasesImpl implements DeviceUseCases{
     }
 
     @Override
-    public Device registerDeviceWithPuzzle(String deviceName) {
-        return RegisterDeviceWithPuzzleCommand.handle(deviceName, deviceRepository);
+    public Device registerDeviceWithPuzzle(Device device) {
+        return RegisterDeviceWithPuzzleCommand.handle(device, deviceRepository);
     }
 
     @Override
-    public ImmutablePair<Device, Puzzle> subscribeToPuzzle(String subscriberDeviceName, String puzzleName) {
-        return SubscribeToPuzzleCommand.handle(subscriberDeviceName, puzzleName, deviceRepository, puzzleRepository);
+    public ImmutablePair<Device, Puzzle> subscribeToPuzzle(Device subscriber, Puzzle puzzle) {
+        return SubscribeToPuzzleCommand.handle(subscriber, puzzle, deviceRepository, puzzleRepository);
     }
 
     @Override
-    public void puzzleIsCompleted(String puzzleName) {
-        PuzzleIsCompletedCommand.handle(puzzleName, puzzleRepository, notificationService);
+    public void puzzleIsCompleted(Puzzle puzzle) {
+        PuzzleIsCompletedCommand.handle(puzzle, puzzleRepository, notificationService);
     }
 }

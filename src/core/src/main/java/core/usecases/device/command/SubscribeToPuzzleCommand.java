@@ -10,28 +10,28 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class SubscribeToPuzzleCommand {
 
-    public static ImmutablePair<Device, Puzzle> handle(String subscriberDeviceName,
-                                                       String puzzleName,
+    public static ImmutablePair<Device, Puzzle> handle(Device subscriber,
+                                                       Puzzle puzzle,
                                                        DeviceRepository deviceRepository,
                                                        PuzzleRepository puzzleRepository){
-        // create the device and puzzle
-        var device = Device.instance(subscriberDeviceName);
-        var puzzle = Puzzle.instance(puzzleName, "");
+        // null checks
+        if(subscriber == null || puzzle == null)
+            throw new IllegalArgumentException("Device or puzzle cannot be null");
 
         // check if it's not going to subscribe to itself
-        if(device.getPuzzle().getName().contains(puzzleName))
+        if(subscriber.getPuzzle().equals(puzzle))
             throw new CannotSubscribeToItselfException();
 
         // check if the puzzle and device exist
-        if(!deviceRepository.exists(device) || !puzzleRepository.exists(puzzle))
+        if(!deviceRepository.exists(subscriber) || !puzzleRepository.exists(puzzle))
             throw new DeviceCannotSubscribeToPuzzleException();
 
         // TODO check if they are not already subscribed
 
         // TODO a device is subscribed for a puzzle for a specific game
         // subscribe to the puzzle
-        puzzleRepository.addSubscription(device, puzzle);
+        puzzleRepository.addSubscription(subscriber, puzzle);
 
-        return ImmutablePair.of(device, puzzle);
+        return ImmutablePair.of(subscriber, puzzle);
     }
 }
