@@ -6,27 +6,18 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Device {
+    private final long id;
     private final DeviceType type;
     private final Puzzle puzzle;
 
-    private Device(DeviceType type, Puzzle puzzle) {
+    private Device(long id, DeviceType type, Puzzle puzzle) {
+        this.id = id;
         this.type = type;
         this.puzzle = puzzle;
     }
 
-    public static Device instance(String input){
-        // validate input
-        if(input == null || !Pattern.matches("^(ARDUINO)+-[A-Za-z0-9]+$", input)){
-            throw new InvalidDeviceCreationInputException();
-        }
-
-        // get the data
-        var split = input.split("-");
-        var type = DeviceType.valueOf(split[0]);
-        var puzzleName = split[1];
-
-        // create the device
-        return new Device(type, Puzzle.instance(puzzleName, ""));
+    public long getId() {
+        return id;
     }
 
     public DeviceType getType() {
@@ -39,15 +30,20 @@ public class Device {
 
     // overrides
     @Override
-    public String toString() {
-        return String.format("%s-%s", type.toString(), puzzle.toString());
+    public String toString(){
+        if(id == 0){
+            return String.format("%s-%s", type.toString(), puzzle.toString());
+        }
+
+        return String.format("%d-%s-%s", id, type.toString(), puzzle.toString());
     }
 
     @Override
     public boolean equals(Object o) {
         if(o instanceof Device){
-            var other = (Device) o;
-            return getPuzzle().equals(other.getPuzzle()) &&  getType().equals(other.getType());
+            var other = (Device)o;
+            return other.getPuzzle().equals(getPuzzle()) &&
+                    other.getType().equals(getType());
         }
 
         return false;
@@ -56,5 +52,40 @@ public class Device {
     @Override
     public int hashCode() {
         return Objects.hash(getPuzzle(), getType());
+    }
+
+    // builder
+    public static class Builder {
+        private long id;
+        private DeviceType type;
+        private Puzzle puzzle;
+
+        public Builder withId(long id){
+            this.id = id;
+            return this;
+        }
+
+        public Builder withoutId(){
+            this.id = 0;
+            return this;
+        }
+
+        public Builder fromDeviceName(String deviceName){
+            // validate input
+            if(deviceName == null || !Pattern.matches("^(ARDUINO)+-[A-Za-z0-9]+$", deviceName)){
+                throw new InvalidDeviceCreationInputException();
+            }
+
+            // assign data
+            var split = deviceName.split("-");
+            type = DeviceType.valueOf(split[0]);
+            puzzle = Puzzle.instance(split[1], "");
+
+            return this;
+        }
+
+        public Device build(){
+            return new Device(id, type, puzzle);
+        }
     }
 }
