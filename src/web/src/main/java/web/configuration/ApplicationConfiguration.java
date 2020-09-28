@@ -1,21 +1,27 @@
 package web.configuration;
 
-import core.interfaces.repositories.DeviceRepository;
-import core.interfaces.repositories.PuzzleRepository;
-import core.usecases.device.DeviceUseCases;
-import core.usecases.device.DeviceUseCasesImpl;
-import infrastructure.persistence.PersistenceConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import web.WebSocketServer;
 
 @Configuration
-@Import(PersistenceConfiguration.class)
-public class ApplicationConfiguration {
+@EnableWebSocket
+public class ApplicationConfiguration implements WebSocketConfigurer {
 
-    @Bean
-    public DeviceUseCases deviceUseCases(PuzzleRepository puzzleRepository, DeviceRepository deviceRepository){
-        return new DeviceUseCasesImpl(deviceRepository, puzzleRepository, null);
+    private final WebSocketServer webSocketServer;
+
+    public ApplicationConfiguration(@Autowired WebSocketServer webSocketServer) {
+        this.webSocketServer = webSocketServer;
     }
 
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler(webSocketServer, "app")
+                .setAllowedOrigins("*")
+                .withSockJS();
+    }
 }

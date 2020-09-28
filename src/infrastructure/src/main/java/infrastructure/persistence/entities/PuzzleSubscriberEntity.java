@@ -1,19 +1,20 @@
 package infrastructure.persistence.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity(name = "puzzle_subscriber")
 public class PuzzleSubscriberEntity implements Serializable {
 
-    @Id
+    @EmbeddedId
+    private PuzzleSubscriberId id;
+
+    @MapsId("deviceId")
     @ManyToOne
     private DeviceEntity device;
 
-    @Id
+    @MapsId("puzzleName")
     @ManyToOne
     private PuzzleEntity puzzle;
 
@@ -41,6 +42,14 @@ public class PuzzleSubscriberEntity implements Serializable {
 
     public void setPuzzle(PuzzleEntity puzzle) {
         this.puzzle = puzzle;
+    }
+
+    public PuzzleSubscriberId getId() {
+        return id;
+    }
+
+    public void setId(PuzzleSubscriberId id) {
+        this.id = id;
     }
 
     // equals and hashcode

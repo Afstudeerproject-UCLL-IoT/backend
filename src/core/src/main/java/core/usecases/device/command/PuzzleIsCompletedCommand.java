@@ -1,6 +1,5 @@
 package core.usecases.device.command;
 
-import core.domain.Device;
 import core.domain.Event;
 import core.domain.Puzzle;
 import core.interfaces.NotificationService;
@@ -18,6 +17,6 @@ public class PuzzleIsCompletedCommand {
         var devices = puzzleRepository.getSubscriptions(puzzle);
 
         // send a notification that the puzzle is completed
-        notificationService.send(devices, Event.PUZZLE_COMPLETED);
+        devices.forEach(device -> notificationService.send(device, Event.PUZZLE_COMPLETED));
     }
 }

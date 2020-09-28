@@ -1,5 +1,7 @@
 package core.domain;
 
 public enum Event {
-    PUZZLE_COMPLETED
+    REGISTER_DEVICE,
+    PUZZLE_COMPLETED,
+    PUZZLE_SUBSCRIPTION
 }
