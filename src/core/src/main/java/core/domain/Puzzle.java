@@ -1,7 +1,5 @@
 package core.domain;
 
-import core.exceptions.puzzle.InvalidPuzzleNameException;
-
 import java.util.Objects;
 
 public class Puzzle {
@@ -13,13 +11,7 @@ public class Puzzle {
         this.solution = solution;
     }
 
-    public static Puzzle instance(String name, String solution){
-        if(name == null || name.isBlank())
-            throw new InvalidPuzzleNameException();
-
-        return new Puzzle(name, solution);
-    }
-
+    // getters
     public String getName() {
         return name;
     }
@@ -28,26 +20,60 @@ public class Puzzle {
         return solution;
     }
 
-
     // overrides
     @Override
     public String toString() {
-        return name;
+        if(solution.equals("")){
+            return name;
+        }
+
+        return String.format("%s-%s", name, solution);
     }
 
     @Override
     public boolean equals(Object o) {
         if(o instanceof Puzzle){
-            var other = (Puzzle) o;
-
-            return getName().equals(other.getName());
+            var other = (Puzzle)o;
+            return other.getName().equals(getName()) &&
+                    other.getSolution().equals(getSolution());
         }
-
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName());
+        return Objects.hash(getName(), getSolution());
+    }
+
+    // builder
+    public static class Builder {
+        private String name;
+        private String solution;
+
+        public Builder withName(String name){
+            if(name == null || name.isBlank())
+                throw new IllegalArgumentException("Puzzle name cannot be empty");
+
+            this.name = name;
+            return this;
+        }
+
+        public Builder withoutSolution(){
+            this.solution = "";
+            return this;
+        }
+
+        public Builder withSolution(String solution){
+            if(solution == null || solution.isBlank()){
+                throw new IllegalArgumentException("Solution cannot be empty for puzzle");
+            }
+
+            this.solution = solution;
+            return this;
+        }
+
+        public Puzzle build(){
+            return new Puzzle(name, solution);
+        }
     }
 }

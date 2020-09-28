@@ -45,7 +45,6 @@ public class Device {
             return other.getPuzzle().equals(getPuzzle()) &&
                     other.getType().equals(getType());
         }
-
         return false;
     }
 
@@ -73,13 +72,16 @@ public class Device {
         public Builder fromDeviceName(String deviceName){
             // validate input
             if(deviceName == null || !Pattern.matches("^(ARDUINO)+-[A-Za-z0-9]+$", deviceName)){
-                throw new InvalidDeviceCreationInputException();
+                throw new IllegalArgumentException("Device name is not correct");
             }
 
             // assign data
             var split = deviceName.split("-");
             type = DeviceType.valueOf(split[0]);
-            puzzle = Puzzle.instance(split[1], "");
+            puzzle = new Puzzle.Builder()
+                    .withName(split[1])
+                    .withoutSolution()
+                    .build();
 
             return this;
         }
