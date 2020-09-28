@@ -2,7 +2,6 @@ package core.domain.device;
 
 import core.domain.Device;
 import core.domain.DeviceType;
-import core.exceptions.device.InvalidDeviceCreationInputException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,7 +15,10 @@ class DeviceTest {
     @DisplayName("Test if given the right input a device with a puzzle is created")
     @Test
     public void creatingAValidDeviceWithPuzzleSucceeds(){
-        var device = Device.instance("ARDUINO-AwesomePuzzle1");
+        var device = new Device.Builder()
+                .withId(1)
+                .fromDeviceName("ARDUINO-AwesomePuzzle1")
+                .build();
 
         assertNotNull(device);
         assertNotNull(device.getType());
@@ -24,14 +26,25 @@ class DeviceTest {
 
         assertEquals(DeviceType.ARDUINO, device.getType());
         assertEquals("AwesomePuzzle1", device.getPuzzle().getName());
+        assertEquals(1, device.getId());
     }
 
     @DisplayName("Test the toString method call")
     @Test
     public void testToStringMethod(){
-        var device = Device.instance("ARDUINO-AwesomePuzzle1");
+        var device = new Device.Builder()
+                .withId(1)
+                .fromDeviceName("ARDUINO-AwesomePuzzle1")
+                .build();
 
-        assertEquals("ARDUINO-AwesomePuzzle1", device.toString());
+        assertEquals("1-ARDUINO-AwesomePuzzle1", device.toString());
+
+        var deviceWithoutId = new Device.Builder()
+                .withId(1)
+                .fromDeviceName("ARDUINO-AwesomePuzzle1")
+                .build();
+
+        assertEquals("1-ARDUINO-AwesomePuzzle1", deviceWithoutId.toString());
     }
 
     @DisplayName("Invalid input for the creation of a device throws an exception")
@@ -45,6 +58,11 @@ class DeviceTest {
             "AARDUINO-puzzle1"
     })
     public void creatingADeviceWithInvalidInputThrowsAnException(String deviceNameInput){
-        assertThrows(InvalidDeviceCreationInputException.class, () -> Device.instance(deviceNameInput));
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Device.Builder()
+                    .withoutId()
+                    .fromDeviceName(deviceNameInput)
+                    .build();
+        });
     }
 }

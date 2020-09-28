@@ -1,7 +1,6 @@
 package core.domain.puzzle;
 
 import core.domain.Puzzle;
-import core.exceptions.puzzle.InvalidPuzzleNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,7 +13,10 @@ class PuzzleTest {
     @DisplayName("Test if given the right input a puzzle is created")
     @Test
     public void creatingAValidPuzzleSucceeds(){
-        var puzzle = Puzzle.instance("Puzzle1", "SecretSentence");
+        var puzzle = new Puzzle.Builder()
+                .withName("Puzzle1")
+                .withSolution("SecretSentence")
+                .build();
 
         assertNotNull(puzzle);
         assertNotNull(puzzle.getName());
@@ -27,15 +29,35 @@ class PuzzleTest {
     @DisplayName("Test the toString method call")
     @Test
     public void testToStringMethod(){
-        var puzzle = Puzzle.instance("AwesomePuzzle1", "");
+        var puzzle = new Puzzle.Builder()
+                .withName("AwesomePuzzle1")
+                .withSolution("SecretSentence")
+                .build();
 
-        assertEquals("AwesomePuzzle1", puzzle.toString());
+        assertEquals("AwesomePuzzle1-SecretSentence", puzzle.toString());
+
+        var puzzleWithoutSolution = new Puzzle.Builder()
+                .withName("AwesomePuzzle1")
+                .withoutSolution()
+                .build();
+
+        assertEquals("AwesomePuzzle1", puzzleWithoutSolution.toString());
     }
 
     @DisplayName("Invalid input for puzzle creation throws an exception")
     @ParameterizedTest
     @NullAndEmptySource
-    public void creatingAPuzzleWithInvalidInputThrowsAnException(String puzzleName){
-        assertThrows(InvalidPuzzleNameException.class, () -> Puzzle.instance(puzzleName, ""));
+    public void creatingAPuzzleWithInvalidInputThrowsAnException(String input){
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Puzzle.Builder()
+                    .withName(input)
+                    .withoutSolution();
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Puzzle.Builder()
+                    .withName("ValidPuzzleName")
+                    .withSolution(input);
+        });
     }
 }

@@ -1,7 +1,5 @@
 package core.domain;
 
-import core.exceptions.device.InvalidDeviceCreationInputException;
-
 import java.util.Objects;
 import java.util.regex.Pattern;
 

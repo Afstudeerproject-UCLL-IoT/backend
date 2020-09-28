@@ -18,8 +18,14 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceUseCasesBase {
     @ParameterizedTest
     @ValueSource(strings = {"ARDUINO-AwesomePuzzle1", "ARDUINO-AwesomePuzzle2"})
     public void deviceWithPuzzleCanBeRegisteredWithTheRightInput(String input){
+        // create device
+        var device = new Device.Builder()
+                .withoutId()
+                .fromDeviceName(input)
+                .build();
+
         // device registration
-        var device = deviceUseCases.registerDeviceWithPuzzle(input);
+        var success = deviceUseCases.registerDeviceWithPuzzle(device);
         verify(deviceRepository).addDeviceWithPuzzle(any(Device.class));
 
         // null assertions
@@ -30,6 +36,7 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceUseCasesBase {
         // data assertions
         assertEquals(input, device.toString());
         assertEquals(input.split("-")[1], device.getPuzzle().getName());
+        assertTrue(success);
     }
 
     @DisplayName("Registering a device that already exists throws an exception")
@@ -38,8 +45,14 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceUseCasesBase {
         // stub
         when(deviceRepository.exists(any(Device.class))).thenReturn(true);
 
+        // create device
+        var device = new Device.Builder()
+                .withoutId()
+                .fromDeviceName("ARDUINO-AwesomePuzzle1")
+                .build();
+
         // check if an exception is thrown
-        assertThrows(DeviceAlreadyExistsException.class, () -> deviceUseCases.registerDeviceWithPuzzle("ARDUINO-AwesomePuzzle1"));
+        assertThrows(DeviceAlreadyExistsException.class, () -> deviceUseCases.registerDeviceWithPuzzle(device));
         verify(deviceRepository).exists(any(Device.class));
     }
 }
