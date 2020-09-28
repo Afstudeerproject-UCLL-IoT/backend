@@ -7,7 +7,7 @@ import infrastructure.persistence.entities.PuzzleSubscriberEntity;
 import infrastructure.persistence.jpa.DeviceRepositoryJpa;
 import infrastructure.persistence.jpa.PuzzleRepositoryJpa;
 import infrastructure.persistence.jpa.PuzzleSubscriberRepositoryJpa;
-import org.apache.commons.lang3.tuple.ImmutablePair;
+
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
     }
 
     @Override
-    public ImmutablePair<Device, Puzzle> addSubscription(Device subscriber, Puzzle puzzle) {
+    public void addSubscription(Device subscriber, Puzzle puzzle) {
         var optionalPuzzleEntity = puzzleRepository.findById(puzzle.getName());
         var optionalSubscriber = puzzleRepository.findById(subscriber.getPuzzle().getName());
 
@@ -35,12 +35,7 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
             var subscriberEntity = optionalSubscriber.get().getDevice();
 
             subscriberEntity.addSubscription(puzzleEntity);
-
-            return ImmutablePair.of(subscriber, puzzle);
         }
-
-        // TODO exception?
-        return null;
     }
 
     @Override
@@ -48,7 +43,10 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
         return puzzleSubscriberRepositoryJpa.findAll()
                 .stream()
                 .filter(entity -> entity.getPuzzle().getName().equals(puzzle.getName()))
-                .map(entity -> Device.instance(String.format("%s-%s", entity.getDevice().getType().toString(), entity.getPuzzle().getName())))
+                .map(entity -> new Device.Builder()
+                        .withId(entity.getId().getDeviceId())
+                        .fromDeviceName(String.format("%s-%s", entity.getDevice().getType(), entity.getDevice().getPuzzle().getName()))
+                        .build())
                 .collect(Collectors.toList());
     }
 

@@ -6,7 +6,6 @@ import core.exceptions.subscribe.CannotSubscribeToItselfException;
 import core.exceptions.subscribe.DeviceCannotSubscribeToPuzzleException;
 import core.interfaces.repositories.DeviceRepository;
 import core.interfaces.repositories.PuzzleRepository;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class SubscribeToPuzzleCommand {
 

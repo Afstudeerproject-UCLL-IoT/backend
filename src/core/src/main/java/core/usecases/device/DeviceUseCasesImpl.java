@@ -8,7 +8,6 @@ import core.interfaces.repositories.PuzzleRepository;
 import core.usecases.device.command.PuzzleIsCompletedCommand;
 import core.usecases.device.command.RegisterDeviceWithPuzzleCommand;
 import core.usecases.device.command.SubscribeToPuzzleCommand;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class DeviceUseCasesImpl implements DeviceUseCases{
     private final DeviceRepository deviceRepository;
