@@ -10,7 +10,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class SubscribeToPuzzleCommand {
 
-    public static ImmutablePair<Device, Puzzle> handle(Device subscriber,
+    public static boolean handle(Device subscriber,
                                                        Puzzle puzzle,
                                                        DeviceRepository deviceRepository,
                                                        PuzzleRepository puzzleRepository){
@@ -32,6 +32,6 @@ public class SubscribeToPuzzleCommand {
         // subscribe to the puzzle
         puzzleRepository.addSubscription(subscriber, puzzle);
 
-        return ImmutablePair.of(subscriber, puzzle);
+        return true;
     }
 }

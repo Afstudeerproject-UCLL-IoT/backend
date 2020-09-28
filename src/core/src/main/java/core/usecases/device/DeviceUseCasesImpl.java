@@ -24,12 +24,12 @@ public class DeviceUseCasesImpl implements DeviceUseCases{
     }
 
     @Override
-    public Device registerDeviceWithPuzzle(Device device) {
+    public boolean registerDeviceWithPuzzle(Device device) {
         return RegisterDeviceWithPuzzleCommand.handle(device, deviceRepository);
     }
 
     @Override
-    public ImmutablePair<Device, Puzzle> subscribeToPuzzle(Device subscriber, Puzzle puzzle) {
+    public boolean subscribeToPuzzle(Device subscriber, Puzzle puzzle) {
         return SubscribeToPuzzleCommand.handle(subscriber, puzzle, deviceRepository, puzzleRepository);
     }
 

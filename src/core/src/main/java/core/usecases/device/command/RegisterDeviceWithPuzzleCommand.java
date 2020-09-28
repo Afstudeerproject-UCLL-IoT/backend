@@ -7,7 +7,7 @@ import core.interfaces.repositories.PuzzleRepository;
 
 public class RegisterDeviceWithPuzzleCommand {
 
-    public static Device handle(Device device, DeviceRepository deviceRepository){
+    public static boolean handle(Device device, DeviceRepository deviceRepository){
         // null check
         if(device == null)
             throw new IllegalArgumentException("Device cannot be null");
@@ -22,6 +22,6 @@ public class RegisterDeviceWithPuzzleCommand {
         deviceRepository.addDeviceWithPuzzle(device);
 
         // return the device
-        return device;
+        return true;
     }
 }
