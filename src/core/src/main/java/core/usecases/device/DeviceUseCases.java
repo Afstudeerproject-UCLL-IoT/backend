@@ -6,7 +6,7 @@ import core.interfaces.NotificationService;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public interface DeviceUseCases {
-    Device registerDeviceWithPuzzle(Device device);
-    ImmutablePair<Device, Puzzle> subscribeToPuzzle(Device subscriber, Puzzle puzzle);
+    boolean registerDeviceWithPuzzle(Device device);
+    boolean subscribeToPuzzle(Device subscriber, Puzzle puzzle);
     void puzzleIsCompleted(Puzzle puzzle);
 }
