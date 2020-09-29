@@ -1,6 +1,5 @@
 package web;
 
-import core.domain.Puzzle;
 import core.interfaces.NotificationService;
 import org.springframework.stereotype.Component;
 
@@ -45,14 +44,6 @@ public class WebSocketServer extends TextWebSocketHandler {
                 break;
             case PUZZLE_COMPLETED:
                 deviceUseCases.puzzleIsCompleted(device.getPuzzle());
-                break;
-            case PUZZLE_SUBSCRIPTION:
-                var puzzle = new Puzzle.Builder()
-                        .withoutSolution()
-                        .withName(payloadSplit[2])
-                        .build();
-
-                deviceUseCases.subscribeToPuzzle(device, puzzle);
                 break;
         }
     }

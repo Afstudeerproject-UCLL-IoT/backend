@@ -7,7 +7,6 @@ import core.interfaces.repositories.DeviceRepository;
 import core.interfaces.repositories.PuzzleRepository;
 import core.usecases.device.command.PuzzleIsCompletedCommand;
 import core.usecases.device.command.RegisterDeviceWithPuzzleCommand;
-import core.usecases.device.command.SubscribeToPuzzleCommand;
 
 public class DeviceUseCasesImpl implements DeviceUseCases{
     private final DeviceRepository deviceRepository;
@@ -25,11 +24,6 @@ public class DeviceUseCasesImpl implements DeviceUseCases{
     @Override
     public boolean registerDeviceWithPuzzle(Device device) {
         return RegisterDeviceWithPuzzleCommand.handle(device, deviceRepository);
-    }
-
-    @Override
-    public boolean subscribeToPuzzle(Device subscriber, Puzzle puzzle) {
-        return SubscribeToPuzzleCommand.handle(subscriber, puzzle, deviceRepository, puzzleRepository);
     }
 
     @Override
