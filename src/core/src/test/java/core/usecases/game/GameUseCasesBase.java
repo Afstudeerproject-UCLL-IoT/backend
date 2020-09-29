@@ -14,13 +14,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class GameUseCasesBase {
 
     protected GameRepository gameRepository;
+    protected NotificationService notificationService;
+
     protected GameUseCases gameUseCases;
 
     @BeforeEach
     public void setUp(){
         gameRepository = Mockito.mock(GameRepository.class);
+        notificationService = Mockito.mock(NotificationService.class);
 
-        gameUseCases = new GameUseCaseImpl(gameRepository);
+        gameUseCases = new GameUseCaseImpl(gameRepository, notificationService);
 
     }
 }

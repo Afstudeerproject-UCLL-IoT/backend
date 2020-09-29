@@ -1,5 +1,7 @@
 package core.usecases.game;
 
+import core.domain.Device;
+import core.domain.Event;
 import core.domain.Game;
 import core.exceptions.game.GameAlreadyExistsException;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,6 @@ public class GameUseCasesCreateGameTest extends GameUseCasesBase {
 
         var success = gameUseCases.createGame(game);
         verify(gameRepository).add(any(Game.class));
-
         assertTrue(success);
     }
 
