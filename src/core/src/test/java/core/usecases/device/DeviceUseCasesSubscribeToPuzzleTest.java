@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
+/*
 public class DeviceUseCasesSubscribeToPuzzleTest extends DeviceUseCasesBase {
 
     @DisplayName("Test if a device can subscribe to a puzzle")
@@ -118,3 +118,4 @@ public class DeviceUseCasesSubscribeToPuzzleTest extends DeviceUseCasesBase {
         verify(puzzleRepository, never()).addSubscription(any(Device.class), any(Puzzle.class));
     }
 }
+*/
