@@ -3,6 +3,7 @@ package infrastructure.notification;
 import core.domain.Device;
 import core.domain.Event;
 import core.interfaces.NotificationService;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class NotificationServiceImpl implements NotificationService<WebSocketSession> {
 
     private final Map<Device, WebSocketSession> deviceConnections;
