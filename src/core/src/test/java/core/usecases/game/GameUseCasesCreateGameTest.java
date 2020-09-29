@@ -1,7 +1,5 @@
 package core.usecases.game;
 
-import core.domain.Device;
-import core.domain.Event;
 import core.domain.Game;
 import core.exceptions.game.GameAlreadyExistsException;
 import org.junit.jupiter.api.Test;
@@ -27,7 +25,7 @@ public class GameUseCasesCreateGameTest extends GameUseCasesBase {
     @Test
     public void duplicateGameThrowsException(){
         // stub
-        when(gameRepository.exists(any(Game.class)))
+        when(gameRepository.isPresent(any(Game.class)))
                 .thenReturn(true);
 
         // duplicate game
@@ -36,14 +34,14 @@ public class GameUseCasesCreateGameTest extends GameUseCasesBase {
                 .build();
 
         assertThrows(GameAlreadyExistsException.class, () -> gameUseCases.createGame(duplicate));
-        verify(gameRepository).exists(any(Game.class));
+        verify(gameRepository).isPresent(any(Game.class));
         verify(gameRepository, never()).add(any(Game.class));
     }
 
     @Test
     public void nullGameExitsEarly(){
         assertThrows(IllegalArgumentException.class, () -> gameUseCases.createGame(null));
-        verify(gameRepository, never()).exists(any(Game.class));
+        verify(gameRepository, never()).isPresent(any(Game.class));
         verify(gameRepository, never()).add(any(Game.class));
     }
 }

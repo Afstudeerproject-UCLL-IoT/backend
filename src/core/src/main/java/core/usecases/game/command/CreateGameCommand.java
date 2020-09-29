@@ -12,7 +12,7 @@ public class CreateGameCommand {
             throw new IllegalArgumentException("Game cannot be null");
 
         // check if the game does not exist already
-        if(gameRepository.exists(game))
+        if(gameRepository.isPresent(game))
             throw new GameAlreadyExistsException();
 
         // persist the game

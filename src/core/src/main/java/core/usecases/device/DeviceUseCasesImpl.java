@@ -22,7 +22,7 @@ public class DeviceUseCasesImpl implements DeviceUseCases{
     }
 
     @Override
-    public boolean registerDeviceWithPuzzle(Device device) {
+    public Device registerDeviceWithPuzzle(Device device) {
         return RegisterDeviceWithPuzzleCommand.handle(device, deviceRepository);
     }
 

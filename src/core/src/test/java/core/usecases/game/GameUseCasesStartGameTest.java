@@ -23,7 +23,7 @@ public class GameUseCasesStartGameTest extends GameUseCasesBase {
                 .build();
 
         // stubs
-        when(gameRepository.exists(any(Game.class)))
+        when(gameRepository.isPresent(any(Game.class)))
                 .thenReturn(true);
 
         when(gameRepository.getFirstDevicePuzzle(any(Game.class)))
@@ -37,7 +37,7 @@ public class GameUseCasesStartGameTest extends GameUseCasesBase {
         // start the game
         var success = gameUseCases.startGame(game);
 
-        verify(gameRepository).exists(any(Game.class));
+        verify(gameRepository).isPresent(any(Game.class));
         verify(gameRepository).addGameSession(any(Game.class), any(GameSession.class));
         verify(gameRepository).getFirstDevicePuzzle(any(Game.class));
         verify(notificationService).send(device, Event.GAME_STARTED);
@@ -48,7 +48,7 @@ public class GameUseCasesStartGameTest extends GameUseCasesBase {
     @Test
     public void gameThatDoesNotExistCannotBeStartedAndThrowsException(){
         // stub
-        when(gameRepository.exists(any(Game.class)))
+        when(gameRepository.isPresent(any(Game.class)))
                 .thenReturn(false);
 
         // game that does not exist
@@ -58,7 +58,7 @@ public class GameUseCasesStartGameTest extends GameUseCasesBase {
 
         // try to start it
         assertThrows(GameDoesNotExistException.class, () -> gameUseCases.startGame(game));
-        verify(gameRepository).exists(any(Game.class));
+        verify(gameRepository).isPresent(any(Game.class));
         verify(gameRepository, never()).addGameSession(any(Game.class), any(GameSession.class));
         verify(gameRepository, never()).getFirstDevicePuzzle(any(Game.class));
         verify(notificationService, never()).send(any(Device.class), any(Event.class));
@@ -67,7 +67,7 @@ public class GameUseCasesStartGameTest extends GameUseCasesBase {
     @Test
     public void startingANullGameExitsEarly(){
         assertThrows(IllegalArgumentException.class, () -> gameUseCases.startGame(null));
-        verify(gameRepository, never()).exists(any(Game.class));
+        verify(gameRepository, never()).isPresent(any(Game.class));
         verify(gameRepository, never()).addGameSession(any(Game.class), any(GameSession.class));
         verify(gameRepository, never()).getFirstDevicePuzzle(any(Game.class));
         verify(notificationService, never()).send(any(Device.class), any(Event.class));

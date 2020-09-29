@@ -1,7 +1,6 @@
 package core.usecases.device;
 
 import core.domain.Device;
-import core.domain.Puzzle;
 import core.exceptions.device.DeviceAlreadyExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +17,13 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceUseCasesBase {
     @ParameterizedTest
     @ValueSource(strings = {"ARDUINO-AwesomePuzzle1", "ARDUINO-AwesomePuzzle2"})
     public void deviceWithPuzzleCanBeRegisteredWithTheRightInput(String input){
+        // stub
+        when(deviceRepository.addDeviceWithPuzzle(any(Device.class)))
+                .thenReturn(new Device.Builder()
+                        .withId(1)
+                        .fromDeviceName(input)
+                        .build());
+
         // create device
         var device = new Device.Builder()
                 .withoutId()
@@ -25,7 +31,7 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceUseCasesBase {
                 .build();
 
         // device registration
-        var success = deviceUseCases.registerDeviceWithPuzzle(device);
+        device = deviceUseCases.registerDeviceWithPuzzle(device);
         verify(deviceRepository).addDeviceWithPuzzle(any(Device.class));
 
         // null assertions
@@ -34,16 +40,16 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceUseCasesBase {
         assertNotNull(device.getType());
 
         // data assertions
-        assertEquals(input, device.toString());
+        assertEquals(1, device.getId());
+        assertEquals(String.format("%d-%s",device.getId(), input), device.toString()); ;
         assertEquals(input.split("-")[1], device.getPuzzle().getName());
-        assertTrue(success);
     }
 
     @DisplayName("Registering a device that already exists throws an exception")
     @Test
     public void registeringAnExistingDeviceThrowsAnException(){
         // stub
-        when(deviceRepository.exists(any(Device.class))).thenReturn(true);
+        when(deviceRepository.isPresent(any(Device.class))).thenReturn(true);
 
         // create device
         var device = new Device.Builder()
@@ -53,6 +59,6 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceUseCasesBase {
 
         // check if an exception is thrown
         assertThrows(DeviceAlreadyExistsException.class, () -> deviceUseCases.registerDeviceWithPuzzle(device));
-        verify(deviceRepository).exists(any(Device.class));
+        verify(deviceRepository).isPresent(any(Device.class));
     }
 }

@@ -4,17 +4,17 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Device {
-    private final long id;
+    private final int id;
     private final DeviceType type;
     private final Puzzle puzzle;
 
-    private Device(long id, DeviceType type, Puzzle puzzle) {
+    private Device(int id, DeviceType type, Puzzle puzzle) {
         this.id = id;
         this.type = type;
         this.puzzle = puzzle;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -53,11 +53,11 @@ public class Device {
 
     // builder
     public static class Builder {
-        private long id;
+        private int id;
         private DeviceType type;
         private Puzzle puzzle;
 
-        public Builder withId(long id){
+        public Builder withId(int id){
             this.id = id;
             return this;
         }

@@ -5,18 +5,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class GameSession {
-    private final long id;
+    private final int id;
     private final LocalDateTime start;
     private final LocalDateTime end;
 
-    private GameSession(long id, LocalDateTime start, LocalDateTime end) {
+    private GameSession(int id, LocalDateTime start, LocalDateTime end) {
         this.id = id;
         this.start = start;
         this.end = end;
     }
 
     // getters
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -55,11 +55,11 @@ public class GameSession {
 
     // builder
     public static class Builder {
-        private long id;
+        private int id;
         private LocalDateTime start;
         private LocalDateTime end;
 
-        public Builder withId(long id){
+        public Builder withId(int id){
             this.id = id;
             return this;
         }

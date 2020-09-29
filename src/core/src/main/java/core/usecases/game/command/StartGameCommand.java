@@ -17,7 +17,7 @@ public class StartGameCommand {
             throw new IllegalArgumentException("Game cannot be null");
 
         // check if the game that is going to start exists
-        if(!gameRepository.exists(game)){
+        if(!gameRepository.isPresent(game)){
             throw new GameDoesNotExistException();
         }
 
