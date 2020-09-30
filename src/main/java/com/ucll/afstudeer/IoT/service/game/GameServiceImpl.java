@@ -3,15 +3,15 @@ package com.ucll.afstudeer.IoT.service.game;
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.dto.GameDto;
+import com.ucll.afstudeer.IoT.dto.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
-import com.ucll.afstudeer.IoT.service.game.handlers.AddFirstDevicePuzzleHandler;
-import com.ucll.afstudeer.IoT.service.game.handlers.AddPuzzleSubscriptionHandler;
-import com.ucll.afstudeer.IoT.service.game.handlers.CreateGameHandler;
-import com.ucll.afstudeer.IoT.service.game.handlers.StartGameHandler;
+import com.ucll.afstudeer.IoT.service.game.handlers.*;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -40,12 +40,22 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public boolean addPuzzleSubscription(Game game, Device subscriber, Puzzle puzzle) {
-        return AddPuzzleSubscriptionHandler.handle(game, subscriber, puzzle, gameRepository);
+    public boolean addPuzzleSubscription(Game game, Device subscriber, Puzzle puzzle, int position) {
+        return AddPuzzleSubscriptionHandler.handle(game, subscriber, puzzle, position, gameRepository);
     }
 
     @Override
     public boolean addFirstDevicePuzzle(Game game, Device device) {
         return AddFirstDevicePuzzleHandler.handle(game, device, gameRepository);
+    }
+
+    @Override
+    public List<GameDto> getAllGames() {
+        return GetAllGamesHandler.handle(gameRepository);
+    }
+
+    @Override
+    public GameWithPuzzlesDto getAllPuzzlesInAGame(String gameName) {
+        return GetAllPuzzlesInAGameHandler.handle(gameName, gameRepository);
     }
 }

@@ -64,8 +64,8 @@ public class Puzzle {
         }
 
         public Builder withSolution(String solution){
-            if(solution == null || solution.isBlank()){
-                throw new IllegalArgumentException("Solution cannot be empty for puzzle");
+            if(solution == null){
+                throw new IllegalArgumentException("Solution cannot be null for a puzzle");
             }
 
             this.solution = solution;

@@ -40,7 +40,8 @@ CREATE TABLE puzzle_attempt (
 CREATE TABLE puzzle_subscriber (
   "subscriber_device_id" integer NOT NULL,
   "subscribed_to_puzzle_name" varchar,
-  "game_name" varchar NOT NULL
+  "game_name" varchar NOT NULL,
+  "position" integer NOT NULL
 );
 
 CREATE TABLE game (

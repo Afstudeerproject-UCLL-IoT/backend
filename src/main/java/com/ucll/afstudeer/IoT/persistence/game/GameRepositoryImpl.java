@@ -1,12 +1,12 @@
 package com.ucll.afstudeer.IoT.persistence.game;
 
-import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.Game;
-import com.ucll.afstudeer.IoT.domain.GameSession;
-import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.domain.*;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static infrastructure.persistence.Tables.DEVICE;
 import static infrastructure.persistence.tables.Game.GAME;
@@ -65,11 +65,11 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public void addGamePuzzleSubscription(Device subscriber, Puzzle puzzle, Game game) {
+    public void addGamePuzzleSubscription(Device subscriber, Puzzle puzzle, Game game, int  position) {
         var ps = PUZZLE_SUBSCRIBER.as("ps");
 
-        context.insertInto(ps, ps.GAME_NAME, ps.SUBSCRIBED_TO_PUZZLE_NAME, ps.SUBSCRIBER_DEVICE_ID)
-                .values(game.getName(), puzzle == null ? null : puzzle.getName(), subscriber.getId())
+        context.insertInto(ps, ps.GAME_NAME, ps.SUBSCRIBED_TO_PUZZLE_NAME, ps.SUBSCRIBER_DEVICE_ID, ps.POSITION)
+                .values(game.getName(), puzzle == null ? null : puzzle.getName(), subscriber.getId(), position)
                 .execute();
     }
 
@@ -81,6 +81,46 @@ public class GameRepositoryImpl implements GameRepository {
                         .whereExists(context.selectOne().from(DEVICE).where(DEVICE.ID.eq(device.getId()))
                         .andExists(context.selectOne().from(GAME).where(GAME.NAME.eq(game.getName()))))
         );
+    }
+
+    @Override
+    public List<Game> getAllGames() {
+        return context
+                .select(GAME.fields())
+                .from(GAME)
+                .fetch()
+                .stream()
+                .map(record -> new Game.Builder()
+                        .withName(record.getValue(GAME.NAME))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Device> getAllDevicesInAGame(Game game) {
+        // aliases
+        var d = DEVICE.as("d");
+        var p = PUZZLE.as("p");
+        var ps = PUZZLE_SUBSCRIBER.as("ps");
+
+        return context
+                .select(d.ID, d.TYPE, p.NAME, p.SOLUTION)
+                .from(
+                        ps.innerJoin(d).on(d.ID.eq(ps.SUBSCRIBER_DEVICE_ID))
+                        .innerJoin(p).on(p.DEVICE_OWNER_ID.eq(d.ID))
+                )
+                .where(ps.GAME_NAME.eq(game.getName()))
+                .fetch()
+                .stream()
+                .map(record -> new Device.Builder()
+                        .withId(record.value1())
+                        .withDeviceType(DeviceType.valueOf(record.value2()))
+                        .withPuzzle(new Puzzle.Builder()
+                                .withName(record.value3())
+                                .withSolution(record.value4())
+                                .build()
+                ).build())
+                .collect(Collectors.toList());
     }
 
     @Override

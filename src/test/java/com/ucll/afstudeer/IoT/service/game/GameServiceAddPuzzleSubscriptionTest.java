@@ -36,10 +36,10 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
                 .withName("Game1")
                 .build();
 
-        var success = gameService.addPuzzleSubscription(game, subscriber, puzzle);
+        var success = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
 
         verify(gameRepository).GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
-        verify(gameRepository).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class));
+        verify(gameRepository).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
         assertTrue(success);
     }
 
@@ -62,10 +62,10 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
                 .withName("Game1")
                 .build();
 
-        assertThrows(CannotSubscribeToItselfException.class, () -> gameService.addPuzzleSubscription(game, subscriber, puzzle));
+        assertThrows(CannotSubscribeToItselfException.class, () -> gameService.addPuzzleSubscription(game, subscriber, puzzle, 2));
 
         verify(gameRepository, never()).GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
-        verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class));
+        verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
     }
 
     @Test
@@ -90,9 +90,9 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
                 .withName("Game1")
                 .build();
 
-        assertThrows(DeviceCannotSubscribeToPuzzleException.class, () -> gameService.addPuzzleSubscription(game, subscriber, puzzle));
+        assertThrows(DeviceCannotSubscribeToPuzzleException.class, () -> gameService.addPuzzleSubscription(game, subscriber, puzzle, 2));
 
         verify(gameRepository).GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
-        verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class));
+        verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
     }
 }

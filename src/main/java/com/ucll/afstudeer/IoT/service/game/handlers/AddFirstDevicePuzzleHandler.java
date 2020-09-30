@@ -18,7 +18,7 @@ public class AddFirstDevicePuzzleHandler {
             throw new CannotBecomeFirstPuzzleDeviceOfGameException();
 
         // add first game
-        gameRepository.addGamePuzzleSubscription(device, null, game);
+        gameRepository.addGamePuzzleSubscription(device, null, game, 1);
 
         return true;
     }

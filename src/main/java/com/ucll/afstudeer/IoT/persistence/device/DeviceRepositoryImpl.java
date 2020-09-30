@@ -1,11 +1,16 @@
 package com.ucll.afstudeer.IoT.persistence.device;
 
 import com.ucll.afstudeer.IoT.domain.Device;
+import com.ucll.afstudeer.IoT.domain.DeviceType;
+import com.ucll.afstudeer.IoT.domain.Puzzle;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static infrastructure.persistence.Tables.DEVICE;
 import static infrastructure.persistence.Tables.PUZZLE;
@@ -39,11 +44,29 @@ public class DeviceRepositoryImpl implements DeviceRepository {
     }
 
     @Override
+    public List<Device> getAllDevicesWithPuzzles() {
+        return context
+                .select(DEVICE.ID, DEVICE.TYPE, PUZZLE.NAME, PUZZLE.SOLUTION)
+                .from(DEVICE.innerJoin(PUZZLE).on(DEVICE.ID.eq(PUZZLE.DEVICE_OWNER_ID)))
+                .fetch()
+                .stream()
+                .map(record -> new Device.Builder()
+                        .withId(record.value1())
+                        .withDeviceType(DeviceType.valueOf(record.value2()))
+                        .withPuzzle(new Puzzle.Builder()
+                                .withName(record.value3())
+                                .withSolution(record.value4())
+                                .build())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public boolean isPresent(Device device) {
         return context.fetchExists(
-                    context.selectOne()
-                    .from(DEVICE)
-                    .where(DEVICE.ID.eq(device.getId()))
+                context.selectOne()
+                        .from(DEVICE)
+                        .where(DEVICE.ID.eq(device.getId()))
         );
     }
 }

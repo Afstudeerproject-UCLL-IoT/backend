@@ -12,6 +12,7 @@ public class AddPuzzleSubscriptionHandler {
     public static boolean handle(Game game,
                                  Device subscriber,
                                  Puzzle puzzle,
+                                 int position,
                                  GameRepository gameRepository){
         // null checks
         if(game == null || subscriber == null)
@@ -26,7 +27,7 @@ public class AddPuzzleSubscriptionHandler {
             throw new DeviceCannotSubscribeToPuzzleException();
 
         // subscribe
-        gameRepository.addGamePuzzleSubscription(subscriber, puzzle, game);
+        gameRepository.addGamePuzzleSubscription(subscriber, puzzle, game, position);
 
         return true;
     }

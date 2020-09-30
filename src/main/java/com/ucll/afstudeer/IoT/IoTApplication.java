@@ -16,7 +16,6 @@ public class IoTApplication {
 		SpringApplication.run(IoTApplication.class, args);
 	}
 
-	/*
 	@Bean
 	public CommandLineRunner demo(DeviceService deviceService, GameService gameService) {
 		return (args) -> {
@@ -49,10 +48,11 @@ public class IoTApplication {
 			// create game with subscriptions (puzzle1 <- puzzle2 <- puzzle3)
 			gameService.createGame(game1);
 			gameService.addFirstDevicePuzzle(game1, device1);
-			gameService.addPuzzleSubscription(game1, device2, device1.getPuzzle());
-			gameService.addPuzzleSubscription(game1, device3, device2.getPuzzle());
+			gameService.addPuzzleSubscription(game1, device2, device1.getPuzzle() ,2);
+			gameService.addPuzzleSubscription(game1, device3, device2.getPuzzle(), 3);
+
+			// create other game with no subscriptions
+			gameService.createGame(new Game.Builder().withName("Game2").build());
 		};
 	}
-
-	 */
 }

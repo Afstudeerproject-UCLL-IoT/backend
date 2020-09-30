@@ -67,6 +67,16 @@ public class Device {
             return this;
         }
 
+        public Builder withPuzzle(Puzzle puzzle){
+            this.puzzle = puzzle;
+            return this;
+        }
+
+        public Builder withDeviceType(DeviceType type){
+            this.type = type;
+            return this;
+        }
+
         public Builder fromDeviceName(String deviceName){
             // validate input
             if(deviceName == null || !Pattern.matches("^(ARDUINO)+-[A-Za-z0-9]+$", deviceName)){

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +46,7 @@ class PuzzleTest {
 
     @DisplayName("Invalid input for puzzle creation throws an exception")
     @ParameterizedTest
-    @NullAndEmptySource
+    @NullSource
     public void creatingAPuzzleWithInvalidInputThrowsAnException(String input){
         assertThrows(IllegalArgumentException.class, () -> {
             new Puzzle.Builder()
