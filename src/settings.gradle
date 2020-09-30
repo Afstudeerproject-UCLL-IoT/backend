@@ -1,5 +1,0 @@
-rootProject.name = 'backend'
-
-include 'core'
-include 'infrastructure'
-include 'web'
