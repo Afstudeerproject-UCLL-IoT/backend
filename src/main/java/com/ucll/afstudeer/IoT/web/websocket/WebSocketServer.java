@@ -40,7 +40,7 @@ public class WebSocketServer extends TextWebSocketHandler {
         switch (event){
             case REGISTER_DEVICE:
                 notificationService.addDeviceConnection(device, session);
-                deviceService.registerDeviceWithPuzzle(device);
+                //deviceService.registerDeviceWithPuzzle(device);
                 break;
             case PUZZLE_COMPLETED:
                 deviceService.puzzleIsCompleted(device.getPuzzle());
