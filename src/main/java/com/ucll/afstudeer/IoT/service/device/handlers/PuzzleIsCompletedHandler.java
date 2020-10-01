@@ -17,6 +17,10 @@ public class PuzzleIsCompletedHandler {
         // find the devices that are subscribed to this puzzle
         var devices = puzzleRepository.getSubscriptions(puzzle);
 
+        // logs
+        System.out.println("Subscribed Devices:");
+        devices.forEach(System.out::println);
+
         // send a notification that the puzzle is completed
         devices.forEach(device ->
                 notificationService.send(device, Event.PUZZLE_COMPLETED));
