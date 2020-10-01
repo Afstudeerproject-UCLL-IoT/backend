@@ -49,7 +49,7 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceServiceBase {
     @Test
     public void registeringAnExistingDeviceThrowsAnException(){
         // stub
-        when(deviceRepository.isPresent(any(Device.class))).thenReturn(true);
+        when(deviceRepository.get(any(Device.class))).thenReturn(true);
 
         // create device
         var device = new Device.Builder()
@@ -59,6 +59,6 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceServiceBase {
 
         // check if an exception is thrown
         assertThrows(DeviceAlreadyExistsException.class, () -> deviceService.registerDeviceWithPuzzle(device));
-        verify(deviceRepository).isPresent(any(Device.class));
+        verify(deviceRepository).get(any(Device.class));
     }
 }

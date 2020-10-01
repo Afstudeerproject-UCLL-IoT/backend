@@ -1,6 +1,7 @@
 package com.ucll.afstudeer.IoT.persistence.game;
 
 import com.ucll.afstudeer.IoT.domain.*;
+import infrastructure.persistence.Tables;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,10 +25,12 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public void add(Game game) {
+    public Game add(Game game) {
         context.insertInto(GAME, GAME.NAME)
                 .values(game.getName())
                 .execute();
+
+        return game;
     }
 
     @Override
@@ -124,11 +127,24 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public boolean isPresent(Game game) {
-        return context.fetchExists(
-                context.selectOne()
+    public Game get(String gameName) {
+        var record = context
+                .select(GAME.NAME)
+                .from(Tables.GAME)
+                .where(GAME.NAME.eq(gameName))
+                .fetchOne();
+
+        return new Game.Builder()
+                .withName(record.value1())
+                .build();
+
+    }
+
+    @Override
+    public boolean exists(String gameName) {
+        return context.fetchExists(context
+                .selectOne()
                 .from(GAME)
-                .where(GAME.NAME.eq(game.getName()))
-        );
+                .where(GAME.NAME.eq(gameName)));
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static infrastructure.persistence.Tables.*;
+import static infrastructure.persistence.tables.Game.GAME;
 
 
 @Repository
@@ -55,11 +56,24 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
     }
 
     @Override
-    public boolean isPresent(Puzzle puzzle) {
-        return context.fetchExists(
-                context.selectOne()
-                        .from(PUZZLE)
-                        .where(PUZZLE.NAME.eq(puzzle.getName()))
-        );
+    public Puzzle get(String puzzleName) {
+        var record = context
+                .select(PUZZLE.NAME, PUZZLE.SOLUTION)
+                .from(PUZZLE)
+                .where(PUZZLE.NAME.eq(puzzleName))
+                .fetchOne();
+
+        return new Puzzle.Builder()
+                .withName(record.value1())
+                .withSolution(record.value2())
+                .build();
+    }
+
+    @Override
+    public boolean exists(String puzzleName) {
+        return context.fetchExists(context
+                .selectOne()
+                .from(PUZZLE)
+                .where(PUZZLE.NAME.eq(puzzleName)));
     }
 }

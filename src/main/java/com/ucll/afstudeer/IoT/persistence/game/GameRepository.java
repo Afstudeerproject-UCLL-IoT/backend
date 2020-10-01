@@ -9,10 +9,10 @@ import com.ucll.afstudeer.IoT.persistence.GenericRepository;
 
 import java.util.List;
 
-public interface GameRepository extends GenericRepository<Game> {
+public interface GameRepository extends GenericRepository<Game, String> {
 
-    // persist a new game
-    void add(Game game);
+    // persist a new game and return the persisted entity with the id set
+    Game add(Game game);
 
     // persist a new game session
     void addGameSession(Game game, GameSession session);

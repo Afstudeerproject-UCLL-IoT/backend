@@ -5,6 +5,7 @@ import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.dto.DevicePuzzleDto;
 import com.ucll.afstudeer.IoT.persistence.device.DeviceRepository;
 import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepository;
+import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 import com.ucll.afstudeer.IoT.service.device.handlers.GetAllDevicesWithPuzzleHandler;
 import com.ucll.afstudeer.IoT.service.device.handlers.PuzzleIsCompletedHandler;
 import com.ucll.afstudeer.IoT.service.device.handlers.RegisterDeviceWithPuzzleHandler;
@@ -33,8 +34,8 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public void puzzleIsCompleted(Puzzle puzzle) {
-        PuzzleIsCompletedHandler.handle(puzzle, puzzleRepository, notificationService);
+    public ServiceActionResponse puzzleIsCompleted(Puzzle puzzle) {
+        return PuzzleIsCompletedHandler.handle(puzzle, puzzleRepository, notificationService);
     }
 
     @Override

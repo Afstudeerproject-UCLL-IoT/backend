@@ -5,20 +5,21 @@ import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
 import com.ucll.afstudeer.IoT.exception.game.GameDoesNotExistException;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
+import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 
 import java.time.LocalDateTime;
 
 public class StartGameHandler {
 
-    public static boolean handle(Game game, GameRepository gameRepository, NotificationService notificationService){
+    public static ServiceActionResponse handle(Game game, GameRepository gameRepository, NotificationService notificationService){
         // null check
         if(game == null)
             throw new IllegalArgumentException("Game cannot be null");
 
         // check if the game that is going to start exists
-        if(!gameRepository.isPresent(game)){
-            throw new GameDoesNotExistException();
+        if(!gameRepository.exists(game.getName())){
+            return ServiceActionResponse.Fail("The game that is going to start does not exist");
         }
 
         // create a new game session
@@ -37,6 +38,6 @@ public class StartGameHandler {
         // notify the device that the game has started
         notificationService.send(device, Event.GAME_STARTED);
 
-        return true;
+        return ServiceActionResponse.Success();
     }
 }

@@ -6,6 +6,7 @@ import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.dto.GameDto;
 import com.ucll.afstudeer.IoT.dto.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
+import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 import com.ucll.afstudeer.IoT.service.game.handlers.*;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 import org.springframework.stereotype.Service;
@@ -25,12 +26,12 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public boolean createGame(Game game) {
+    public Game createGame(Game game) {
         return CreateGameHandler.handle(game, gameRepository);
     }
 
     @Override
-    public boolean startGame(Game game) {
+    public ServiceActionResponse startGame(Game game) {
         return StartGameHandler.handle(game, gameRepository, notificationService);
     }
 
@@ -40,7 +41,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public boolean addPuzzleSubscription(Game game, Device subscriber, Puzzle puzzle, int position) {
+    public ServiceActionResponse addPuzzleSubscription(Game game, Device subscriber, Puzzle puzzle, int position) {
         return AddPuzzleSubscriptionHandler.handle(game, subscriber, puzzle, position, gameRepository);
     }
 

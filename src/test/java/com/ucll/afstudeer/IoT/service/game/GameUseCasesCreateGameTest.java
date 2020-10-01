@@ -25,7 +25,7 @@ public class GameUseCasesCreateGameTest extends GameServiceBase {
     @Test
     public void duplicateGameThrowsException(){
         // stub
-        when(gameRepository.isPresent(any(Game.class)))
+        when(gameRepository.get(any(Game.class)))
                 .thenReturn(true);
 
         // duplicate game
@@ -34,14 +34,14 @@ public class GameUseCasesCreateGameTest extends GameServiceBase {
                 .build();
 
         assertThrows(GameAlreadyExistsException.class, () -> gameService.createGame(duplicate));
-        verify(gameRepository).isPresent(any(Game.class));
+        verify(gameRepository).get(any(Game.class));
         verify(gameRepository, never()).add(any(Game.class));
     }
 
     @Test
     public void nullGameExitsEarly(){
         assertThrows(IllegalArgumentException.class, () -> gameService.createGame(null));
-        verify(gameRepository, never()).isPresent(any(Game.class));
+        verify(gameRepository, never()).get(any(Game.class));
         verify(gameRepository, never()).add(any(Game.class));
     }
 }
