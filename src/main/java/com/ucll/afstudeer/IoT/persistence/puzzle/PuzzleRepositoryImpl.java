@@ -63,10 +63,13 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
                 .where(PUZZLE.NAME.eq(puzzleName))
                 .fetchOne();
 
-        return new Puzzle.Builder()
-                .withName(record.value1())
-                .withSolution(record.value2())
-                .build();
+        if (record != null) {
+            return new Puzzle.Builder()
+                    .withName(record.value1())
+                    .withSolution(record.value2())
+                    .build();
+        }
+        return null;
     }
 
     @Override

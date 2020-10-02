@@ -70,14 +70,17 @@ public class DeviceRepositoryImpl implements DeviceRepository {
                 .where(DEVICE.ID.eq(deviceId))
                 .fetchOne();
 
-        return new Device.Builder()
-                .withId(record.value1())
-                .withDeviceType(DeviceType.valueOf(record.value2()))
-                .withPuzzle(new Puzzle.Builder()
-                        .withName(record.value3())
-                        .withSolution(record.value4()).build())
-                .build();
 
+        if (record != null) {
+            return new Device.Builder()
+                    .withId(record.value1())
+                    .withDeviceType(DeviceType.valueOf(record.value2()))
+                    .withPuzzle(new Puzzle.Builder()
+                            .withName(record.value3())
+                            .withSolution(record.value4()).build())
+                    .build();
+        }
+        return null;
     }
 
     @Override

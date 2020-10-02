@@ -62,13 +62,13 @@ public class GameRepositoryImpl implements GameRepository {
                 context
                         .selectOne()
                         .whereExists(context.selectOne().from(DEVICE).where(DEVICE.ID.eq(subscriber.getId()))
-                        .andExists(context.selectOne().from(PUZZLE).where(PUZZLE.NAME.eq(puzzle.getName())))
-                        .andExists(context.selectOne().from(GAME).where(GAME.NAME.eq(game.getName()))))
+                                .andExists(context.selectOne().from(PUZZLE).where(PUZZLE.NAME.eq(puzzle.getName())))
+                                .andExists(context.selectOne().from(GAME).where(GAME.NAME.eq(game.getName()))))
         );
     }
 
     @Override
-    public void addGamePuzzleSubscription(Device subscriber, Puzzle puzzle, Game game, int  position) {
+    public void addGamePuzzleSubscription(Device subscriber, Puzzle puzzle, Game game, int position) {
         var ps = PUZZLE_SUBSCRIBER.as("ps");
 
         context.insertInto(ps, ps.GAME_NAME, ps.SUBSCRIBED_TO_PUZZLE_NAME, ps.SUBSCRIBER_DEVICE_ID, ps.POSITION)
@@ -82,7 +82,7 @@ public class GameRepositoryImpl implements GameRepository {
                 context
                         .selectOne()
                         .whereExists(context.selectOne().from(DEVICE).where(DEVICE.ID.eq(device.getId()))
-                        .andExists(context.selectOne().from(GAME).where(GAME.NAME.eq(game.getName()))))
+                                .andExists(context.selectOne().from(GAME).where(GAME.NAME.eq(game.getName()))))
         );
     }
 
@@ -110,7 +110,7 @@ public class GameRepositoryImpl implements GameRepository {
                 .select(d.ID, d.TYPE, p.NAME, p.SOLUTION)
                 .from(
                         ps.innerJoin(d).on(d.ID.eq(ps.SUBSCRIBER_DEVICE_ID))
-                        .innerJoin(p).on(p.DEVICE_OWNER_ID.eq(d.ID))
+                                .innerJoin(p).on(p.DEVICE_OWNER_ID.eq(d.ID))
                 )
                 .where(ps.GAME_NAME.eq(game.getName()))
                 .fetch()
@@ -122,7 +122,7 @@ public class GameRepositoryImpl implements GameRepository {
                                 .withName(record.value3())
                                 .withSolution(record.value4())
                                 .build()
-                ).build())
+                        ).build())
                 .collect(Collectors.toList());
     }
 
@@ -134,10 +134,12 @@ public class GameRepositoryImpl implements GameRepository {
                 .where(GAME.NAME.eq(gameName))
                 .fetchOne();
 
-        return new Game.Builder()
-                .withName(record.value1())
-                .build();
-
+        if (record != null) {
+            return new Game.Builder()
+                    .withName(record.value1())
+                    .build();
+        }
+        return null;
     }
 
     @Override
