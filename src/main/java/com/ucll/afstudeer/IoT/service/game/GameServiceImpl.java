@@ -46,11 +46,6 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public boolean addFirstDevicePuzzle(Game game, Device device) {
-        return AddFirstDevicePuzzleHandler.handle(game, device, gameRepository);
-    }
-
-    @Override
     public List<GameDto> getAllGames() {
         return GetAllGamesHandler.handle(gameRepository);
     }

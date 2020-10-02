@@ -26,7 +26,7 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
         when(gameRepository.get(any(Game.class)))
                 .thenReturn(true);
 
-        when(gameRepository.getFirstDevicePuzzle(any(Game.class)))
+        when(gameRepository.getDeviceInGameByPosition(any(Game.class)))
                 .thenReturn(device);
 
         // existing game
@@ -39,7 +39,7 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
 
         verify(gameRepository).get(any(Game.class));
         verify(gameRepository).addGameSession(any(Game.class), any(GameSession.class));
-        verify(gameRepository).getFirstDevicePuzzle(any(Game.class));
+        verify(gameRepository).getDeviceInGameByPosition(any(Game.class));
         verify(notificationService).send(device, Event.GAME_STARTED);
 
         assertTrue(success);
@@ -60,7 +60,7 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
         assertThrows(GameDoesNotExistException.class, () -> gameService.startGame(game));
         verify(gameRepository).get(any(Game.class));
         verify(gameRepository, never()).addGameSession(any(Game.class), any(GameSession.class));
-        verify(gameRepository, never()).getFirstDevicePuzzle(any(Game.class));
+        verify(gameRepository, never()).getDeviceInGameByPosition(any(Game.class));
         verify(notificationService, never()).send(any(Device.class), any(Event.class));
     }
 
@@ -69,7 +69,7 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
         assertThrows(IllegalArgumentException.class, () -> gameService.startGame(null));
         verify(gameRepository, never()).get(any(Game.class));
         verify(gameRepository, never()).addGameSession(any(Game.class), any(GameSession.class));
-        verify(gameRepository, never()).getFirstDevicePuzzle(any(Game.class));
+        verify(gameRepository, never()).getDeviceInGameByPosition(any(Game.class));
         verify(notificationService, never()).send(any(Device.class), any(Event.class));
     }
 }

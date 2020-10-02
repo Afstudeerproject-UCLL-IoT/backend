@@ -14,6 +14,7 @@ public interface DeviceService {
     // register a device with a puzzle, get the device back with the id set
     Device registerDeviceWithPuzzle(Device device);
 
+    // the puzzle is completed
     ServiceActionResponse puzzleIsCompleted(Puzzle puzzle);
 
     // queries

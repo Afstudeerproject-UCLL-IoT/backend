@@ -3,7 +3,6 @@ package com.ucll.afstudeer.IoT.service.game.handlers;
 import com.ucll.afstudeer.IoT.domain.Event;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
-import com.ucll.afstudeer.IoT.exception.game.GameDoesNotExistException;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
@@ -33,7 +32,7 @@ public class StartGameHandler {
         gameRepository.addGameSession(game, session);
 
         // get the first device with puzzle in the game
-        var device = gameRepository.getFirstDevicePuzzle(game);
+        var device = gameRepository.getDeviceInGameByPosition(game,1);
 
         // notify the device that the game has started
         notificationService.send(device, Event.GAME_STARTED);

@@ -41,23 +41,49 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public Device getFirstDevicePuzzle(Game game) {
-        // TODO fix query, we do not join because I know we only have ARDUINOS and don't need the puzzle solution
+    public Device getDeviceInGameByPosition(Game game, int position) {
+        // aliases
+        var d = DEVICE.as("d");
+        var p = PUZZLE.as("p");
+        var ps = PUZZLE_SUBSCRIBER.as("ps");
+
+        // query
         var record = context.
-                select(PUZZLE_SUBSCRIBER.SUBSCRIBER_DEVICE_ID, PUZZLE_SUBSCRIBER.SUBSCRIBED_TO_PUZZLE_NAME)
-                .from(PUZZLE_SUBSCRIBER)
-                .where(PUZZLE_SUBSCRIBER.SUBSCRIBED_TO_PUZZLE_NAME.isNull())
+                select(d.ID, d.TYPE, p.NAME, p.SOLUTION)
+                .from(d.innerJoin(p).on(d.ID.eq(p.DEVICE_OWNER_ID)))
+                .whereExists(
+                        context
+                                .selectOne()
+                                .from(ps)
+                                .where(ps.SUBSCRIBER_DEVICE_ID.eq(d.ID)
+                                        .and(ps.GAME_NAME.eq(game.getName()))
+                                        .and(ps.POSITION.eq(position)))
+                )
                 .fetchOne();
 
         // TODO take a look at a mapper provided by jooq
         return new Device.Builder()
                 .withId(record.value1())
-                .fromDeviceName(String.format("ARDUINO-%s", record.value2()))
+                .withDeviceType(DeviceType.valueOf(record.value2()))
+                .withPuzzle(new Puzzle.Builder()
+                        .withName(record.value3())
+                        .withSolution(record.value4())
+                        .build())
                 .build();
     }
 
     @Override
     public boolean GamePuzzleSubscriptionIsPossible(Device subscriber, Puzzle puzzle, Game game) {
+        if (puzzle == null) {
+            return context.fetchExists(
+                    context
+                            .selectOne()
+                            .whereExists(context.selectOne().from(DEVICE).where(DEVICE.ID.eq(subscriber.getId()))
+                                    .andExists(context.selectOne().from(PUZZLE).where(PUZZLE.NAME.isNull()))
+                                    .andExists(context.selectOne().from(GAME).where(GAME.NAME.eq(game.getName()))))
+            );
+        }
+
         return context.fetchExists(
                 context
                         .selectOne()
@@ -74,16 +100,6 @@ public class GameRepositoryImpl implements GameRepository {
         context.insertInto(ps, ps.GAME_NAME, ps.SUBSCRIBED_TO_PUZZLE_NAME, ps.SUBSCRIBER_DEVICE_ID, ps.POSITION)
                 .values(game.getName(), puzzle == null ? null : puzzle.getName(), subscriber.getId(), position)
                 .execute();
-    }
-
-    @Override
-    public boolean firstDevicePuzzleIsPossible(Device device, Game game) {
-        return context.fetchExists(
-                context
-                        .selectOne()
-                        .whereExists(context.selectOne().from(DEVICE).where(DEVICE.ID.eq(device.getId()))
-                                .andExists(context.selectOne().from(GAME).where(GAME.NAME.eq(game.getName()))))
-        );
     }
 
     @Override
@@ -113,6 +129,7 @@ public class GameRepositoryImpl implements GameRepository {
                                 .innerJoin(p).on(p.DEVICE_OWNER_ID.eq(d.ID))
                 )
                 .where(ps.GAME_NAME.eq(game.getName()))
+                .orderBy(ps.POSITION.asc())
                 .fetch()
                 .stream()
                 .map(record -> new Device.Builder()

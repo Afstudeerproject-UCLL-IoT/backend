@@ -24,8 +24,7 @@ public class GetAllPuzzlesInAGameHandler {
                                 device.getId(),
                                 device.getType().toString(),
                                 device.getPuzzle().getName(),
-                                device.getPuzzle().getSolution(),
-                                1) // TODO FIX POSITION
+                                device.getPuzzle().getSolution())
                         )
                         .collect(Collectors.toList())
         );

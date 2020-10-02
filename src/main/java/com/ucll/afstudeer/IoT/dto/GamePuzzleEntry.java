@@ -5,14 +5,12 @@ public class GamePuzzleEntry {
     private final String deviceType;
     private final String puzzleName;
     private final String puzzleSolution;
-    private final int position;
 
-    public GamePuzzleEntry(int id, String deviceType, String puzzleName, String puzzleSolution, int position) {
+    public GamePuzzleEntry(int id, String deviceType, String puzzleName, String puzzleSolution) {
         this.id = id;
         this.deviceType = deviceType;
         this.puzzleName = puzzleName;
         this.puzzleSolution = puzzleSolution;
-        this.position = position;
     }
 
     public int getId() {
@@ -29,9 +27,5 @@ public class GamePuzzleEntry {
 
     public String getPuzzleSolution() {
         return puzzleSolution;
-    }
-
-    public int getPosition() {
-        return position;
     }
 }

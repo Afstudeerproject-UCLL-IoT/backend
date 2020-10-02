@@ -20,9 +20,6 @@ public interface GameService {
 
     ServiceActionResponse addPuzzleSubscription(Game game, Device subscriber, Puzzle puzzle, int position);
 
-    // TODO remove this abomination (method above has a position now)
-    boolean addFirstDevicePuzzle(Game game, Device device);
-
     // queries
     List<GameDto> getAllGames();
 

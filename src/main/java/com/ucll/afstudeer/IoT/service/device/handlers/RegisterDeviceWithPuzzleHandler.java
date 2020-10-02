@@ -12,9 +12,12 @@ public class RegisterDeviceWithPuzzleHandler {
         if(device == null)
             throw new IllegalArgumentException("Device cannot be null");
 
-        // if the device already exists throw an exception
-        if(deviceRepository.exists(device.getId()))
-            throw new DeviceAlreadyExistsException();
+        // if the device already exists do a connection activity
+        var foundDevice = deviceRepository.get(device.getId());
+        if(foundDevice != null){
+            // TODO log connection
+            return foundDevice;
+        }
 
         // Notify that the device is registered (TODO)
 
