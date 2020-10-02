@@ -22,7 +22,7 @@ public class AddPuzzleSubscriptionHandler {
             return ServiceActionResponse.Fail("A device cannot subscribe to it's own puzzle");
 
         // check if the subscription is possible (all entities exist)
-        if(!gameRepository.GamePuzzleSubscriptionIsPossible(subscriber, puzzle, game))
+        if(!gameRepository.gamePuzzleSubscriptionIsPossible(subscriber, puzzle, game))
             return ServiceActionResponse.Fail("The device cannot subscribe to the puzzle for a game because not all entities exist");
 
         // subscribe

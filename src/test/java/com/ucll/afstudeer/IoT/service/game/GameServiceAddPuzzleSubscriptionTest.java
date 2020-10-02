@@ -14,7 +14,7 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
     @Test
     public void deviceCanSubscribeToPuzzleForAGame(){
         // stub
-        when(gameRepository.GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class)))
+        when(gameRepository.gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class)))
                 .thenReturn(true);
 
         // subscriber
@@ -35,7 +35,7 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
 
         var response = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
 
-        verify(gameRepository).GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
+        verify(gameRepository).gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
         assertTrue(response.isSucceeded());
     }
@@ -61,7 +61,7 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
 
         var response = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
 
-        verify(gameRepository, never()).GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
+        verify(gameRepository, never()).gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
 
         assertFalse(response.isSucceeded());
@@ -71,7 +71,7 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
     @Test
     public void whenSubscriptionIsNotPossibleAFailedResponseIsReturned(){
         // stub
-        when(gameRepository.GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class)))
+        when(gameRepository.gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class)))
                 .thenReturn(false);
 
         // subscriber
@@ -92,7 +92,7 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
 
         var response = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
 
-        verify(gameRepository).GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
+        verify(gameRepository).gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
 
         assertFalse(response.isSucceeded());

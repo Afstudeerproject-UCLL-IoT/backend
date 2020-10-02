@@ -18,7 +18,7 @@ public interface GameRepository extends GenericRepository<Game, String> {
     Device getDeviceInGameByPosition(Game game, int position);
 
     // check if a device can subscribe to another puzzle for a game
-    boolean GamePuzzleSubscriptionIsPossible(Device subscriber, Puzzle puzzle, Game game);
+    boolean gamePuzzleSubscriptionIsPossible(Device subscriber, Puzzle puzzle, Game game);
 
     // subscribe the device to the puzzle for the game
     void addGamePuzzleSubscription(Device subscriber, Puzzle puzzle, Game game, int position);

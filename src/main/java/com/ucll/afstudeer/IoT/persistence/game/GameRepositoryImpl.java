@@ -73,7 +73,7 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public boolean GamePuzzleSubscriptionIsPossible(Device subscriber, Puzzle puzzle, Game game) {
+    public boolean gamePuzzleSubscriptionIsPossible(Device subscriber, Puzzle puzzle, Game game) {
         if (puzzle == null) {
             return context.fetchExists(
                     context
