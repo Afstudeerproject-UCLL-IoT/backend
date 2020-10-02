@@ -34,7 +34,6 @@ public class WebConfiguration {
     @Bean
     public WebSocketConfigurer webSocketConfigurer(){
         return registry -> registry.addHandler(webSocketServer, "server")
-                .setAllowedOrigins("*")
-                .withSockJS();
+                .setAllowedOrigins("*");
     }
 }
