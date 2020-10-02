@@ -3,8 +3,6 @@ package com.ucll.afstudeer.IoT.service.game;
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
-import com.ucll.afstudeer.IoT.exception.subscribe.CannotSubscribeToItselfException;
-import com.ucll.afstudeer.IoT.exception.subscribe.DeviceCannotSubscribeToPuzzleException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

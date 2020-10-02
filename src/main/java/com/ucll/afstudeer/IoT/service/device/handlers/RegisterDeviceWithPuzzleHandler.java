@@ -2,7 +2,6 @@ package com.ucll.afstudeer.IoT.service.device.handlers;
 
 
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.exception.device.DeviceAlreadyExistsException;
 import com.ucll.afstudeer.IoT.persistence.device.DeviceRepository;
 
 public class RegisterDeviceWithPuzzleHandler {

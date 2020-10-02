@@ -1,7 +1,6 @@
 package com.ucll.afstudeer.IoT.service.game;
 
 import com.ucll.afstudeer.IoT.domain.Game;
-import com.ucll.afstudeer.IoT.exception.game.GameAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,7 +1,6 @@
 package com.ucll.afstudeer.IoT.service.device;
 
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.exception.device.DeviceAlreadyExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
