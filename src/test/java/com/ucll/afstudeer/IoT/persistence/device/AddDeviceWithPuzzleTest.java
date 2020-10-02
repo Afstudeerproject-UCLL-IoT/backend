@@ -3,9 +3,13 @@ package com.ucll.afstudeer.IoT.persistence.device;
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.persistence.PersistenceBase;
 import org.jooq.DSLContext;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jooq.JooqTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.IntStream;
 
 import static infrastructure.persistence.Tables.DEVICE;
 import static infrastructure.persistence.Tables.PUZZLE;
@@ -13,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @JooqTest
+@Transactional
 public class AddDeviceWithPuzzleTest extends PersistenceBase {
 
     public AddDeviceWithPuzzleTest(@Autowired DSLContext dslContext) {

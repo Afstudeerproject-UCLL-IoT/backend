@@ -9,6 +9,9 @@ import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepositoryImpl;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
+import static infrastructure.persistence.Tables.*;
+import static org.jooq.impl.DSL.inline;
+
 public class PersistenceBase {
     protected final DSLContext context;
     protected final DeviceRepository deviceRepository;

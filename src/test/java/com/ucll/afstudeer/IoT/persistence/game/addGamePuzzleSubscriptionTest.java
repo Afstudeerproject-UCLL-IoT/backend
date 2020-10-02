@@ -1,7 +1,9 @@
 package com.ucll.afstudeer.IoT.persistence.game;
 
+import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.persistence.PersistenceBase;
 import org.jooq.DSLContext;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jooq.JooqTest;
 
@@ -11,4 +13,6 @@ public class addGamePuzzleSubscriptionTest extends PersistenceBase {
     public addGamePuzzleSubscriptionTest(@Autowired DSLContext context) {
         super(context);
     }
+
+
 }
