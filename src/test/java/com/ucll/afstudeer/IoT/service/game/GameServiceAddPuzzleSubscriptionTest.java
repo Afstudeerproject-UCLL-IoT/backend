@@ -7,8 +7,7 @@ import com.ucll.afstudeer.IoT.exception.subscribe.CannotSubscribeToItselfExcepti
 import com.ucll.afstudeer.IoT.exception.subscribe.DeviceCannotSubscribeToPuzzleException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -36,15 +35,15 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
                 .withName("Game1")
                 .build();
 
-        var success = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
+        var response = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
 
         verify(gameRepository).GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
-        assertTrue(success);
+        assertTrue(response.isSucceeded());
     }
 
     @Test
-    public void deviceCannotSubscribeToItself(){
+    public void deviceCannotSubscribeToItselfAnAFailedResponseIsReturned(){
         // subscriber
         var subscriber = new Device.Builder()
                 .withId(1)
@@ -62,14 +61,17 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
                 .withName("Game1")
                 .build();
 
-        assertThrows(CannotSubscribeToItselfException.class, () -> gameService.addPuzzleSubscription(game, subscriber, puzzle, 2));
+        var response = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
 
         verify(gameRepository, never()).GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
+
+        assertFalse(response.isSucceeded());
+        assertEquals("A device cannot subscribe to it's own puzzle", response.getErrorMessage());
     }
 
     @Test
-    public void whenSubscriptionIsNotPossibleAnExceptionIsThrown(){
+    public void whenSubscriptionIsNotPossibleAFailedResponseIsReturned(){
         // stub
         when(gameRepository.GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class)))
                 .thenReturn(false);
@@ -90,9 +92,12 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
                 .withName("Game1")
                 .build();
 
-        assertThrows(DeviceCannotSubscribeToPuzzleException.class, () -> gameService.addPuzzleSubscription(game, subscriber, puzzle, 2));
+        var response = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
 
         verify(gameRepository).GamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
+
+        assertFalse(response.isSucceeded());
+        assertEquals("The device cannot subscribe to the puzzle for a game because not all entities exist", response.getErrorMessage());
     }
 }

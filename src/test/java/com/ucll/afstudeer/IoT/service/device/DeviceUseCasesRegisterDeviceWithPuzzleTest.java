@@ -47,18 +47,7 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceServiceBase {
 
     @DisplayName("Registering a device that already exists throws an exception")
     @Test
-    public void registeringAnExistingDeviceThrowsAnException(){
-        // stub
-        when(deviceRepository.get(any(Device.class))).thenReturn(true);
-
-        // create device
-        var device = new Device.Builder()
-                .withoutId()
-                .fromDeviceName("ARDUINO-AwesomePuzzle1")
-                .build();
-
-        // check if an exception is thrown
-        assertThrows(DeviceAlreadyExistsException.class, () -> deviceService.registerDeviceWithPuzzle(device));
-        verify(deviceRepository).get(any(Device.class));
+    public void registeringAnExistingDeviceLogsAConnectionActivity(){
+        // TODO
     }
 }

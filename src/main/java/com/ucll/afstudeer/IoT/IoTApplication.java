@@ -47,7 +47,7 @@ public class IoTApplication {
 
 			// create game with subscriptions (puzzle1 <- puzzle2 <- puzzle3)
 			gameService.createGame(game1);
-			gameService.addFirstDevicePuzzle(game1, device1);
+			gameService.addPuzzleSubscription(game1, device1, null, 1);
 			gameService.addPuzzleSubscription(game1, device2, device1.getPuzzle() ,2);
 			gameService.addPuzzleSubscription(game1, device3, device2.getPuzzle(), 3);
 

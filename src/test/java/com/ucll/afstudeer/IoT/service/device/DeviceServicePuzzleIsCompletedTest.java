@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -33,8 +35,9 @@ public class DeviceServicePuzzleIsCompletedTest extends DeviceServiceBase {
                 .fromDeviceName("ARDUINO-Puzzle1")
                 .build();
 
-        deviceService.puzzleIsCompleted(device.getPuzzle());
+        var response = deviceService.puzzleIsCompleted(device.getPuzzle());
         verify(puzzleRepository).getSubscriptions(any(Puzzle.class));
         verify(notificationService, atLeastOnce()).send(any(Device.class), any(Event.class));
+        assertTrue(response.isSucceeded());
     }
 }
