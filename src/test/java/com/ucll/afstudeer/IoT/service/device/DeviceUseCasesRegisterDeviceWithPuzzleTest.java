@@ -30,7 +30,7 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceServiceBase {
                 .build();
 
         // device registration
-        device = deviceService.registerDeviceWithPuzzle(device);
+        device = deviceService.registerDeviceWithPuzzle(device).getValue();
         verify(deviceRepository).addDeviceWithPuzzle(any(Device.class));
 
         // null assertions

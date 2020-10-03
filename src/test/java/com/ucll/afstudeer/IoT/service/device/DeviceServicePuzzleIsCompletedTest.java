@@ -38,6 +38,6 @@ public class DeviceServicePuzzleIsCompletedTest extends DeviceServiceBase {
         var response = deviceService.puzzleIsCompleted(device.getPuzzle());
         verify(puzzleRepository).getSubscriptions(any(Puzzle.class));
         verify(notificationService, atLeastOnce()).send(any(Device.class), any(Event.class));
-        assertTrue(response.isSucceeded());
+        assertTrue(response.getValue());
     }
 }

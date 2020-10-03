@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
 public class GameUseCasesCreateGameTest extends GameServiceBase {
 
     @Test
-    public void newGameCanBeCreated(){
+    public void newGameCanBeCreated() {
         // stub
         when(gameRepository.add(any(Game.class)))
                 .thenReturn(new Game.Builder()
@@ -22,7 +22,10 @@ public class GameUseCasesCreateGameTest extends GameServiceBase {
                 .withName("Game1")
                 .build();
 
-        var createdGame = gameService.createGame(game);
+        var createdGame = gameService
+                .createGame(game)
+                .getValue();
+
         verify(gameRepository).add(any(Game.class));
 
         assertNotNull(createdGame);
@@ -30,7 +33,7 @@ public class GameUseCasesCreateGameTest extends GameServiceBase {
     }
 
     @Test
-    public void whenAGameAlreadyExistsItIsReturned(){
+    public void whenAGameAlreadyExistsItIsReturned() {
         // stub
         when(gameRepository.get(anyString()))
                 .thenReturn(new Game.Builder()
@@ -43,7 +46,9 @@ public class GameUseCasesCreateGameTest extends GameServiceBase {
                 .build();
 
 
-        var createdGame = gameService.createGame(duplicate);
+        var createdGame = gameService
+                .createGame(duplicate)
+                .getValue();
 
         verify(gameRepository).get(anyString());
         verify(gameRepository, never()).add(any(Game.class));
@@ -53,7 +58,7 @@ public class GameUseCasesCreateGameTest extends GameServiceBase {
     }
 
     @Test
-    public void nullGameExitsEarly(){
+    public void nullGameExitsEarly() {
         assertThrows(IllegalArgumentException.class, () -> gameService.createGame(null));
 
         verify(gameRepository, never()).get(anyString());

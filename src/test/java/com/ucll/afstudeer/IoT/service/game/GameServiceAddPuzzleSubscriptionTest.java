@@ -33,11 +33,13 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
                 .withName("Game1")
                 .build();
 
-        var response = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
+        var response = gameService
+                .addPuzzleSubscription(game, subscriber, puzzle, 2)
+                .getValue();
 
         verify(gameRepository).gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
-        assertTrue(response.isSucceeded());
+        assertTrue(response);
     }
 
     @Test
@@ -64,8 +66,8 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
         verify(gameRepository, never()).gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
 
-        assertFalse(response.isSucceeded());
-        assertEquals("A device cannot subscribe to it's own puzzle", response.getErrorMessage());
+        assertFalse(response.getValue());
+        assertEquals("A device cannot subscribe to it's own puzzle", response.getMessage());
     }
 
     @Test
@@ -95,7 +97,7 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
         verify(gameRepository).gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
 
-        assertFalse(response.isSucceeded());
-        assertEquals("The device cannot subscribe to the puzzle for a game because not all entities exist", response.getErrorMessage());
+        assertFalse(response.getValue());
+        assertEquals("The device cannot subscribe to the puzzle for a game because not all entities exist", response.getMessage());
     }
 }
