@@ -12,11 +12,11 @@ public interface DeviceService {
     // actions
 
     // register a device with a puzzle, get the device back with the id set
-    Device registerDeviceWithPuzzle(Device device);
+    ServiceActionResponse<Device> registerDeviceWithPuzzle(Device device);
 
     // the puzzle is completed
-    ServiceActionResponse puzzleIsCompleted(Puzzle puzzle);
+    ServiceActionResponse<Boolean> puzzleIsCompleted(Puzzle puzzle);
 
     // queries
-    List<DevicePuzzleDto> getAllDevicesWithPuzzleHandler();
+    ServiceActionResponse<List<DevicePuzzleDto>> getAllDevicesWithPuzzleHandler();
 }

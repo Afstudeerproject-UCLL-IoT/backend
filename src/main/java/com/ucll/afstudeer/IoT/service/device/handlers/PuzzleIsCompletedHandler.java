@@ -8,7 +8,7 @@ import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 
 public class PuzzleIsCompletedHandler {
 
-    public static ServiceActionResponse handle(Puzzle puzzle,
+    public static ServiceActionResponse<Boolean> handle(Puzzle puzzle,
                                                PuzzleRepository puzzleRepository,
                                                NotificationService notificationService){
 

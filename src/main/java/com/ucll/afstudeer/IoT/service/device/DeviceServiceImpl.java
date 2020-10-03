@@ -29,17 +29,17 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public Device registerDeviceWithPuzzle(Device device) {
+    public ServiceActionResponse<Device> registerDeviceWithPuzzle(Device device) {
         return RegisterDeviceWithPuzzleHandler.handle(device, deviceRepository);
     }
 
     @Override
-    public ServiceActionResponse puzzleIsCompleted(Puzzle puzzle) {
+    public ServiceActionResponse<Boolean> puzzleIsCompleted(Puzzle puzzle) {
         return PuzzleIsCompletedHandler.handle(puzzle, puzzleRepository, notificationService);
     }
 
     @Override
-    public List<DevicePuzzleDto> getAllDevicesWithPuzzleHandler() {
+    public ServiceActionResponse<List<DevicePuzzleDto>> getAllDevicesWithPuzzleHandler() {
         return GetAllDevicesWithPuzzleHandler.handle(deviceRepository);
     }
 }
