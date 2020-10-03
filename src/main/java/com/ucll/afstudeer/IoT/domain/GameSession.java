@@ -79,6 +79,11 @@ public class GameSession {
             return this;
         }
 
+        public Builder withoutEndTime(){
+            this.end = null;
+            return this;
+        }
+
         public GameSession build(){
             return new GameSession(id, start, end);
         }
