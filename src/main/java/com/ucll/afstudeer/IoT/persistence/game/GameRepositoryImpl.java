@@ -34,10 +34,17 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public void addGameSession(Game game, GameSession session) {
-        context.insertInto(GAME_SESSION, GAME_SESSION.GAME_NAME, GAME_SESSION.START)
+    public GameSession addGameSession(Game game, GameSession session) {
+        var record = context.insertInto(GAME_SESSION, GAME_SESSION.GAME_NAME, GAME_SESSION.START)
                 .values(game.getName(), session.getStart())
-                .execute();
+                .returningResult(GAME_SESSION.ID, GAME_SESSION.START)
+                .fetchOne();
+
+        return new GameSession.Builder()
+                .withId(record.value1())
+                .withStartTime(record.value2())
+                .withoutEndTime()
+                .build();
     }
 
     @Override

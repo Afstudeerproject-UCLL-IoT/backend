@@ -12,7 +12,7 @@ public interface GameRepository extends GenericRepository<Game, String> {
     Game add(Game game);
 
     // persist a new game session
-    void addGameSession(Game game, GameSession session);
+    GameSession addGameSession(Game game, GameSession session);
 
     // get the first puzzle of the game
     Device getDeviceInGameByPosition(Game game, int position);
