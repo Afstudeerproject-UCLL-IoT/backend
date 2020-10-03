@@ -14,7 +14,7 @@ public interface GameRepository extends GenericRepository<Game, String> {
     // persist a new game session
     GameSession addGameSession(Game game, GameSession session);
 
-    // get the first puzzle of the game
+    // get the device in a game by it's position
     Device getDeviceInGameByPosition(Game game, int position);
 
     // check if a device can subscribe to another puzzle for a game

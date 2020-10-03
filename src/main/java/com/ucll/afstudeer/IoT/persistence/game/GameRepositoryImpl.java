@@ -68,6 +68,10 @@ public class GameRepositoryImpl implements GameRepository {
                 )
                 .fetchOne();
 
+        if(record == null){
+            return null;
+        }
+
         // TODO take a look at a mapper provided by jooq
         return new Device.Builder()
                 .withId(record.value1())
