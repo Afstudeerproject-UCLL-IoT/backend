@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 
 public class StartGameHandler {
 
-    public static ServiceActionResponse handle(Game game, GameRepository gameRepository, NotificationService notificationService){
+    public static ServiceActionResponse<GameSession> handle(Game game, GameRepository gameRepository, NotificationService notificationService){
         // null check
         if(game == null)
             throw new IllegalArgumentException("Game cannot be null");
 
         // check if the game that is going to start exists
         if(!gameRepository.exists(game.getName())){
-            return ServiceActionResponse.Fail("The game that is going to start does not exist");
+            return new ServiceActionResponse<>("The game that is going to start does not exist");
         }
 
         // create a new game session
@@ -29,7 +29,7 @@ public class StartGameHandler {
                 .build();
 
         // persist game with session
-        gameRepository.addGameSession(game, session);
+        var addedGameSession = gameRepository.addGameSession(game, session);
 
         // get the first device with puzzle in the game
         var device = gameRepository.getDeviceInGameByPosition(game,1);
@@ -37,6 +37,6 @@ public class StartGameHandler {
         // notify the device that the game has started
         notificationService.send(device, Event.GAME_STARTED);
 
-        return ServiceActionResponse.Success();
+        return new ServiceActionResponse<>(addedGameSession);
     }
 }

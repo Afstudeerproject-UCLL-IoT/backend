@@ -6,17 +6,18 @@ import com.ucll.afstudeer.IoT.dto.GameDto;
 import com.ucll.afstudeer.IoT.dto.GamePuzzleEntry;
 import com.ucll.afstudeer.IoT.dto.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
+import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 
 import java.util.stream.Collectors;
 
 public class GetAllPuzzlesInAGameHandler {
 
-    public static GameWithPuzzlesDto handle(String gameName, GameRepository gameRepository) {
+    public static ServiceActionResponse<GameWithPuzzlesDto> handle(String gameName, GameRepository gameRepository) {
         var game = new Game.Builder()
                 .withName(gameName)
                 .build();
 
-        return new GameWithPuzzlesDto(
+        var result = new GameWithPuzzlesDto(
                 game.getName(),
                 gameRepository.getAllDevicesInAGame(game)
                         .stream()
@@ -28,5 +29,7 @@ public class GetAllPuzzlesInAGameHandler {
                         )
                         .collect(Collectors.toList())
         );
+
+        return new ServiceActionResponse<>(result);
     }
 }

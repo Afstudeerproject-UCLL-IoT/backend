@@ -2,6 +2,7 @@ package com.ucll.afstudeer.IoT.service.game;
 
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Game;
+import com.ucll.afstudeer.IoT.domain.GameSession;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.dto.GameDto;
 import com.ucll.afstudeer.IoT.dto.GameWithPuzzlesDto;
@@ -12,18 +13,18 @@ import java.util.List;
 
 public interface GameService {
     // actions
-    Game createGame(Game game);
+    ServiceActionResponse<Game> createGame(Game game);
 
-    ServiceActionResponse startGame(Game game);
+    ServiceActionResponse<GameSession> startGame(Game game);
 
-    LocalDateTime endGame(Game game);
+    ServiceActionResponse<GameSession>  endGame(Game game);
 
-    ServiceActionResponse addPuzzleSubscription(Game game, Device subscriber, Puzzle puzzle, int position);
+    ServiceActionResponse<Boolean> addPuzzleSubscription(Game game, Device subscriber, Puzzle puzzle, int position);
 
     // queries
-    List<GameDto> getAllGames();
+    ServiceActionResponse<List<GameDto>> getAllGames();
 
-    GameWithPuzzlesDto getAllPuzzlesInAGame(String gameName);
+    ServiceActionResponse<GameWithPuzzlesDto> getAllPuzzlesInAGame(String gameName);
 
 
 }

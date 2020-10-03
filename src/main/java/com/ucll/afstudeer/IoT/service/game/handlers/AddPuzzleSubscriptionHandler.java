@@ -8,7 +8,7 @@ import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 
 public class AddPuzzleSubscriptionHandler {
 
-    public static ServiceActionResponse handle(Game game,
+    public static ServiceActionResponse<Boolean> handle(Game game,
                                                Device subscriber,
                                                Puzzle puzzle,
                                                int position,
