@@ -1,28 +1,38 @@
 package com.ucll.afstudeer.IoT.service;
 
-public class ServiceActionResponse {
-    boolean succeeded;
-    String errorMessage;
+// response from a service action
+// Call Success() or Fail() for a simple boolean response indicating if the service action was a success or not
+// Call the constructor if the service action holds a return value from the service (success), or null (fail)
+public class ServiceActionResponse<T> {
+    T value;
+    String message;
 
-    private ServiceActionResponse(boolean succeeded, String errorMessage) {
-        this.succeeded = succeeded;
-        this.errorMessage = errorMessage;
+    private ServiceActionResponse(T value, String message) {
+        this.value = value;
+        this.message = message;
     }
 
-    public boolean isSucceeded() {
-        return succeeded;
+    public ServiceActionResponse(T value){
+        this(value, "");
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public ServiceActionResponse(String errorMessage){
+        this(null, errorMessage);
     }
 
-    // instance methods
-    public static ServiceActionResponse Success(){
-        return new ServiceActionResponse(true, "Action succeeded");
+    public T getValue() {
+        return value;
     }
 
-    public static ServiceActionResponse Fail(String message){
-        return new ServiceActionResponse(false, message);
+    public String getMessage() {
+        return message;
+    }
+
+    public static ServiceActionResponse<Boolean> Fail(String errorMessage){
+        return new ServiceActionResponse<>(false, errorMessage);
+    }
+
+    public static ServiceActionResponse<Boolean> Success(){
+        return new ServiceActionResponse<>(true, "");
     }
 }
