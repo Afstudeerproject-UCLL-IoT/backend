@@ -21,11 +21,15 @@ public class GameController {
 
     @GetMapping
     public List<GameDto> getAllGames(){
-        return gameService.getAllGames();
+        return gameService
+                .getAllGames()
+                .getValue();
     }
 
     @GetMapping("/{gameName}/puzzle")
     public GameWithPuzzlesDto getAllPuzzlesInAGame(@PathVariable String gameName){
-        return gameService.getAllPuzzlesInAGame(gameName);
+        return gameService
+                .getAllPuzzlesInAGame(gameName)
+                .getValue();
     }
 }
