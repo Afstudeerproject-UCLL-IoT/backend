@@ -42,7 +42,6 @@ class DeviceUseCasesRegisterDeviceWithPuzzleTest extends DeviceServiceBase {
         // data assertions
         assertEquals(1, device.getId());
         assertEquals(String.format("%d-%s", device.getId(), input), device.toString());
-        ;
         assertEquals(input.split("-")[1], device.getPuzzle().getName());
     }
 
