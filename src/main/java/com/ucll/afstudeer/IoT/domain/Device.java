@@ -28,8 +28,8 @@ public class Device {
 
     // overrides
     @Override
-    public String toString(){
-        if(id == 0){
+    public String toString() {
+        if (id == 0) {
             return String.format("%s-%s", type.toString(), puzzle.toString());
         }
 
@@ -38,8 +38,8 @@ public class Device {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Device){
-            var other = (Device)o;
+        if (o instanceof Device) {
+            var other = (Device) o;
             return other.getPuzzle().equals(getPuzzle()) &&
                     other.getType().equals(getType());
         }
@@ -57,29 +57,29 @@ public class Device {
         private DeviceType type;
         private Puzzle puzzle;
 
-        public Builder withId(int id){
+        public Builder withId(int id) {
             this.id = id;
             return this;
         }
 
-        public Builder withoutId(){
+        public Builder withoutId() {
             this.id = 0;
             return this;
         }
 
-        public Builder withPuzzle(Puzzle puzzle){
+        public Builder withPuzzle(Puzzle puzzle) {
             this.puzzle = puzzle;
             return this;
         }
 
-        public Builder withDeviceType(DeviceType type){
+        public Builder withDeviceType(DeviceType type) {
             this.type = type;
             return this;
         }
 
-        public Builder fromDeviceName(String deviceName){
+        public Builder fromDeviceName(String deviceName) {
             // validate input
-            if(deviceName == null || !Pattern.matches("^(ARDUINO)+-[A-Za-z0-9]+$", deviceName)){
+            if (deviceName == null || !Pattern.matches("^(ARDUINO)+-[A-Za-z0-9]+$", deviceName)) {
                 throw new IllegalArgumentException("Device name is not correct");
             }
 
@@ -94,7 +94,7 @@ public class Device {
             return this;
         }
 
-        public Device build(){
+        public Device build() {
             return new Device(id, type, puzzle);
         }
     }

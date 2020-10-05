@@ -2,27 +2,28 @@ package com.ucll.afstudeer.IoT.service.game;
 
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Game;
+import com.ucll.afstudeer.IoT.domain.GameSession;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.dto.GameDto;
 import com.ucll.afstudeer.IoT.dto.GameWithPuzzlesDto;
+import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface GameService {
-    boolean createGame(Game game);
+    // actions
+    ServiceActionResponse<Game> createGame(Game game);
 
-    boolean startGame(Game game);
+    ServiceActionResponse<GameSession> startGame(Game game);
 
-    LocalDateTime endGame(Game game);
+    ServiceActionResponse<GameSession> endGame(Game game);
 
-    boolean addPuzzleSubscription(Game game, Device subscriber, Puzzle puzzle, int position);
+    ServiceActionResponse<Boolean> addPuzzleSubscription(Game game, Device subscriber, Puzzle puzzle, int position);
 
-    boolean addFirstDevicePuzzle(Game game, Device device);
+    // queries
+    ServiceActionResponse<List<GameDto>> getAllGames();
 
-    List<GameDto> getAllGames();
-
-    GameWithPuzzlesDto getAllPuzzlesInAGame(String gameName);
+    ServiceActionResponse<GameWithPuzzlesDto> getAllPuzzlesInAGame(String gameName);
 
 
 }

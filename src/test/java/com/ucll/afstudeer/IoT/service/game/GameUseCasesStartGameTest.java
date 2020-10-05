@@ -4,30 +4,40 @@ import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Event;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
-import com.ucll.afstudeer.IoT.exception.game.GameDoesNotExistException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class GameUseCasesStartGameTest extends GameServiceBase {
 
     @Test
-    public void existingGameCanBeStartedAndSendsNotification(){
+    public void existingGameCanBeStartedAndSendsNotification() {
         // device that will be notified
         var device = new Device.Builder()
                 .withId(1)
                 .fromDeviceName("ARDUINO-puzzle1")
                 .build();
 
+        // game session that will be returned
+        var session = new GameSession.Builder()
+                .withId(1)
+                .withStartTime(LocalDateTime.now())
+                .withoutEndTime()
+                .build();
+
         // stubs
-        when(gameRepository.isPresent(any(Game.class)))
+        when(gameRepository.exists(anyString()))
                 .thenReturn(true);
 
-        when(gameRepository.getFirstDevicePuzzle(any(Game.class)))
+        when(gameRepository.getDeviceInGameByPosition(any(Game.class), anyInt()))
                 .thenReturn(device);
+
+        when(gameRepository.addGameSession(any(Game.class), any(GameSession.class)))
+                .thenReturn(session);
 
         // existing game
         var game = new Game.Builder()
@@ -35,20 +45,25 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
                 .build();
 
         // start the game
-        var success = gameService.startGame(game);
+        var startedGameSession = gameService
+                .startGame(game)
+                .getValue();
 
-        verify(gameRepository).isPresent(any(Game.class));
-        verify(gameRepository).addGameSession(any(Game.class), any(GameSession.class));
-        verify(gameRepository).getFirstDevicePuzzle(any(Game.class));
-        verify(notificationService).send(device, Event.GAME_STARTED);
+        verify(gameRepository).exists(anyString());
+        verify(gameRepository).addGameSession(eq(game), any(GameSession.class));
+        verify(gameRepository).getDeviceInGameByPosition(any(Game.class), eq(1));
+        verify(notificationService).send(eq(device), eq(Event.GAME_STARTED));
 
-        assertTrue(success);
+        assertNotNull(startedGameSession);
+        assertNotNull(startedGameSession.getStart());
+        assertNull(startedGameSession.getEnd());
+        assertEquals(1, startedGameSession.getId());
     }
 
     @Test
-    public void gameThatDoesNotExistCannotBeStartedAndThrowsException(){
+    public void gameThatDoesNotExistCannotBeStartedAndReturnsFailedResponse() {
         // stub
-        when(gameRepository.isPresent(any(Game.class)))
+        when(gameRepository.exists(anyString()))
                 .thenReturn(false);
 
         // game that does not exist
@@ -57,19 +72,24 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
                 .build();
 
         // try to start it
-        assertThrows(GameDoesNotExistException.class, () -> gameService.startGame(game));
-        verify(gameRepository).isPresent(any(Game.class));
+        var response = gameService.startGame(game);
+
+        verify(gameRepository).exists(anyString());
         verify(gameRepository, never()).addGameSession(any(Game.class), any(GameSession.class));
-        verify(gameRepository, never()).getFirstDevicePuzzle(any(Game.class));
+        verify(gameRepository, never()).getDeviceInGameByPosition(any(Game.class), eq(1));
         verify(notificationService, never()).send(any(Device.class), any(Event.class));
+
+        assertNull(response.getValue());
+        assertEquals("The game that is going to start does not exist", response.getMessage());
     }
 
     @Test
-    public void startingANullGameExitsEarly(){
+    public void startingANullGameExitsEarly() {
         assertThrows(IllegalArgumentException.class, () -> gameService.startGame(null));
-        verify(gameRepository, never()).isPresent(any(Game.class));
+
+        verify(gameRepository, never()).exists(anyString());
         verify(gameRepository, never()).addGameSession(any(Game.class), any(GameSession.class));
-        verify(gameRepository, never()).getFirstDevicePuzzle(any(Game.class));
+        verify(gameRepository, never()).getDeviceInGameByPosition(any(Game.class), eq(1));
         verify(notificationService, never()).send(any(Device.class), any(Event.class));
     }
 }

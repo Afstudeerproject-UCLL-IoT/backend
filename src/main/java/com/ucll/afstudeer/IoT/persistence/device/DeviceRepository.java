@@ -5,7 +5,7 @@ import com.ucll.afstudeer.IoT.persistence.GenericRepository;
 
 import java.util.List;
 
-public interface DeviceRepository extends GenericRepository<Device> {
+public interface DeviceRepository extends GenericRepository<Device, Integer> {
     Device addDeviceWithPuzzle(Device device);
 
     List<Device> getAllDevicesWithPuzzles();

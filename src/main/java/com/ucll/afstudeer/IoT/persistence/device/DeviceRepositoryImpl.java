@@ -5,8 +5,6 @@ import com.ucll.afstudeer.IoT.domain.DeviceType;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -39,7 +37,8 @@ public class DeviceRepositoryImpl implements DeviceRepository {
 
         return new Device.Builder()
                 .withId(deviceId)
-                .fromDeviceName(device.toString())
+                .withDeviceType(device.getType())
+                .withPuzzle(device.getPuzzle())
                 .build();
     }
 
@@ -62,11 +61,31 @@ public class DeviceRepositoryImpl implements DeviceRepository {
     }
 
     @Override
-    public boolean isPresent(Device device) {
-        return context.fetchExists(
-                context.selectOne()
-                        .from(DEVICE)
-                        .where(DEVICE.ID.eq(device.getId()))
-        );
+    public Device get(Integer deviceId) {
+        var record = context
+                .select(DEVICE.ID, DEVICE.TYPE, PUZZLE.NAME, PUZZLE.SOLUTION)
+                .from(DEVICE.innerJoin(PUZZLE).on(DEVICE.ID.eq(PUZZLE.DEVICE_OWNER_ID)))
+                .where(DEVICE.ID.eq(deviceId))
+                .fetchOne();
+
+
+        if (record != null) {
+            return new Device.Builder()
+                    .withId(record.value1())
+                    .withDeviceType(DeviceType.valueOf(record.value2()))
+                    .withPuzzle(new Puzzle.Builder()
+                            .withName(record.value3())
+                            .withSolution(record.value4()).build())
+                    .build();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean exists(Integer deviceId) {
+        return context.fetchExists(context
+                .selectOne()
+                .from(DEVICE)
+                .where(DEVICE.ID.eq(deviceId)));
     }
 }

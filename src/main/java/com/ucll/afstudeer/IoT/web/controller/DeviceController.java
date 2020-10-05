@@ -19,7 +19,9 @@ public class DeviceController {
     }
 
     @GetMapping
-    public List<DevicePuzzleDto> getAllDevicesWithPuzzles(){
-        return deviceService.getAllDevicesWithPuzzleHandler();
+    public List<DevicePuzzleDto> getAllDevicesWithPuzzles() {
+        return deviceService
+                .getAllDevicesWithPuzzleHandler()
+                .getValue();
     }
 }

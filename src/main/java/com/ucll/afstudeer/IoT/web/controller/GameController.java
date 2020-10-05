@@ -20,12 +20,16 @@ public class GameController {
     }
 
     @GetMapping
-    public List<GameDto> getAllGames(){
-        return gameService.getAllGames();
+    public List<GameDto> getAllGames() {
+        return gameService
+                .getAllGames()
+                .getValue();
     }
 
     @GetMapping("/{gameName}/puzzle")
-    public GameWithPuzzlesDto getAllPuzzlesInAGame(@PathVariable String gameName){
-        return gameService.getAllPuzzlesInAGame(gameName);
+    public GameWithPuzzlesDto getAllPuzzlesInAGame(@PathVariable String gameName) {
+        return gameService
+                .getAllPuzzlesInAGame(gameName)
+                .getValue();
     }
 }

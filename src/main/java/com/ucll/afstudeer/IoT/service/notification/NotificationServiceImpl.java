@@ -28,14 +28,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void send(Device device, Event event) {
-        System.out.println("In send - notification service");
-
-        if(deviceConnections.containsKey(device)){
-            System.out.println("In contains key");
-
+        if (deviceConnections.containsKey(device)) {
             var connection = deviceConnections.get(device);
-
-            System.out.println("Connection " + connection.toString());
             sendMessage(event.toString(), connection);
         }
 
@@ -61,7 +55,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     // helpers
-    private void sendMessage(String message, WebSocketSession session){
+    private void sendMessage(String message, WebSocketSession session) {
         var textMessage = new TextMessage(message);
 
         try {

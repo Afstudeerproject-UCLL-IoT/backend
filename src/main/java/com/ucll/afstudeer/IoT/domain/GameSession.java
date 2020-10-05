@@ -39,10 +39,9 @@ public class GameSession {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof GameSession){
-            var other = (GameSession)o;
-            return other.getId() == getId() &&
-                    other.getStart().equals(getStart()) &&
+        if (o instanceof GameSession) {
+            var other = (GameSession) o;
+            return other.getStart().equals(getStart()) &&
                     other.getEnd().equals(getEnd());
         }
         return false;
@@ -50,7 +49,7 @@ public class GameSession {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getStart(), getEnd());
+        return Objects.hash(getStart(), getEnd());
     }
 
     // builder
@@ -59,27 +58,32 @@ public class GameSession {
         private LocalDateTime start;
         private LocalDateTime end;
 
-        public Builder withId(int id){
+        public Builder withId(int id) {
             this.id = id;
             return this;
         }
 
-        public Builder withoutId(){
+        public Builder withoutId() {
             this.id = 0;
             return this;
         }
 
-        public Builder withStartTime(LocalDateTime start){
+        public Builder withStartTime(LocalDateTime start) {
             this.start = start;
             return this;
         }
 
-        public Builder withEndTime(LocalDateTime end){
+        public Builder withEndTime(LocalDateTime end) {
             this.end = end;
             return this;
         }
 
-        public GameSession build(){
+        public Builder withoutEndTime() {
+            this.end = null;
+            return this;
+        }
+
+        public GameSession build() {
             return new GameSession(id, start, end);
         }
     }

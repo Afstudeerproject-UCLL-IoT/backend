@@ -23,7 +23,7 @@ public class Puzzle {
     // overrides
     @Override
     public String toString() {
-        if(solution.equals("")){
+        if (solution.equals("")) {
             return name;
         }
 
@@ -32,17 +32,16 @@ public class Puzzle {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Puzzle){
-            var other = (Puzzle)o;
-            return other.getName().equals(getName()) &&
-                    other.getSolution().equals(getSolution());
+        if (o instanceof Puzzle) {
+            var other = (Puzzle) o;
+            return other.getName().equals(getName());
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getSolution());
+        return Objects.hash(getName());
     }
 
     // builder
@@ -50,21 +49,21 @@ public class Puzzle {
         private String name;
         private String solution;
 
-        public Builder withName(String name){
-            if(name == null || name.isBlank())
+        public Builder withName(String name) {
+            if (name == null || name.isBlank())
                 throw new IllegalArgumentException("Puzzle name cannot be empty");
 
             this.name = name;
             return this;
         }
 
-        public Builder withoutSolution(){
+        public Builder withoutSolution() {
             this.solution = "";
             return this;
         }
 
-        public Builder withSolution(String solution){
-            if(solution == null){
+        public Builder withSolution(String solution) {
+            if (solution == null) {
                 throw new IllegalArgumentException("Solution cannot be null for a puzzle");
             }
 
@@ -72,7 +71,7 @@ public class Puzzle {
             return this;
         }
 
-        public Puzzle build(){
+        public Puzzle build() {
             return new Puzzle(name, solution);
         }
     }

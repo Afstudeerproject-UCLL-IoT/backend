@@ -55,11 +55,27 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
     }
 
     @Override
-    public boolean isPresent(Puzzle puzzle) {
-        return context.fetchExists(
-                context.selectOne()
-                        .from(PUZZLE)
-                        .where(PUZZLE.NAME.eq(puzzle.getName()))
-        );
+    public Puzzle get(String puzzleName) {
+        var record = context
+                .select(PUZZLE.NAME, PUZZLE.SOLUTION)
+                .from(PUZZLE)
+                .where(PUZZLE.NAME.eq(puzzleName))
+                .fetchOne();
+
+        if (record != null) {
+            return new Puzzle.Builder()
+                    .withName(record.value1())
+                    .withSolution(record.value2())
+                    .build();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean exists(String puzzleName) {
+        return context.fetchExists(context
+                .selectOne()
+                .from(PUZZLE)
+                .where(PUZZLE.NAME.eq(puzzleName)));
     }
 }

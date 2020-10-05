@@ -12,7 +12,7 @@ class DeviceTest {
 
     @DisplayName("Test if given the right input a device with a puzzle is created")
     @Test
-    public void creatingAValidDeviceWithPuzzleSucceeds(){
+    public void creatingAValidDeviceWithPuzzleSucceeds() {
         var device = new Device.Builder()
                 .withId(1)
                 .fromDeviceName("ARDUINO-AwesomePuzzle1")
@@ -29,7 +29,7 @@ class DeviceTest {
 
     @DisplayName("Test the toString method call")
     @Test
-    public void testToStringMethod(){
+    public void testToStringMethod() {
         var device = new Device.Builder()
                 .withId(1)
                 .fromDeviceName("ARDUINO-AwesomePuzzle1")
@@ -55,7 +55,7 @@ class DeviceTest {
             "-ARDUINO-puzzle1",
             "AARDUINO-puzzle1"
     })
-    public void creatingADeviceWithInvalidInputThrowsAnException(String deviceNameInput){
+    public void creatingADeviceWithInvalidInputThrowsAnException(String deviceNameInput) {
         assertThrows(IllegalArgumentException.class, () -> {
             new Device.Builder()
                     .withoutId()
