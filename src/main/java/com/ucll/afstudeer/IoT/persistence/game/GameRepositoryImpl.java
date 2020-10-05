@@ -68,7 +68,7 @@ public class GameRepositoryImpl implements GameRepository {
                 )
                 .fetchOne();
 
-        if(record == null){
+        if (record == null) {
             return null;
         }
 
@@ -90,7 +90,6 @@ public class GameRepositoryImpl implements GameRepository {
                     context
                             .selectOne()
                             .whereExists(context.selectOne().from(DEVICE).where(DEVICE.ID.eq(subscriber.getId()))
-                                    .andExists(context.selectOne().from(PUZZLE).where(PUZZLE.NAME.isNull()))
                                     .andExists(context.selectOne().from(GAME).where(GAME.NAME.eq(game.getName()))))
             );
         }
