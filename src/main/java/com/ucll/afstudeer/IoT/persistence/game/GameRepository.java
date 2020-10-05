@@ -1,7 +1,10 @@
 package com.ucll.afstudeer.IoT.persistence.game;
 
 
-import com.ucll.afstudeer.IoT.domain.*;
+import com.ucll.afstudeer.IoT.domain.Device;
+import com.ucll.afstudeer.IoT.domain.Game;
+import com.ucll.afstudeer.IoT.domain.GameSession;
+import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.persistence.GenericRepository;
 
 import java.util.List;

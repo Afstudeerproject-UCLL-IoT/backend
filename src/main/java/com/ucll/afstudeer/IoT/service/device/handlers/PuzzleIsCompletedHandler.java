@@ -9,11 +9,11 @@ import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 public class PuzzleIsCompletedHandler {
 
     public static ServiceActionResponse<Boolean> handle(Puzzle puzzle,
-                                               PuzzleRepository puzzleRepository,
-                                               NotificationService notificationService){
+                                                        PuzzleRepository puzzleRepository,
+                                                        NotificationService notificationService) {
 
         // null check
-        if(puzzle == null)
+        if (puzzle == null)
             throw new IllegalArgumentException("Puzzle cannot be null");
 
         // find the devices that are subscribed to this puzzle

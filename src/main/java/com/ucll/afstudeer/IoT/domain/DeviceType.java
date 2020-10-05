@@ -1,5 +1,5 @@
 package com.ucll.afstudeer.IoT.domain;
 
-public enum  DeviceType {
+public enum DeviceType {
     ARDUINO
 }

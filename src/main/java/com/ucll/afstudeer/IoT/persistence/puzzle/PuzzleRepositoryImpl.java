@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static infrastructure.persistence.Tables.*;
-import static infrastructure.persistence.tables.Game.GAME;
 
 
 @Repository

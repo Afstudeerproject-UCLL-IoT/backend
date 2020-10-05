@@ -1,8 +1,6 @@
 package com.ucll.afstudeer.IoT.service.game.handlers;
 
 import com.ucll.afstudeer.IoT.domain.Game;
-import com.ucll.afstudeer.IoT.dto.DevicePuzzleDto;
-import com.ucll.afstudeer.IoT.dto.GameDto;
 import com.ucll.afstudeer.IoT.dto.GamePuzzleEntry;
 import com.ucll.afstudeer.IoT.dto.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;

@@ -5,7 +5,6 @@ import com.ucll.afstudeer.IoT.domain.Event;
 import com.ucll.afstudeer.IoT.service.device.DeviceService;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 import org.springframework.stereotype.Component;
-
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -37,7 +36,7 @@ public class WebSocketServer extends TextWebSocketHandler {
 
         var event = Event.valueOf(payloadSplit[1]);
 
-        switch (event){
+        switch (event) {
             case REGISTER_DEVICE:
                 notificationService.addDeviceConnection(device, session);
                 //deviceService.registerDeviceWithPuzzle(device);

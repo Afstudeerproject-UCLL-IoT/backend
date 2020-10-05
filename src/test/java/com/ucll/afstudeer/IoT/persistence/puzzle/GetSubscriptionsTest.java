@@ -24,7 +24,7 @@ public class GetSubscriptionsTest extends PersistenceBase {
     }
 
     @BeforeEach
-    public void initEach(){
+    public void initEach() {
         game = gameRepository.add(new Game.Builder().withName("Game").build());
 
         device1 = deviceRepository.addDeviceWithPuzzle(new Device.Builder().fromDeviceName("ARDUINO-Puzzle1").build());
@@ -35,7 +35,7 @@ public class GetSubscriptionsTest extends PersistenceBase {
 
 
     @Test
-    public void singleSubscriberCorrectQuery(){
+    public void singleSubscriberCorrectQuery() {
         // do subscription
         gameRepository.addGamePuzzleSubscription(device2, device1.getPuzzle(), game, 2);
         gameRepository.addGamePuzzleSubscription(device1, null, game, 1);
@@ -54,7 +54,7 @@ public class GetSubscriptionsTest extends PersistenceBase {
     }
 
     @Test
-    public void ThreeSubscriberCorrectQuery(){
+    public void ThreeSubscriberCorrectQuery() {
         // do subscription
         gameRepository.addGamePuzzleSubscription(device4, device1.getPuzzle(), game, 2);
         gameRepository.addGamePuzzleSubscription(device3, device1.getPuzzle(), game, 2);
@@ -75,7 +75,7 @@ public class GetSubscriptionsTest extends PersistenceBase {
     }
 
     @Test
-    public void noSubscriberCorrectQuery(){
+    public void noSubscriberCorrectQuery() {
         gameRepository.addGamePuzzleSubscription(device1, null, game, 1);
 
         // check size

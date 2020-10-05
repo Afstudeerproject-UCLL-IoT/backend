@@ -30,7 +30,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void send(Device device, Event event) {
         System.out.println("In send - notification service");
 
-        if(deviceConnections.containsKey(device)){
+        if (deviceConnections.containsKey(device)) {
             System.out.println("In contains key");
 
             var connection = deviceConnections.get(device);
@@ -61,7 +61,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     // helpers
-    private void sendMessage(String message, WebSocketSession session){
+    private void sendMessage(String message, WebSocketSession session) {
         var textMessage = new TextMessage(message);
 
         try {

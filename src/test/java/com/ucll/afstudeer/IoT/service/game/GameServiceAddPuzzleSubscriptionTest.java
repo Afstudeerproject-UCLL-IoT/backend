@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
 
     @Test
-    public void deviceCanSubscribeToPuzzleForAGame(){
+    public void deviceCanSubscribeToPuzzleForAGame() {
         // stub
         when(gameRepository.gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class)))
                 .thenReturn(true);
@@ -43,7 +43,7 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
     }
 
     @Test
-    public void deviceCannotSubscribeToItselfAnAFailedResponseIsReturned(){
+    public void deviceCannotSubscribeToItselfAnAFailedResponseIsReturned() {
         // subscriber
         var subscriber = new Device.Builder()
                 .withId(1)
@@ -71,7 +71,7 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
     }
 
     @Test
-    public void whenSubscriptionIsNotPossibleAFailedResponseIsReturned(){
+    public void whenSubscriptionIsNotPossibleAFailedResponseIsReturned() {
         // stub
         when(gameRepository.gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class)))
                 .thenReturn(false);

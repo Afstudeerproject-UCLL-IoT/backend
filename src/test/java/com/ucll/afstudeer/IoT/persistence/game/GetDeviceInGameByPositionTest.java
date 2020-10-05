@@ -24,7 +24,7 @@ public class GetDeviceInGameByPositionTest extends PersistenceBase {
     }
 
     @BeforeEach
-    public void initEach(){
+    public void initEach() {
         // register 2 devices
         device1 = new Device.Builder()
                 .fromDeviceName("ARDUINO-Puzzle1")
@@ -55,7 +55,7 @@ public class GetDeviceInGameByPositionTest extends PersistenceBase {
     }
 
     @Test
-    public void correctQuery(){
+    public void correctQuery() {
         // get the first device in game 2
         var firstDevice = gameRepository.getDeviceInGameByPosition(game2, 1);
 

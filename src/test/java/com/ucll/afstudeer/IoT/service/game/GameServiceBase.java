@@ -16,7 +16,7 @@ public class GameServiceBase {
     protected GameService gameService;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         gameRepository = Mockito.mock(GameRepository.class);
         notificationService = Mockito.mock(NotificationService.class);
 

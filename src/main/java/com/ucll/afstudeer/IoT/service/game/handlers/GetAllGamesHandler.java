@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 public class GetAllGamesHandler {
 
-    public static ServiceActionResponse<List<GameDto>> handle(GameRepository gameRepository){
-        var result =  gameRepository.getAllGames()
+    public static ServiceActionResponse<List<GameDto>> handle(GameRepository gameRepository) {
+        var result = gameRepository.getAllGames()
                 .stream()
                 .map(game -> new GameDto(game.getName()))
                 .collect(Collectors.toList());

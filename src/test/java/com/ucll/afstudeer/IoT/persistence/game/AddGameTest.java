@@ -21,7 +21,7 @@ public class AddGameTest extends PersistenceBase {
     }
 
     @Test
-    public void gameIsInserted(){
+    public void gameIsInserted() {
         // game that is going to be inserted
         var game = new Game.Builder()
                 .withName("Game1")

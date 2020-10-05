@@ -23,9 +23,9 @@ public class GetAllDevicesWithPuzzlesTest extends PersistenceBase {
     }
 
     @BeforeEach
-    public void initEach(){
+    public void initEach() {
         // create 3 puzzles
-        IntStream.rangeClosed(1,3)
+        IntStream.rangeClosed(1, 3)
                 .forEach(number -> {
                     var device = new Device.Builder()
                             .fromDeviceName("ARDUINO-Puzzle" + number)
@@ -36,14 +36,14 @@ public class GetAllDevicesWithPuzzlesTest extends PersistenceBase {
     }
 
     @Test
-    public void queryIsCorrect(){
+    public void queryIsCorrect() {
         var devices = deviceRepository.getAllDevicesWithPuzzles();
 
         assertEquals(3, devices.size());
-        IntStream.rangeClosed(0,2)
+        IntStream.rangeClosed(0, 2)
                 .forEach(number -> {
                     assertEquals(devices.get(number).getType(), DeviceType.ARDUINO);
-                    assertEquals(devices.get(number).getPuzzle().getName(), "Puzzle" + (number+1));
+                    assertEquals(devices.get(number).getPuzzle().getName(), "Puzzle" + (number + 1));
                 });
     }
 }

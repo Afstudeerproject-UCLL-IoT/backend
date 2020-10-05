@@ -3,13 +3,10 @@ package com.ucll.afstudeer.IoT.persistence.device;
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.persistence.PersistenceBase;
 import org.jooq.DSLContext;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jooq.JooqTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.stream.IntStream;
 
 import static infrastructure.persistence.Tables.DEVICE;
 import static infrastructure.persistence.Tables.PUZZLE;
@@ -25,7 +22,7 @@ public class AddDeviceWithPuzzleTest extends PersistenceBase {
     }
 
     @Test
-    public void deviceWithPuzzleIsInserted(){
+    public void deviceWithPuzzleIsInserted() {
         // device that is going to be inserted
         var device = new Device.Builder()
                 .fromDeviceName("ARDUINO-Puzzle1")

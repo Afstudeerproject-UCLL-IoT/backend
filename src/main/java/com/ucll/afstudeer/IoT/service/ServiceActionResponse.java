@@ -12,11 +12,11 @@ public class ServiceActionResponse<T> {
         this.message = message;
     }
 
-    public ServiceActionResponse(T value){
+    public ServiceActionResponse(T value) {
         this(value, "");
     }
 
-    public ServiceActionResponse(String errorMessage){
+    public ServiceActionResponse(String errorMessage) {
         this(null, errorMessage);
     }
 
@@ -28,11 +28,11 @@ public class ServiceActionResponse<T> {
         return message;
     }
 
-    public static ServiceActionResponse<Boolean> Fail(String errorMessage){
+    public static ServiceActionResponse<Boolean> Fail(String errorMessage) {
         return new ServiceActionResponse<>(false, errorMessage);
     }
 
-    public static ServiceActionResponse<Boolean> Success(){
+    public static ServiceActionResponse<Boolean> Success() {
         return new ServiceActionResponse<>(true, "");
     }
 }

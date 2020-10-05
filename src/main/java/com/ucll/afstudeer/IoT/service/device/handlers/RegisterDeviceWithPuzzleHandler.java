@@ -7,14 +7,14 @@ import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 
 public class RegisterDeviceWithPuzzleHandler {
 
-    public static ServiceActionResponse<Device> handle(Device device, DeviceRepository deviceRepository){
+    public static ServiceActionResponse<Device> handle(Device device, DeviceRepository deviceRepository) {
         // null check
-        if(device == null)
+        if (device == null)
             throw new IllegalArgumentException("Device cannot be null");
 
         // if the device already exists do a connection activity
         var foundDevice = deviceRepository.get(device.getId());
-        if(foundDevice != null){
+        if (foundDevice != null) {
             // TODO log connection
             return new ServiceActionResponse<>(foundDevice);
         }

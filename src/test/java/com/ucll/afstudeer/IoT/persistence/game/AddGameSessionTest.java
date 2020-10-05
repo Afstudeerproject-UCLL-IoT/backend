@@ -23,7 +23,7 @@ public class AddGameSessionTest extends PersistenceBase {
     }
 
     @Test
-    public void gameSessionIsInserted(){
+    public void gameSessionIsInserted() {
         // setup for game
         var game = new Game.Builder()
                 .withName("Game1")

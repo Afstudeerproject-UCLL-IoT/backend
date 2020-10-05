@@ -23,8 +23,8 @@ public class Game {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Game){
-            Game other = (Game)o;
+        if (o instanceof Game) {
+            Game other = (Game) o;
             return other.getName().equals(getName());
         }
         return false;
@@ -36,18 +36,18 @@ public class Game {
     }
 
     // builder
-    public static class Builder{
+    public static class Builder {
         private String name;
 
-        public Builder withName(String name){
-            if(name == null || name.isBlank()){
+        public Builder withName(String name) {
+            if (name == null || name.isBlank()) {
                 throw new IllegalArgumentException("Game name cannot be empty");
             }
             this.name = name;
             return this;
         }
 
-        public Game build(){
+        public Game build() {
             return new Game(name);
         }
     }

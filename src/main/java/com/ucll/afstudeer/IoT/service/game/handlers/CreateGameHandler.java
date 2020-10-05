@@ -7,14 +7,14 @@ import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 
 public class CreateGameHandler {
 
-    public static ServiceActionResponse<Game> handle(Game game, GameRepository gameRepository){
+    public static ServiceActionResponse<Game> handle(Game game, GameRepository gameRepository) {
         // null check
-        if(game == null)
+        if (game == null)
             throw new IllegalArgumentException("Game cannot be null");
 
         // return the game back if it already exists
         var foundGame = gameRepository.get(game.getName());
-        if(foundGame != null)
+        if (foundGame != null)
             return new ServiceActionResponse<>(foundGame);
 
         // persist the game and return it

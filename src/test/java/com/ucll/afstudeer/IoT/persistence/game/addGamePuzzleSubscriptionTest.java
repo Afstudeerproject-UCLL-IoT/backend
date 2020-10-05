@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @JooqTest
 public class addGamePuzzleSubscriptionTest extends PersistenceBase {
 
-    private Device device1,device2,device3;
+    private Device device1, device2, device3;
     private Game game;
 
     public addGamePuzzleSubscriptionTest(@Autowired DSLContext context) {
@@ -25,7 +25,7 @@ public class addGamePuzzleSubscriptionTest extends PersistenceBase {
     }
 
     @BeforeEach
-    public void initEach(){
+    public void initEach() {
         // game with puzzles
         game = new Game.Builder()
                 .withName("Game1")
@@ -43,7 +43,7 @@ public class addGamePuzzleSubscriptionTest extends PersistenceBase {
     }
 
     @Test
-    public void puzzleSubscriptionIsInserted(){
+    public void puzzleSubscriptionIsInserted() {
         // puzzle subscriptions (puzzle1 <- puzzle2 <- puzzle3)
         gameRepository.addGamePuzzleSubscription(device3, device2.getPuzzle(), game, 3);
         gameRepository.addGamePuzzleSubscription(device2, device1.getPuzzle(), game, 2);

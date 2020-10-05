@@ -34,7 +34,7 @@ public class GetAllGamesTest extends PersistenceBase {
     }
 
     @Test
-    public void correctQuery(){
+    public void correctQuery() {
         // create 3 games
         var game1 = gameRepository.add(new Game.Builder().withName("Game1").build());
         var game2 = gameRepository.add(new Game.Builder().withName("Game2").build());

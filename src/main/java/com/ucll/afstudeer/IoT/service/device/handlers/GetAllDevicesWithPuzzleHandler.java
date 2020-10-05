@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class GetAllDevicesWithPuzzleHandler {
 
-    public static ServiceActionResponse<List<DevicePuzzleDto>> handle(DeviceRepository deviceRepository){
+    public static ServiceActionResponse<List<DevicePuzzleDto>> handle(DeviceRepository deviceRepository) {
         var result = deviceRepository.getAllDevicesWithPuzzles()
                 .stream()
                 .map(device -> new DevicePuzzleDto(

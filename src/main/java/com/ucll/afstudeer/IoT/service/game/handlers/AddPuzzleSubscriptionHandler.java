@@ -9,20 +9,20 @@ import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 public class AddPuzzleSubscriptionHandler {
 
     public static ServiceActionResponse<Boolean> handle(Game game,
-                                               Device subscriber,
-                                               Puzzle puzzle,
-                                               int position,
-                                               GameRepository gameRepository){
+                                                        Device subscriber,
+                                                        Puzzle puzzle,
+                                                        int position,
+                                                        GameRepository gameRepository) {
         // null checks
-        if(game == null || subscriber == null)
+        if (game == null || subscriber == null)
             throw new IllegalArgumentException("For a subscription the subscriber and game cannot be null");
 
         // check if it's not trying to subscribe to itself
-        if(subscriber.getPuzzle().equals(puzzle))
+        if (subscriber.getPuzzle().equals(puzzle))
             return ServiceActionResponse.Fail("A device cannot subscribe to it's own puzzle");
 
         // check if the subscription is possible (all entities exist)
-        if(!gameRepository.gamePuzzleSubscriptionIsPossible(subscriber, puzzle, game))
+        if (!gameRepository.gamePuzzleSubscriptionIsPossible(subscriber, puzzle, game))
             return ServiceActionResponse.Fail("The device cannot subscribe to the puzzle for a game because not all entities exist");
 
         // subscribe

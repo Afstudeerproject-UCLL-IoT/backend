@@ -26,7 +26,7 @@ public class GamePuzzleSubscriptionIsPossibleTest extends PersistenceBase {
     }
 
     @BeforeEach
-    public void initEach(){
+    public void initEach() {
         // create all entities
         game = new Game.Builder()
                 .withName("Game1")
@@ -42,7 +42,7 @@ public class GamePuzzleSubscriptionIsPossibleTest extends PersistenceBase {
     }
 
     @Test
-    public void whenAllEntitiesExistTheSubscriptionIsPossible(){
+    public void whenAllEntitiesExistTheSubscriptionIsPossible() {
         // puzzle1 <- puzzle2
         var result1 = gameRepository.gamePuzzleSubscriptionIsPossible(device2, device1.getPuzzle(), game);
         var result2 = gameRepository.gamePuzzleSubscriptionIsPossible(device1, null, game);
@@ -58,7 +58,7 @@ public class GamePuzzleSubscriptionIsPossibleTest extends PersistenceBase {
     }
 
     @Test
-    public void subscriptionWithoutAValidGameReturnsFalse(){
+    public void subscriptionWithoutAValidGameReturnsFalse() {
         var nonExistingGame = new Game.Builder()
                 .withName("NotRealGame")
                 .build();
@@ -68,7 +68,7 @@ public class GamePuzzleSubscriptionIsPossibleTest extends PersistenceBase {
     }
 
     @Test
-    public void subscriptionWithoutAValidPuzzleReturnsFalse(){
+    public void subscriptionWithoutAValidPuzzleReturnsFalse() {
         var nonExistingPuzzle = new Puzzle.Builder()
                 .withName("PuzzleNotThere")
                 .withSolution("candy-man")
@@ -79,7 +79,7 @@ public class GamePuzzleSubscriptionIsPossibleTest extends PersistenceBase {
     }
 
     @Test
-    public void subscriptionWithoutAValidSubscriberDeviceReturnsFalse(){
+    public void subscriptionWithoutAValidSubscriberDeviceReturnsFalse() {
         var nonExistingDevice = new Device.Builder()
                 .fromDeviceName("ARDUINO-Puzzle007")
                 .build();
@@ -89,7 +89,7 @@ public class GamePuzzleSubscriptionIsPossibleTest extends PersistenceBase {
     }
 
     @Test
-    public void subscriptionWithANullPuzzleAndWithoutAValidGameReturnsFalse(){
+    public void subscriptionWithANullPuzzleAndWithoutAValidGameReturnsFalse() {
         var nonExistingGame = new Game.Builder()
                 .withName("NotRealGame")
                 .build();
@@ -97,8 +97,9 @@ public class GamePuzzleSubscriptionIsPossibleTest extends PersistenceBase {
         var result = gameRepository.gamePuzzleSubscriptionIsPossible(device1, null, nonExistingGame);
         assertFalse(result);
     }
+
     @Test
-    public void subscriptionWithANullPuzzleANdWithoutAValidSubscriberDeviceReturnsFalse(){
+    public void subscriptionWithANullPuzzleANdWithoutAValidSubscriberDeviceReturnsFalse() {
         var nonExistingDevice = new Device.Builder()
                 .fromDeviceName("ARDUINO-Puzzle007")
                 .build();

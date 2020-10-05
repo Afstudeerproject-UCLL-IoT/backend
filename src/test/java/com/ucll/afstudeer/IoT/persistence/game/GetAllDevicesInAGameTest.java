@@ -25,7 +25,7 @@ public class GetAllDevicesInAGameTest extends PersistenceBase {
     }
 
     @BeforeEach
-    public void initEach(){
+    public void initEach() {
         // create 3 games
 
         // game 1 (dp1 <- dp2 <- dp3)
@@ -58,7 +58,7 @@ public class GetAllDevicesInAGameTest extends PersistenceBase {
     }
 
     @Test
-    public void gameWith3DevicesReturns3Devices(){
+    public void gameWith3DevicesReturns3Devices() {
         var devices = gameRepository.getAllDevicesInAGame(game1);
         assertEquals(3, devices.size());
 
@@ -68,7 +68,7 @@ public class GetAllDevicesInAGameTest extends PersistenceBase {
     }
 
     @Test
-    public void gameWith2DevicesReturns2Devices(){
+    public void gameWith2DevicesReturns2Devices() {
         var devices = gameRepository.getAllDevicesInAGame(game2);
         assertEquals(2, devices.size());
 
@@ -77,14 +77,15 @@ public class GetAllDevicesInAGameTest extends PersistenceBase {
     }
 
     @Test
-    public void gameWith1DeviceReturns1Device(){
+    public void gameWith1DeviceReturns1Device() {
         var devices = gameRepository.getAllDevicesInAGame(game3);
         assertEquals(1, devices.size());
 
         assertEquals(device6, devices.get(0));
     }
+
     @Test
-    public void gameWithZeroDevicesReturnsEmptyList(){
+    public void gameWithZeroDevicesReturnsEmptyList() {
         var devices = gameRepository.getAllDevicesInAGame(new Game.Builder().withName("NoDevicesGame").build());
         assertEquals(0, devices.size());
     }

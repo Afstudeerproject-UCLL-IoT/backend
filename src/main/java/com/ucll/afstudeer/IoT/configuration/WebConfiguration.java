@@ -32,7 +32,7 @@ public class WebConfiguration {
     }
 
     @Bean
-    public WebSocketConfigurer webSocketConfigurer(){
+    public WebSocketConfigurer webSocketConfigurer() {
         return registry -> registry.addHandler(webSocketServer, "server")
                 .setAllowedOrigins("*");
     }

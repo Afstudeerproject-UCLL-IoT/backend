@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -18,7 +17,7 @@ public class DeviceServicePuzzleIsCompletedTest extends DeviceServiceBase {
 
     @DisplayName("Test that when a puzzle is completed a notification is send to it's subscribers")
     @Test
-    public void completingAPuzzleSendsANotificationOfTheEventToSubscribedDevices(){
+    public void completingAPuzzleSendsANotificationOfTheEventToSubscribedDevices() {
         // create subscriber
         var subscriber = new Device.Builder()
                 .withoutId()
