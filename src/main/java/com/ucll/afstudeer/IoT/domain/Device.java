@@ -40,7 +40,8 @@ public class Device {
     public boolean equals(Object o) {
         if(o instanceof Device){
             var other = (Device)o;
-            return other.getPuzzle().equals(getPuzzle()) &&
+            return other.getId() == getId() &&
+                    other.getPuzzle().equals(getPuzzle()) &&
                     other.getType().equals(getType());
         }
         return false;
@@ -48,7 +49,7 @@ public class Device {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPuzzle(), getType());
+        return Objects.hash(getId(), getPuzzle(), getType());
     }
 
     // builder
