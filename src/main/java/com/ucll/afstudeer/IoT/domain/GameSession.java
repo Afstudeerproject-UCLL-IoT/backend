@@ -41,8 +41,7 @@ public class GameSession {
     public boolean equals(Object o) {
         if (o instanceof GameSession) {
             var other = (GameSession) o;
-            return other.getId() == getId() &&
-                    other.getStart().equals(getStart()) &&
+            return other.getStart().equals(getStart()) &&
                     other.getEnd().equals(getEnd());
         }
         return false;
@@ -50,7 +49,7 @@ public class GameSession {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getStart(), getEnd());
+        return Objects.hash(getStart(), getEnd());
     }
 
     // builder

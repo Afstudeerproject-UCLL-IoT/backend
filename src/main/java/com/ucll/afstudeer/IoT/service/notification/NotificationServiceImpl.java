@@ -28,14 +28,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void send(Device device, Event event) {
-        System.out.println("In send - notification service");
-
         if (deviceConnections.containsKey(device)) {
-            System.out.println("In contains key");
-
             var connection = deviceConnections.get(device);
-
-            System.out.println("Connection " + connection.toString());
             sendMessage(event.toString(), connection);
         }
 

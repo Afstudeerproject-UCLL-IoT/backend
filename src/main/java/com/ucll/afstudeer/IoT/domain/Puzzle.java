@@ -34,15 +34,14 @@ public class Puzzle {
     public boolean equals(Object o) {
         if (o instanceof Puzzle) {
             var other = (Puzzle) o;
-            return other.getName().equals(getName()) &&
-                    other.getSolution().equals(getSolution());
+            return other.getName().equals(getName());
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getSolution());
+        return Objects.hash(getName());
     }
 
     // builder
