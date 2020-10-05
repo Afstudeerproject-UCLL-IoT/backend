@@ -60,23 +60,15 @@ public class GetDeviceInGameByPositionTest extends PersistenceBase {
         var firstDevice = gameRepository.getDeviceInGameByPosition(game2, 1);
 
         assertNotNull(firstDevice);
-        assertEquals(device1.getId(), firstDevice.getId());
-        assertEquals(device1.getType(), firstDevice.getType());
-
-        assertNotNull(device1.getPuzzle());
-        assertEquals(device1.getPuzzle().getName(), firstDevice.getPuzzle().getName());
-        assertEquals(device1.getPuzzle().getSolution(), firstDevice.getPuzzle().getSolution());
+        assertNotNull(firstDevice.getPuzzle());
+        assertEquals(device1, firstDevice);
 
         // get the second device in game 2
         var secondDevice = gameRepository.getDeviceInGameByPosition(game2, 2);
 
         assertNotNull(firstDevice);
-        assertEquals(device2.getId(), secondDevice.getId());
-        assertEquals(device2.getType(), secondDevice.getType());
-
-        assertNotNull(device2.getPuzzle());
-        assertEquals(device2.getPuzzle().getName(), secondDevice.getPuzzle().getName());
-        assertEquals(device2.getPuzzle().getSolution(), secondDevice.getPuzzle().getSolution());
+        assertNotNull(secondDevice.getPuzzle());
+        assertEquals(device2, secondDevice);
 
         // get no device from game 1
         var noDevice1 = gameRepository.getDeviceInGameByPosition(game1, 1);
