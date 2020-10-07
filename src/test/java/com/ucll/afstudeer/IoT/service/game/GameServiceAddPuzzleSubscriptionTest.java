@@ -3,6 +3,7 @@ package com.ucll.afstudeer.IoT.service.game;
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,24 +18,27 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
         when(gameRepository.gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class)))
                 .thenReturn(true);
 
-        // subscriber
         var subscriber = new Device.Builder()
                 .withId(1)
                 .fromDeviceName("ARDUINO-Puzzle1")
                 .build();
 
-        // puzzle
         var puzzle = new Puzzle.Builder()
                 .withName("Puzzle2")
                 .build();
 
-        // game
+        var subscription = new PuzzleSubscription.Builder()
+                .withSubscriber(subscriber)
+                .withPuzzle(puzzle)
+                .withPosition(2)
+                .build();
+
         var game = new Game.Builder()
                 .withName("Game1")
                 .build();
 
         var response = gameService
-                .addPuzzleSubscription(game, subscriber, puzzle, 2)
+                .addPuzzleSubscription(game, subscription)
                 .getValue();
 
         verify(gameRepository).gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
@@ -44,7 +48,6 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
 
     @Test
     public void deviceCannotSubscribeToItselfAnAFailedResponseIsReturned() {
-        // subscriber
         var subscriber = new Device.Builder()
                 .withId(1)
                 .fromDeviceName("ARDUINO-Puzzle1")
@@ -56,12 +59,17 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
                 .withName("Puzzle1")
                 .build();
 
-        // game
+        var subscription = new PuzzleSubscription.Builder()
+                .withSubscriber(subscriber)
+                .withPuzzle(puzzle)
+                .withPosition(2)
+                .build();
+
         var game = new Game.Builder()
                 .withName("Game1")
                 .build();
 
-        var response = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
+        var response = gameService.addPuzzleSubscription(game, subscription);
 
         verify(gameRepository, never()).gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
@@ -76,23 +84,26 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
         when(gameRepository.gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class)))
                 .thenReturn(false);
 
-        // subscriber
         var subscriber = new Device.Builder()
                 .withId(1)
                 .fromDeviceName("ARDUINO-Puzzle1")
                 .build();
 
-        // puzzle
         var puzzle = new Puzzle.Builder()
                 .withName("Puzzle2")
                 .build();
 
-        // game
+        var subscription = new PuzzleSubscription.Builder()
+                .withSubscriber(subscriber)
+                .withPuzzle(puzzle)
+                .withPosition(2)
+                .build();
+
         var game = new Game.Builder()
                 .withName("Game1")
                 .build();
 
-        var response = gameService.addPuzzleSubscription(game, subscriber, puzzle, 2);
+        var response = gameService.addPuzzleSubscription(game, subscription);
 
         verify(gameRepository).gamePuzzleSubscriptionIsPossible(any(Device.class), any(Puzzle.class), any(Game.class));
         verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());

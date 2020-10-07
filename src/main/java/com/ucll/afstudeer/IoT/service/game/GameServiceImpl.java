@@ -1,11 +1,7 @@
 package com.ucll.afstudeer.IoT.service.game;
 
-import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.Game;
-import com.ucll.afstudeer.IoT.domain.GameSession;
-import com.ucll.afstudeer.IoT.domain.Puzzle;
-import com.ucll.afstudeer.IoT.dto.GameDto;
-import com.ucll.afstudeer.IoT.dto.GameWithPuzzlesDto;
+import com.ucll.afstudeer.IoT.domain.*;
+import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 import com.ucll.afstudeer.IoT.service.game.handlers.*;
@@ -41,12 +37,25 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public ServiceActionResponse<Boolean> addPuzzleSubscription(Game game, Device subscriber, Puzzle puzzle, int position) {
-        return AddPuzzleSubscriptionHandler.handle(game, subscriber, puzzle, position, gameRepository);
+    public ServiceActionResponse<Boolean> addPuzzleSubscription(Game game, PuzzleSubscription subscription){
+        return AddPuzzleSubscriptionHandler.handle(game, subscription, gameRepository);
+    }
+
+    // TODO what if 1 subscription fails to add, try again?
+    @Override
+    public ServiceActionResponse<Boolean> addPuzzleSubscriptions(Game game, List<PuzzleSubscription> subscriptions) {
+        var failed = subscriptions.stream()
+                .map(subscription -> addPuzzleSubscription(game, subscription))
+                .anyMatch(response -> !response.getValue()); // check is any response was status failed
+
+        if(failed)
+            return new ServiceActionResponse<>(false);
+
+        return new ServiceActionResponse<>(true);
     }
 
     @Override
-    public ServiceActionResponse<List<GameDto>> getAllGames() {
+    public ServiceActionResponse<List<Game>> getAllGames() {
         return GetAllGamesHandler.handle(gameRepository);
     }
 

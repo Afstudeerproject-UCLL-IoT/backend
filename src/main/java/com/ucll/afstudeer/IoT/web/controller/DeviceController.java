@@ -1,6 +1,6 @@
 package com.ucll.afstudeer.IoT.web.controller;
 
-import com.ucll.afstudeer.IoT.dto.DevicePuzzleDto;
+import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.service.device.DeviceService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ public class DeviceController {
     }
 
     @GetMapping
-    public List<DevicePuzzleDto> getAllDevicesWithPuzzles() {
+    public List<Device> getAllDevicesWithPuzzles() {
         return deviceService
                 .getAllDevicesWithPuzzleHandler()
                 .getValue();

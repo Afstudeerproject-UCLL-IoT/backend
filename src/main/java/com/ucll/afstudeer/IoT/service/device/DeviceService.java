@@ -2,7 +2,6 @@ package com.ucll.afstudeer.IoT.service.device;
 
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
-import com.ucll.afstudeer.IoT.dto.DevicePuzzleDto;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 
 import java.util.List;
@@ -18,5 +17,5 @@ public interface DeviceService {
     ServiceActionResponse<Boolean> puzzleIsCompleted(Puzzle puzzle);
 
     // queries
-    ServiceActionResponse<List<DevicePuzzleDto>> getAllDevicesWithPuzzleHandler();
+    ServiceActionResponse<List<Device>> getAllDevicesWithPuzzleHandler();
 }

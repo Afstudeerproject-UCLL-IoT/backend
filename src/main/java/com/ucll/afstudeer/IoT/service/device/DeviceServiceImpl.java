@@ -2,7 +2,6 @@ package com.ucll.afstudeer.IoT.service.device;
 
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
-import com.ucll.afstudeer.IoT.dto.DevicePuzzleDto;
 import com.ucll.afstudeer.IoT.persistence.device.DeviceRepository;
 import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
@@ -39,7 +38,7 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public ServiceActionResponse<List<DevicePuzzleDto>> getAllDevicesWithPuzzleHandler() {
+    public ServiceActionResponse<List<Device>> getAllDevicesWithPuzzleHandler() {
         return GetAllDevicesWithPuzzleHandler.handle(deviceRepository);
     }
 }
