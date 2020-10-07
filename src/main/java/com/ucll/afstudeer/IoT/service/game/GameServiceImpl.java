@@ -2,6 +2,7 @@ package com.ucll.afstudeer.IoT.service.game;
 
 import com.ucll.afstudeer.IoT.domain.*;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
+import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 import com.ucll.afstudeer.IoT.service.game.handlers.*;
@@ -60,7 +61,12 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public ServiceActionResponse<GameWithPuzzlesDto> getAllPuzzlesInAGame(String gameName) {
-        return GetAllPuzzlesInAGameHandler.handle(gameName, gameRepository);
+    public ServiceActionResponse<GameWithPuzzlesDto> getAllPuzzlesInAGame(Game game) {
+        return GetAllPuzzlesInAGameHandler.handle(game, gameRepository);
+    }
+
+    @Override
+    public ServiceActionResponse<GameWithSessionsDto> getAllGameSessions(Game game) {
+        return GetAllGameSessionsHandler.handle(game, gameRepository);
     }
 }

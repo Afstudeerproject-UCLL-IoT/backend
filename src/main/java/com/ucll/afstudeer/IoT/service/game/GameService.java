@@ -2,6 +2,7 @@ package com.ucll.afstudeer.IoT.service.game;
 
 import com.ucll.afstudeer.IoT.domain.*;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
+import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 
 import java.util.List;
@@ -21,7 +22,9 @@ public interface GameService {
     // queries
     ServiceActionResponse<List<Game>> getAllGames();
 
-    ServiceActionResponse<GameWithPuzzlesDto> getAllPuzzlesInAGame(String gameName);
+    ServiceActionResponse<GameWithPuzzlesDto> getAllPuzzlesInAGame(Game game);
+
+    ServiceActionResponse<GameWithSessionsDto> getAllGameSessions(Game game);
 
 
 }

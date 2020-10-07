@@ -4,6 +4,7 @@ import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
 import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
+import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.service.game.GameService;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,25 @@ public class GameController {
 
     @GetMapping("/{gameName}/puzzle")
     public GameWithPuzzlesDto getAllPuzzlesInAGame(@PathVariable String gameName) {
+        // create game
+        var game = new Game.Builder()
+                .withName(gameName)
+                .build();
+
         return gameService
-                .getAllPuzzlesInAGame(gameName)
+                .getAllPuzzlesInAGame(game)
+                .getValue();
+    }
+
+    @GetMapping("/{gameName}/session")
+    public GameWithSessionsDto getAllGameSessionsInAGame(@PathVariable String gameName) {
+        // create game
+        var game = new Game.Builder()
+                .withName(gameName)
+                .build();
+
+        return gameService
+                .getAllGameSessions(game)
                 .getValue();
     }
 

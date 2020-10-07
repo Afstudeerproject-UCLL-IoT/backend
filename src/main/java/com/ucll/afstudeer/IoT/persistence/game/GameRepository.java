@@ -31,4 +31,6 @@ public interface GameRepository extends GenericRepository<Game, String> {
     // get the devices in the game, the list order is also the order off the puzzles
     List<Device> getAllDevicesInAGame(Game game);
 
+    List<GameSession> getAllGameSessions(Game game);
+
 }

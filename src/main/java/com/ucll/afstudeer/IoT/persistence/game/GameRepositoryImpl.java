@@ -154,6 +154,22 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
+    public List<GameSession> getAllGameSessions(Game game) {
+        var result = context.
+                selectFrom(GAME_SESSION)
+                .where(GAME_SESSION.GAME_NAME.eq(game.getName()))
+                .orderBy(GAME_SESSION.START.asc());
+
+        return result.stream()
+                .map(record -> new GameSession.Builder()
+                        .withId(record.getId())
+                        .withStartTime(record.getStart())
+                        .withEndTime(record.getEnd())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Game get(String gameName) {
         var record = context
                 .select(GAME.NAME)
