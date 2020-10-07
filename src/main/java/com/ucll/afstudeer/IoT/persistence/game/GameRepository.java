@@ -7,6 +7,7 @@ import com.ucll.afstudeer.IoT.domain.GameSession;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.persistence.GenericRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface GameRepository extends GenericRepository<Game, String> {
@@ -16,6 +17,8 @@ public interface GameRepository extends GenericRepository<Game, String> {
 
     // persist a new game session
     GameSession addGameSession(Game game, GameSession session);
+
+    GameSession updateLastGameSessionEndTimeInAGame(Game game, LocalDateTime endTime);
 
     // get the device in a game by it's position
     Device getDeviceInGameByPosition(Game game, int position);

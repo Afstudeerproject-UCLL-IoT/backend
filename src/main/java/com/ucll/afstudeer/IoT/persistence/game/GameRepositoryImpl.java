@@ -6,6 +6,7 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,26 @@ public class GameRepositoryImpl implements GameRepository {
                 .withId(record.value1())
                 .withStartTime(record.value2())
                 .withoutEndTime()
+                .build();
+    }
+
+    @Override
+    public GameSession updateLastGameSessionEndTimeInAGame(Game game, LocalDateTime endTime) {
+        var record = context
+                .update(GAME_SESSION)
+                .set(GAME_SESSION.END, endTime)
+                .where(GAME_SESSION.GAME_NAME.eq(game.getName())
+                        .and(GAME_SESSION.END.isNull()))
+                .returningResult(GAME_SESSION.ID, GAME_SESSION.START, GAME_SESSION.END)
+                .fetchOne();
+
+        if (record == null)
+            return null;
+
+        return new GameSession.Builder()
+                .withId(record.value1())
+                .withStartTime(record.value2())
+                .withEndTime(record.value3())
                 .build();
     }
 

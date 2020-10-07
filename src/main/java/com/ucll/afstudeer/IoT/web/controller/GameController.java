@@ -3,11 +3,13 @@ package com.ucll.afstudeer.IoT.web.controller;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
 import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
+import com.ucll.afstudeer.IoT.dto.in.GameSessionEndTime;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.service.game.GameService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -71,6 +73,18 @@ public class GameController {
 
         // start game
         return gameService.startGame(game)
+                .getValue();
+    }
+
+    @PutMapping("/{gameName}/stop")
+    public GameSession startGame(@PathVariable String gameName, @Valid @RequestBody GameSessionEndTime gameSessionEndTime){
+        // create game
+        var game = new Game.Builder()
+                .withName(gameName)
+                .build();
+
+        // start game
+        return gameService.endGame(game, gameSessionEndTime.getEndTime())
                 .getValue();
     }
 }

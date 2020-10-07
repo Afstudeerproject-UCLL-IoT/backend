@@ -15,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Transactional
 @JooqTest
-public class addGamePuzzleSubscriptionTest extends PersistenceBase {
+public class AddGamePuzzleSubscriptionTest extends PersistenceBase {
 
     private Device device1, device2, device3;
     private Game game;
 
-    public addGamePuzzleSubscriptionTest(@Autowired DSLContext context) {
+    public AddGamePuzzleSubscriptionTest(@Autowired DSLContext context) {
         super(context);
     }
 

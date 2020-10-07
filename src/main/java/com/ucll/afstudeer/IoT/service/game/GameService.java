@@ -5,6 +5,7 @@ import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface GameService {
@@ -13,7 +14,7 @@ public interface GameService {
 
     ServiceActionResponse<GameSession> startGame(Game game);
 
-    ServiceActionResponse<GameSession> endGame(Game game);
+    ServiceActionResponse<GameSession> endGame(Game game, LocalDateTime endTime);
 
     ServiceActionResponse<Boolean> addPuzzleSubscription(Game game, PuzzleSubscription subscription);
 

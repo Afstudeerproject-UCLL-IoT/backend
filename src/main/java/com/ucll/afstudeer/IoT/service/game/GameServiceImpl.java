@@ -9,6 +9,7 @@ import com.ucll.afstudeer.IoT.service.game.handlers.*;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -33,8 +34,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public ServiceActionResponse<GameSession> endGame(Game game) {
-        return null;
+    public ServiceActionResponse<GameSession> endGame(Game game, LocalDateTime endTime) {
+        return EndGameHandler.handle(game, endTime, gameRepository);
     }
 
     @Override
