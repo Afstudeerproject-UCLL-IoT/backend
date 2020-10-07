@@ -1,5 +1,6 @@
 package com.ucll.afstudeer.IoT.persistence.device;
 
+import com.ucll.afstudeer.IoT.domain.ConnectionActivity;
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.DeviceType;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
@@ -7,11 +8,11 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static infrastructure.persistence.Tables.DEVICE;
-import static infrastructure.persistence.Tables.PUZZLE;
+import static infrastructure.persistence.Tables.*;
 
 @Repository
 public class DeviceRepositoryImpl implements DeviceRepository {
@@ -56,6 +57,67 @@ public class DeviceRepositoryImpl implements DeviceRepository {
                                 .withName(record.value3())
                                 .withSolution(record.value4())
                                 .build())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ConnectionActivity addDeviceConnectionActivity(Device device, LocalDateTime online) {
+        // alias
+        var ca = CONNECTION_ACTIVITY.as("ca");
+
+        var record = context
+                .insertInto(ca, ca.ONLINE, ca.OFFLINE, ca.DEVICE_ID)
+                .values(online, null, device.getId())
+                .returningResult(ca.ID, ca.ONLINE, ca.OFFLINE)
+                .fetchOne();
+
+        return new ConnectionActivity.Builder()
+                .withId(record.value1())
+                .withOnlineTime(record.value2())
+                .withOfflineTime(record.value3())
+                .build();
+    }
+
+    @Override
+    public ConnectionActivity setLastDeviceConnectionActivityOfflineTime(Device device, LocalDateTime offline) {
+        // alias
+        var ca = CONNECTION_ACTIVITY.as("ca");
+
+        var record = context
+                .update(ca)
+                .set(ca.OFFLINE, offline)
+                .where(ca.DEVICE_ID.eq(device.getId())
+                        .and(ca.OFFLINE.isNull()))
+                .returningResult(ca.ID, ca.ONLINE, ca.OFFLINE)
+                .fetchOne();
+
+        if (record == null)
+            return null;
+
+        return new ConnectionActivity.Builder()
+                .withId(record.value1())
+                .withOnlineTime(record.value2())
+                .withOfflineTime(record.value3())
+                .build();
+    }
+
+    @Override
+    public List<ConnectionActivity> getConnectionActivity(Device device) {
+        // alias
+        var ca = CONNECTION_ACTIVITY.as("ca");
+
+        var records = context
+                .select(ca.ID, ca.ONLINE, ca.OFFLINE)
+                .from(ca)
+                .where(ca.DEVICE_ID.eq(device.getId()))
+                .fetch();
+
+        return records.stream()
+                .map(record -> new ConnectionActivity.Builder()
+                        .withId(record.value1())
+                        .withOnlineTime(record.value2())
+                        .withOfflineTime(record.value3())
                         .build())
                 .collect(Collectors.toList());
     }

@@ -72,8 +72,18 @@ public class Device {
             return this;
         }
 
+        public Builder withoutPuzzle() {
+            this.puzzle = null;
+            return this;
+        }
+
         public Builder withDeviceType(DeviceType type) {
             this.type = type;
+            return this;
+        }
+
+        public Builder withoutDeviceType() {
+            this.type = DeviceType.NONE;
             return this;
         }
 

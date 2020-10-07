@@ -3,6 +3,7 @@ package com.ucll.afstudeer.IoT.web.controller;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.dto.in.PuzzleNewSolution;
 import com.ucll.afstudeer.IoT.service.device.DeviceService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class PuzzleController {
     }
 
     @PutMapping("/{puzzleName}")
+    @Operation(summary = "Update the solution of an existing puzzle")
     public Puzzle changePuzzleSolution(@Valid @RequestBody PuzzleNewSolution newSolution, @PathVariable String puzzleName){
         // create puzzle
         var puzzle = new Puzzle.Builder()
