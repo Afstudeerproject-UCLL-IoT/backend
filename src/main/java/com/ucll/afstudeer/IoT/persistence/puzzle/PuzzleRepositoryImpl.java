@@ -55,6 +55,24 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
     }
 
     @Override
+    public Puzzle updatePuzzleSolution(Puzzle puzzle, String newSolution) {
+        var record = context
+                .update(PUZZLE)
+                .set(PUZZLE.SOLUTION, newSolution)
+                .where(PUZZLE.NAME.eq(puzzle.getName()))
+                .returningResult(PUZZLE.NAME, PUZZLE.SOLUTION)
+                .fetchOne();
+
+        if(record == null)
+            return null;
+
+        return new Puzzle.Builder()
+                .withName(record.value1())
+                .withSolution(record.value2())
+                .build();
+    }
+
+    @Override
     public Puzzle get(String puzzleName) {
         var record = context
                 .select(PUZZLE.NAME, PUZZLE.SOLUTION)

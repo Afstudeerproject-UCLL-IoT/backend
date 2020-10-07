@@ -6,17 +6,17 @@ import java.time.LocalDateTime;
 public class GameSessionEndTime {
 
     @NotNull
-    private LocalDateTime endTime;
+    private LocalDateTime value;
 
     public GameSessionEndTime() {
 
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public LocalDateTime getValue() {
+        return value;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setValue(LocalDateTime value) {
+        this.value = value;
     }
 }

@@ -8,6 +8,7 @@ import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 import com.ucll.afstudeer.IoT.service.device.handlers.GetAllDevicesWithPuzzleHandler;
 import com.ucll.afstudeer.IoT.service.device.handlers.PuzzleIsCompletedHandler;
 import com.ucll.afstudeer.IoT.service.device.handlers.RegisterDeviceWithPuzzleHandler;
+import com.ucll.afstudeer.IoT.service.device.handlers.UpdatePuzzleSolutionHandler;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,11 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public ServiceActionResponse<Boolean> puzzleIsCompleted(Puzzle puzzle) {
         return PuzzleIsCompletedHandler.handle(puzzle, puzzleRepository, notificationService);
+    }
+
+    @Override
+    public ServiceActionResponse<Puzzle> updatePuzzleSolution(Puzzle puzzle, String newSolution) {
+        return UpdatePuzzleSolutionHandler.handle(puzzle, newSolution, puzzleRepository, notificationService);
     }
 
     @Override

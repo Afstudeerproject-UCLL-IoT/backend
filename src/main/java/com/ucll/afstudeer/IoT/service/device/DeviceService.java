@@ -16,6 +16,8 @@ public interface DeviceService {
     // the puzzle is completed
     ServiceActionResponse<Boolean> puzzleIsCompleted(Puzzle puzzle);
 
+    ServiceActionResponse<Puzzle> updatePuzzleSolution(Puzzle puzzle, String newSolution);
+
     // queries
     ServiceActionResponse<List<Device>> getAllDevicesWithPuzzleHandler();
 }

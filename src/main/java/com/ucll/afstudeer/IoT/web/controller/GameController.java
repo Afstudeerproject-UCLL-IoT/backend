@@ -8,11 +8,13 @@ import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.service.game.GameService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
+@Tag(name = "Game calls")
 @RestController
 @RequestMapping("/game")
 public class GameController {
@@ -91,7 +93,7 @@ public class GameController {
                 .build();
 
         // start game
-        return gameService.endGame(game, gameSessionEndTime.getEndTime())
+        return gameService.endGame(game, gameSessionEndTime.getValue())
                 .getValue();
     }
 }

@@ -35,7 +35,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public ServiceActionResponse<GameSession> endGame(Game game, LocalDateTime endTime) {
-        return EndGameHandler.handle(game, endTime, gameRepository);
+        return EndGameHandler.handle(game, endTime, gameRepository, notificationService);
     }
 
     @Override

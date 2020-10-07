@@ -10,4 +10,7 @@ import java.util.List;
 public interface PuzzleRepository extends GenericRepository<Puzzle, String> {
     // get all the devices that are subscribed to a puzzle
     List<Device> getSubscriptions(Puzzle puzzle);
+
+    // update the solution of a puzzle
+    Puzzle updatePuzzleSolution(Puzzle puzzle, String newSolution);
 }
