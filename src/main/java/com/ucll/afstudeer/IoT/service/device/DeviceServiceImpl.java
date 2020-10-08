@@ -39,11 +39,6 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public ServiceActionResponse<Boolean> puzzleAttemptSuccessful(Puzzle puzzle) {
-        return PuzzleAttemptSuccessfulHandler.handle(puzzle, puzzleRepository, notificationService);
-    }
-
-    @Override
     public ServiceActionResponse<Puzzle> updatePuzzleSolution(Puzzle puzzle, String newSolution) {
         return UpdatePuzzleSolutionHandler.handle(puzzle, newSolution, puzzleRepository, notificationService);
     }

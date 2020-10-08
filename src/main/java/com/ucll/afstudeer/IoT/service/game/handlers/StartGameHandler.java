@@ -35,9 +35,10 @@ public class StartGameHandler {
         var devices = gameRepository.getAllDevicesInAGame(game);
 
         // notify all devices that the game has started
-        devices.forEach(device -> notificationService.send(device, Event.STARTGAME, String.valueOf(addedGameSession.getId())));
+        devices.forEach(device ->
+                notificationService.send(device, Event.STARTGAME, String.valueOf(addedGameSession.getId())));
 
-        // notify the first device that the game has started
+        // notify the first device that it's puzzle can be started
         var firstDevice = devices.get(0);
         notificationService.send(firstDevice, Event.STARTPZL, firstDevice.getPuzzle().getName());
 

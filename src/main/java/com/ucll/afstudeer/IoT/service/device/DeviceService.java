@@ -17,8 +17,6 @@ public interface DeviceService {
 
     ServiceActionResponse<Device> registerFeedbackDevice(Device device);
 
-    ServiceActionResponse<Boolean> puzzleAttemptSuccessful(Puzzle puzzle);
-
     ServiceActionResponse<Puzzle> updatePuzzleSolution(Puzzle puzzle, String newSolution);
 
     ServiceActionResponse<ConnectionActivity> deviceOnline(Device device, LocalDateTime onlineAt);
