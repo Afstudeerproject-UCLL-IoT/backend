@@ -25,7 +25,7 @@ An arduino device can interact with the backend by sending and receiving message
 | The registration details after registering a puzzle | {Event}\_{DeviceId}\_{DeviceType}\_{PuzzleName}\_{PuzzleSolution} | **Receive** | REGDET_1_ARDUINO_Puzzle1_666 |
 | The new solution for a puzzle | {Event}\_{PuzzleName}\_{NewPuzzleSolution} | **Receive** | NEWSOL_Puzzle1_999 |
 | The puzzle can be started | {Event}\_{PuzzleName} | **Receive** | STARTPZL_Puzzle1 |
-| The active game has ended | {Event} |  **Receive** | GAME_ENDED |
+| The active game has ended | {Event} |  **Receive** | ENDGAME |
 | Feedback for failed puzzle attempt | {PuzzleName}\_Solved\_False |  **Receive / Feedback** | Puzzle1_Solved_False |
 | Feedback for successfull puzzle attempt | {PuzzleName}\_Solved\_True |  **Receive / Feedback** | Puzzle1_Solved_True |
 
