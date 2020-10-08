@@ -26,7 +26,9 @@ public class WebConfiguration {
             // TODO fix cors
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
-                registry.addMapping("/**");
+                registry
+                        .addMapping("/**")
+                        .allowedMethods("POST", "GET", "PUT", "DELETE");
             }
         };
     }

@@ -57,7 +57,7 @@ public class NotificationServiceImpl implements NotificationService {
     // helpers
     private void sendMessage(Event event, String data, WebSocketSession session) {
         // create message
-        var payload = String.format("%s_%s", event.toString(), data);
+        var payload = (data == null || data.isBlank()) ? String.format("%s", event.toString()) : String.format("%s_%s", event.toString(), data);
         var message = new TextMessage(payload);
 
         // try to send it
