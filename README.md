@@ -27,3 +27,5 @@ An arduino device can interact with the backend by sending and receiving message
 | The puzzle can be started | {Event}\_{PuzzleName}\_START | **Receive** | PS-Puzzle1-START |
 | Feedback for failed puzzle attempt | {PuzzleName}\_Solved\_False |  **Receive** | Puzzle1_Solved_False |
 | Feedback for successfull puzzle attempt | {PuzzleName}\_Solved\_True |  **Receive** | Puzzle1_Solved_True |
+| The active game has ended | GAME_ENDED |  **Receive** | GAME_ENDED |
+
