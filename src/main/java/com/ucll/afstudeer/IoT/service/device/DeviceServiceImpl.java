@@ -7,7 +7,6 @@ import com.ucll.afstudeer.IoT.persistence.device.DeviceRepository;
 import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 import com.ucll.afstudeer.IoT.service.device.handlers.*;
-import com.ucll.afstudeer.IoT.service.game.handlers.PuzzleAttemptSuccessfulHandler;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +39,7 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public ServiceActionResponse<Puzzle> updatePuzzleSolution(Puzzle puzzle, String newSolution) {
-        return UpdatePuzzleSolutionHandler.handle(puzzle, newSolution, puzzleRepository, notificationService);
+        return UpdatePuzzleSolutionHandler.handle(puzzle, newSolution, deviceRepository, puzzleRepository, notificationService);
     }
 
     @Override
