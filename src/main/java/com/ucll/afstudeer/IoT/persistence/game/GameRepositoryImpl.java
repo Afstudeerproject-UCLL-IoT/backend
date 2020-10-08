@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static infrastructure.persistence.Tables.DEVICE;
+import static infrastructure.persistence.Tables.PUZZLE_ATTEMPT;
 import static infrastructure.persistence.tables.Game.GAME;
 import static infrastructure.persistence.tables.GameSession.GAME_SESSION;
 import static infrastructure.persistence.tables.Puzzle.PUZZLE;
@@ -188,6 +189,33 @@ public class GameRepositoryImpl implements GameRepository {
                         .withEndTime(record.getEnd())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public GameSession getCurrentlyPlayedGameSession(Game game) {
+        // alias
+        var gs = GAME_SESSION.as("gs");
+
+        var record = context
+                .selectFrom(gs)
+                .where(gs.END.isNull())
+                .fetchOne();
+
+        return new GameSession.Builder()
+                .withId(record.getId())
+                .withStartTime(record.getStart())
+                .withEndTime(record.getEnd())
+                .build();
+    }
+
+    @Override
+    public void addPuzzleAttempt(PuzzleAttempt puzzleAttempt) {
+        // alias
+        var pa = PUZZLE_ATTEMPT.as("pa");
+
+        context.insertInto(pa, pa.AT, pa.SUCCESS, pa.PUZZLE_NAME, pa.GAME_SESSION_ID)
+                .values(puzzleAttempt.getAt(), puzzleAttempt.isSuccess(), puzzleAttempt.getPuzzleName(), puzzleAttempt.getGameSessionId())
+                .execute();
     }
 
     @Override

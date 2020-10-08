@@ -20,6 +20,10 @@ public interface GameService {
 
     ServiceActionResponse<Boolean> addPuzzleSubscriptions(Game game, List<PuzzleSubscription> subscriptions);
 
+    ServiceActionResponse<Boolean> puzzleAttemptSuccessful(Puzzle puzzle, int gameSessionId, LocalDateTime at);
+
+    ServiceActionResponse<Boolean> puzzleAttemptFailed(Puzzle puzzle, int gameSessionId, LocalDateTime at);
+
     // queries
     ServiceActionResponse<List<Game>> getAllGames();
 

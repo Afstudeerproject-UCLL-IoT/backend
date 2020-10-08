@@ -5,6 +5,7 @@ import com.ucll.afstudeer.IoT.domain.DeviceType;
 import com.ucll.afstudeer.IoT.domain.Event;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.service.device.DeviceService;
+import com.ucll.afstudeer.IoT.service.game.GameService;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -18,11 +19,13 @@ import java.time.LocalDateTime;
 public class WebSocketServer extends TextWebSocketHandler {
 
     private final DeviceService deviceService;
+    private final GameService gameService;
     private final NotificationService notificationService;
 
-    public WebSocketServer(DeviceService deviceService, NotificationService notificationService) {
+    public WebSocketServer(DeviceService deviceService, GameService gameService, NotificationService notificationService) {
         super();
         this.deviceService = deviceService;
+        this.gameService = gameService;
         this.notificationService = notificationService;
     }
 
@@ -101,6 +104,25 @@ public class WebSocketServer extends TextWebSocketHandler {
             }
 
             case PATMPT:
+                // needed data
+                var puzzleAttemptAt = LocalDateTime.now(); // not 100% accurate
+                var puzzleName = messageSplit[1];
+                var gameSessionId = Integer.parseInt(messageSplit[2]);
+                boolean isSolved = Boolean.getBoolean(messageSplit[3]);
+
+                // create the puzzle
+                var puzzle = new Puzzle.Builder()
+                        .withName(puzzleName)
+                        .withoutSolution()
+                        .build();
+
+                // service call
+                if (isSolved) {
+                    gameService.puzzleAttemptSuccessful(puzzle, gameSessionId, puzzleAttemptAt);
+                } else {
+                    gameService.puzzleAttemptFailed(puzzle, gameSessionId, puzzleAttemptAt);
+                }
+
                 break;
         }
     }

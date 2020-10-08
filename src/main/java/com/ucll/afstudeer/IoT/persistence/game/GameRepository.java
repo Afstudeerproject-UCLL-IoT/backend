@@ -1,10 +1,7 @@
 package com.ucll.afstudeer.IoT.persistence.game;
 
 
-import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.Game;
-import com.ucll.afstudeer.IoT.domain.GameSession;
-import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.domain.*;
 import com.ucll.afstudeer.IoT.persistence.GenericRepository;
 
 import java.time.LocalDateTime;
@@ -35,5 +32,9 @@ public interface GameRepository extends GenericRepository<Game, String> {
     List<Device> getAllDevicesInAGame(Game game);
 
     List<GameSession> getAllGameSessions(Game game);
+
+    GameSession getCurrentlyPlayedGameSession(Game game);
+
+    void addPuzzleAttempt(PuzzleAttempt puzzleAttempt);
 
 }

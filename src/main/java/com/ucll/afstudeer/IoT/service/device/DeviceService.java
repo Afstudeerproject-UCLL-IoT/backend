@@ -17,8 +17,7 @@ public interface DeviceService {
 
     ServiceActionResponse<Device> registerFeedbackDevice(Device device);
 
-    // the puzzle is completed
-    ServiceActionResponse<Boolean> puzzleIsCompleted(Puzzle puzzle);
+    ServiceActionResponse<Boolean> puzzleAttemptSuccessful(Puzzle puzzle);
 
     ServiceActionResponse<Puzzle> updatePuzzleSolution(Puzzle puzzle, String newSolution);
 

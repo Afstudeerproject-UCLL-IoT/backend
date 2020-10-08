@@ -4,6 +4,7 @@ import com.ucll.afstudeer.IoT.domain.*;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
+import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 import com.ucll.afstudeer.IoT.service.game.handlers.*;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
@@ -16,10 +17,12 @@ import java.util.List;
 public class GameServiceImpl implements GameService {
 
     private final GameRepository gameRepository;
+    private final PuzzleRepository puzzleRepository;
     private final NotificationService notificationService;
 
-    public GameServiceImpl(GameRepository gameRepository, NotificationService notificationService) {
+    public GameServiceImpl(GameRepository gameRepository, PuzzleRepository puzzleRepository, NotificationService notificationService) {
         this.gameRepository = gameRepository;
+        this.puzzleRepository = puzzleRepository;
         this.notificationService = notificationService;
     }
 
@@ -54,6 +57,16 @@ public class GameServiceImpl implements GameService {
             return new ServiceActionResponse<>(false);
 
         return new ServiceActionResponse<>(true);
+    }
+
+    @Override
+    public ServiceActionResponse<Boolean> puzzleAttemptSuccessful(Puzzle puzzle, int gameSessionId, LocalDateTime at) {
+        return PuzzleAttemptSuccessfulHandler.handle(puzzle, at, gameSessionId, puzzleRepository, gameRepository, notificationService);
+    }
+
+    @Override
+    public ServiceActionResponse<Boolean> puzzleAttemptFailed(Puzzle puzzle, int gameSessionId, LocalDateTime at) {
+        return PuzzleAttemptFailedHandler.handle(puzzle, at, gameSessionId, gameRepository, notificationService);
     }
 
     @Override

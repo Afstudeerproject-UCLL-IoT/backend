@@ -1,8 +1,9 @@
-package com.ucll.afstudeer.IoT.service.device;
+package com.ucll.afstudeer.IoT.service.game;
 
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Event;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.service.device.DeviceServiceBase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
-public class DeviceServicePuzzleIsCompletedTest extends DeviceServiceBase {
+public class PuzzleAttemptSuccessfulTest extends DeviceServiceBase {
 
     @DisplayName("Test that when a puzzle is completed a notification is send to it's subscribers")
     @Test
@@ -34,9 +35,11 @@ public class DeviceServicePuzzleIsCompletedTest extends DeviceServiceBase {
                 .fromDeviceName("ARDUINO-Puzzle1")
                 .build();
 
-        var response = deviceService.puzzleIsCompleted(device.getPuzzle());
+        var response = deviceService.puzzleAttemptSuccessful(device.getPuzzle());
         verify(puzzleRepository).getSubscriptions(any(Puzzle.class));
         verify(notificationService, atLeastOnce()).send(eq(subscriber), eq(Event.STARTPZL), eq(subscriber.getPuzzle().getName()));
         assertTrue(response.getValue());
     }
+
+    // TODO sent if puzzle attempt is done
 }

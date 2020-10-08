@@ -36,10 +36,10 @@ CREATE TABLE puzzle
 CREATE TABLE puzzle_attempt
 (
     "id"              SERIAL PRIMARY KEY,
-    "start"           timestamp NOT NULL,
-    "end"             timestamp,
+    "at"              timestamp NOT NULL,
     "puzzle_name"     varchar   NOT NULL,
-    "game_session_id" integer   NOT NULL
+    "game_session_id" integer   NOT NULL,
+    "success"         boolean
 );
 
 CREATE TABLE puzzle_subscriber
