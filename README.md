@@ -13,20 +13,31 @@ Spring boot backend for our IoT application
 
 An arduino device can interact with the backend by sending and receiving messages over a websocket. This table describes the nature of these messages:
 - The format of the message so the backend can understand it and the client can parse it.
-- The type of the message indicating if it's a message sent by the client or received by the client. And if it's for the feedback device or not.
+- The type of the message indicating if it's a message sent by the client or received by the client or intended for the feedback device.
 - An example message
 
-| Use case | Format | Type | Example |
-| --- | --- | --- | --- |
-| Registering a puzzle device | {EVENT}\_{DeviceType}\_{PuzzleName}\_{PuzzleSolution} | **Sent** | REGDEVP_ARDUINO_Puzzle1_666 |
-| Registering the only feedback device | {EVENT} |  **Sent** | REGDEVF |
-| The player tries to solve the puzzle but failed | {EVENT}\_{PuzzleName}\_{GameSessionId}\_False |  **Sent** | PATMPT_Puzzle1_123_False |
-| The player solves the puzzle | {EVENT}\_{PuzzleName}\_{GameSessionId}\_True |  **Sent** | PATMPT_Puzzle1_123_True |
-| The registration details after registering a puzzle | {Event}\_{DeviceId}\_{DeviceType}\_{PuzzleName}\_{PuzzleSolution} | **Receive** | REGDET_1_ARDUINO_Puzzle1_666 |
-| The new solution for a puzzle | {Event}\_{PuzzleName}\_{NewPuzzleSolution} | **Receive** | NEWSOL_Puzzle1_999 |
-| The game has started | {Event}\_{GameSessionId} | **Receive** | STARTGAME_123 |
-| The puzzle can be started | {Event}\_{PuzzleName} | **Receive** | STARTPZL_Puzzle1 |
-| The active game has ended | {Event} |  **Receive** | ENDGAME |
-| Feedback for failed puzzle attempt | {PuzzleName}\_Solved\_False |  **Receive / Feedback** | Puzzle1_Solved_False |
-| Feedback for successfull puzzle attempt | {PuzzleName}\_Solved\_True |  **Receive / Feedback** | Puzzle1_Solved_True |
+| Use case | Format | Type |
+| --- | --- | --- | 
+| Registering a puzzle device | {EVENT}\_{DeviceType}\_{PuzzleName}\_{PuzzleSolution} | **Sent** |
+| **Example =>** | REGDEVP_ARDUINO_Puzzle1_666 |
+| Registering the only feedback device | {EVENT} | **Sent** |
+| **Example =>** | REGDEVF |
+| The player tries to solve the puzzle but failed | {EVENT}\_{PuzzleName}\_{GameSessionId}\_false | **Sent** |
+| **Example =>** | PATMPT_Puzzle1_123_false |
+| The player solves the puzzle | {EVENT}\_{PuzzleName}\_{GameSessionId}\_true | **Sent** |
+| **Example =>** | PATMPT_Puzzle1_123_true |
+| The registration details after registering a puzzle | {Event}\_{DeviceId}\_{DeviceType}\_{PuzzleName}\_{PuzzleSolution} | **Receive** |
+| **Example =>** | REGDET_1_ARDUINO_Puzzle1_666 |
+| The new solution for a puzzle | {Event}\_{PuzzleName}\_{NewPuzzleSolution} | **Receive** |
+| **Example =>** | NEWSOL_Puzzle1_999 |
+| The game has started | {Event}\_{GameSessionId} | **Receive** |
+| **Example =>** | STARTGAME_123 |
+| The puzzle can be started | {Event}\_{PuzzleName} | **Receive** |
+| **Example =>** | STARTPZL_Puzzle1 |
+| The active game has ended | {Event} | **Receive** |
+| **Example =>** | ENDGAME |
+| Feedback for failed puzzle attempt | {Event}-{PuzzleName}\_Solved\_false | **Feedback** |
+| **Example =>** | FEEDBACK_Puzzle1_Solved_false |
+| Feedback for successfull puzzle attempt | {Event}-{PuzzleName}\_Solved\_true | **Feedback** |
+| **Example =>** | FEEDBACK_Puzzle1_Solved_true |
 
