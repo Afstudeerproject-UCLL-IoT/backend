@@ -37,7 +37,7 @@ public class WebSocketServer extends TextWebSocketHandler {
 
         switch (event) {
 
-            case REGDEVP:
+            case REGDEVP: {
                 // get the data
                 var onlineAt = LocalDateTime.now(); // not 100% accurate
                 var deviceType = DeviceType.valueOf(messageSplit[1]);
@@ -74,8 +74,32 @@ public class WebSocketServer extends TextWebSocketHandler {
                 // TODO
                 // send it's missed messages
 
-            case REGDEVF:
                 break;
+            }
+
+            case REGDEVF: {
+                // get the data
+                var onlineAt = LocalDateTime.now(); // not 100% accurate
+                var deviceType = DeviceType.ARDUINO_FEEDBACK;
+
+                // create the device with the puzzle
+                var feedbackDevice = new Device.Builder()
+                        .withoutId()
+                        .withDeviceType(deviceType)
+                        .withoutPuzzle()
+                        .build();
+
+                // register the feedback device
+                var feedbackDeviceAdded = deviceService.registerFeedbackDevice(feedbackDevice)
+                        .getValue();
+
+                // log online activity and add session to notification service
+                notificationService.addDeviceConnection(feedbackDeviceAdded, session);
+                deviceService.deviceOnline(feedbackDeviceAdded, onlineAt);
+
+                break;
+            }
+
             case PATMPT:
                 break;
         }

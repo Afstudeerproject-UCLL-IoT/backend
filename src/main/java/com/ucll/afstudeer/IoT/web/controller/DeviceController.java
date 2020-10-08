@@ -23,8 +23,16 @@ public class DeviceController {
         this.deviceService = deviceService;
     }
 
+    @GetMapping("/all")
+    @Operation(summary = "Get all devices")
+    public List<Device> getAllDevices(){
+        return deviceService
+                .getAllDevices()
+                .getValue();
+    }
+
     @GetMapping
-    @Operation(summary = "Get all devices and their puzzles")
+    @Operation(summary = "Get all puzzle devices")
     public List<Device> getAllDevicesWithPuzzles() {
         return deviceService
                 .getAllDevicesWithPuzzleHandler()

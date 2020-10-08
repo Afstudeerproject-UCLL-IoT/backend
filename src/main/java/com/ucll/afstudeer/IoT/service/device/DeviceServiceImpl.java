@@ -33,6 +33,11 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
+    public ServiceActionResponse<Device> registerFeedbackDevice(Device device) {
+        return RegisterFeedbackDeviceHandler.handle(device, deviceRepository);
+    }
+
+    @Override
     public ServiceActionResponse<Boolean> puzzleIsCompleted(Puzzle puzzle) {
         return PuzzleIsCompletedHandler.handle(puzzle, puzzleRepository, notificationService);
     }
@@ -60,5 +65,10 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public ServiceActionResponse<List<ConnectionActivity>> getAllConnectionActivity(Device device) {
         return GetAllConnectionActivityHandler.handle(device, deviceRepository);
+    }
+
+    @Override
+    public ServiceActionResponse<List<Device>> getAllDevices() {
+        return GetAllDevicesHandler.handle(deviceRepository);
     }
 }

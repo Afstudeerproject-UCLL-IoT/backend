@@ -15,6 +15,8 @@ public interface DeviceService {
     // register a device with a puzzle, get the device back with the id set
     ServiceActionResponse<Device> registerDeviceWithPuzzle(Device device);
 
+    ServiceActionResponse<Device> registerFeedbackDevice(Device device);
+
     // the puzzle is completed
     ServiceActionResponse<Boolean> puzzleIsCompleted(Puzzle puzzle);
 
@@ -29,4 +31,6 @@ public interface DeviceService {
     ServiceActionResponse<List<Device>> getAllDevicesWithPuzzleHandler();
 
     ServiceActionResponse<List<ConnectionActivity>> getAllConnectionActivity(Device device);
+
+    ServiceActionResponse<List<Device>> getAllDevices();
 }

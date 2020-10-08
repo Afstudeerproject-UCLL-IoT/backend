@@ -11,6 +11,8 @@ import java.util.List;
 public interface DeviceRepository extends GenericRepository<Device, Integer> {
     Device addDeviceWithPuzzle(Device device);
 
+    Device addFeedbackDevice(Device device);
+
     List<Device> getAllDevicesWithPuzzles();
 
     ConnectionActivity addDeviceConnectionActivity(Device device, LocalDateTime online);
@@ -20,4 +22,6 @@ public interface DeviceRepository extends GenericRepository<Device, Integer> {
     List<ConnectionActivity> getConnectionActivity(Device device);
 
     Device getDeviceByPuzzle(Puzzle puzzle);
+
+    Device getFeedbackDevice();
 }

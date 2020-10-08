@@ -44,6 +44,21 @@ public class DeviceRepositoryImpl implements DeviceRepository {
     }
 
     @Override
+    public Device addFeedbackDevice(Device device) {
+        var deviceId = context.insertInto(DEVICE, DEVICE.TYPE)
+                .values(device.getType().toString())
+                .returningResult(DEVICE.ID)
+                .fetchOne()
+                .getValue(DEVICE.ID);
+
+        return new Device.Builder()
+                .withId(deviceId)
+                .withDeviceType(device.getType())
+                .withoutPuzzle()
+                .build();
+    }
+
+    @Override
     public List<Device> getAllDevicesWithPuzzles() {
         return context
                 .select(DEVICE.ID, DEVICE.TYPE, PUZZLE.NAME, PUZZLE.SOLUTION)
@@ -147,6 +162,24 @@ public class DeviceRepositoryImpl implements DeviceRepository {
                         .withSolution(record.value4())
                         .build())
                 .build();
+    }
+
+    @Override
+    public Device getFeedbackDevice() {
+        var record = context
+                .selectFrom(DEVICE)
+                .where(DEVICE.TYPE.eq(DeviceType.ARDUINO_FEEDBACK.toString()))
+                .fetchOne();
+
+        if(record == null)
+            return null;
+
+        return new Device.Builder()
+                .withId(record.getId())
+                .withDeviceType(DeviceType.valueOf(record.getType()))
+                .withoutPuzzle()
+                .build();
+
     }
 
     @Override
