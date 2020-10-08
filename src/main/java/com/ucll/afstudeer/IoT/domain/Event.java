@@ -19,6 +19,9 @@ public enum Event {
     // Start a puzzle
     STARTPZL,
 
+    // Game has started
+    STARTGAME,
+
     // Game has ended
     ENDGAME
 }

@@ -31,11 +31,15 @@ public class StartGameHandler {
         // persist game with session
         var addedGameSession = gameRepository.addGameSession(game, session);
 
-        // get the first device with puzzle in the game
-        var device = gameRepository.getDeviceInGameByPosition(game, 1);
+        // get all the devices in the game
+        var devices = gameRepository.getAllDevicesInAGame(game);
 
-        // notify the device that the game has started
-        notificationService.send(device, Event.STARTPZL, device.getPuzzle().getName());
+        // notify all devices that the game has started
+        devices.forEach(device -> notificationService.send(device, Event.STARTGAME, String.valueOf(addedGameSession.getId())));
+
+        // notify the first device that the game has started
+        var firstDevice = devices.get(0);
+        notificationService.send(firstDevice, Event.STARTPZL, firstDevice.getPuzzle().getName());
 
         return new ServiceActionResponse<>(addedGameSession);
     }
