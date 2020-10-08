@@ -36,8 +36,8 @@ An arduino device can interact with the backend by sending and receiving message
 | **Example =>** | STARTPZL_Puzzle1 |
 | The active game has ended | {Event} | **Receive** |
 | **Example =>** | ENDGAME |
-| Feedback for failed puzzle attempt | {PuzzleName}\_Solved\_False | **Feedback** |
-| **Example =>** | Puzzle1_Solved_False |
-| Feedback for successfull puzzle attempt | {PuzzleName}\_Solved\_True | **Feedback** |
-| **Example =>** | Puzzle1_Solved_True |
+| Feedback for failed puzzle attempt | {Event}-{PuzzleName}\_Solved\_False | **Feedback** |
+| **Example =>** | FEEDBACK_Puzzle1_Solved_False |
+| Feedback for successfull puzzle attempt | {Event}-{PuzzleName}\_Solved\_True | **Feedback** |
+| **Example =>** | FEEDBACK_Puzzle1_Solved_True |
 
