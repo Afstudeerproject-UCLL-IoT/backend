@@ -108,7 +108,7 @@ public class WebSocketServer extends TextWebSocketHandler {
                 var puzzleAttemptAt = LocalDateTime.now(); // not 100% accurate
                 var puzzleName = messageSplit[1];
                 var gameSessionId = Integer.parseInt(messageSplit[2]);
-                boolean isSolved = Boolean.getBoolean(messageSplit[3]);
+                boolean isSolved = Boolean.parseBoolean(messageSplit[3]);
 
                 // create the puzzle
                 var puzzle = new Puzzle.Builder()

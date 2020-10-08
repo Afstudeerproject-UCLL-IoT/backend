@@ -1,6 +1,7 @@
 package com.ucll.afstudeer.IoT.service.notification;
 
 import com.ucll.afstudeer.IoT.domain.Device;
+import com.ucll.afstudeer.IoT.domain.DeviceType;
 import com.ucll.afstudeer.IoT.domain.Event;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
@@ -18,11 +19,16 @@ public class NotificationServiceImpl implements NotificationService {
     public NotificationServiceImpl() {
         this.deviceConnections = new HashMap<>();
     }
-
-
+    
     @Override
     public void sendToFeedback(String data) {
-        // TODO find all feedback devices
+        deviceConnections.entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().getType().equals(DeviceType.ARDUINO_FEEDBACK))
+                .findFirst()
+                .ifPresent(entry ->
+                        sendMessage(Event.FEEDBACK, data, entry.getValue())
+                );
     }
 
     @Override

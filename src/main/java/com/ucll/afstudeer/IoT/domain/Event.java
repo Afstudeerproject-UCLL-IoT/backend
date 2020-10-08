@@ -23,5 +23,8 @@ public enum Event {
     STARTGAME,
 
     // Game has ended
-    ENDGAME
+    ENDGAME,
+
+    // Feedback
+    FEEDBACK
 }
