@@ -29,7 +29,7 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public ServiceActionResponse<Device> registerDeviceWithPuzzle(Device device) {
-        return RegisterDeviceWithPuzzleHandler.handle(device, deviceRepository, puzzleRepository);
+        return RegisterDeviceWithPuzzleHandler.handle(device, deviceRepository);
     }
 
     @Override
@@ -44,12 +44,12 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public ServiceActionResponse<ConnectionActivity> deviceOnline(Device device, LocalDateTime onlineAt) {
-        return null;
+        return DeviceOnlineHandler.handle(device, onlineAt, deviceRepository);
     }
 
     @Override
     public ServiceActionResponse<ConnectionActivity> deviceOffline(Device device, LocalDateTime offlineAt) {
-        return null;
+        return DeviceOfflineHandler.handle(device, offlineAt, deviceRepository);
     }
 
     @Override

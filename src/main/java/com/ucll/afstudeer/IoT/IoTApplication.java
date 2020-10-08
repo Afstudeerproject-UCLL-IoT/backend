@@ -18,7 +18,7 @@ public class IoTApplication {
         SpringApplication.run(IoTApplication.class, args);
     }
 
-    @Bean
+    //@Bean
     public CommandLineRunner demo(DeviceService deviceService, GameService gameService) {
         return (args) -> {
             // create 3 devices with puzzles

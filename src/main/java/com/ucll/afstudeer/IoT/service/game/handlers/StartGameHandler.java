@@ -35,7 +35,7 @@ public class StartGameHandler {
         var device = gameRepository.getDeviceInGameByPosition(game, 1);
 
         // notify the device that the game has started
-        notificationService.send(device, Event.GAME_STARTED);
+        notificationService.send(device, Event.STARTPZL, device.getPuzzle().getName());
 
         return new ServiceActionResponse<>(addedGameSession);
     }

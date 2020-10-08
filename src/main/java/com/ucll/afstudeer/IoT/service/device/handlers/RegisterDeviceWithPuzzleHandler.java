@@ -9,18 +9,16 @@ import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 public class RegisterDeviceWithPuzzleHandler {
 
     public static ServiceActionResponse<Device> handle(Device device,
-                                                       DeviceRepository deviceRepository,
-                                                       PuzzleRepository puzzleRepository) {
+                                                       DeviceRepository deviceRepository) {
         // null check
-        if (device == null)
-            throw new IllegalArgumentException("Device cannot be null");
+        if (device == null || device.getPuzzle() == null)
+            throw new IllegalArgumentException("Device or puzzle cannot be null");
 
-        // device with puzzle already exists
-        if (puzzleRepository.exists(device.getPuzzle().getName())) {
-            return new ServiceActionResponse<>("The device is already registered");
+        // find the device by puzzle name if it exists return it
+        var foundDevice = deviceRepository.getDeviceByPuzzle(device.getPuzzle());
+        if (foundDevice != null) {
+            return new ServiceActionResponse<>(foundDevice);
         }
-
-        // Notify that the device is registered (TODO)
 
         //persist device with puzzle and get it back with the id
         var addedDevice = deviceRepository.addDeviceWithPuzzle(device);

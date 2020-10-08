@@ -2,6 +2,7 @@ package com.ucll.afstudeer.IoT.persistence.device;
 
 import com.ucll.afstudeer.IoT.domain.ConnectionActivity;
 import com.ucll.afstudeer.IoT.domain.Device;
+import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.persistence.GenericRepository;
 
 import java.time.LocalDateTime;
@@ -17,4 +18,6 @@ public interface DeviceRepository extends GenericRepository<Device, Integer> {
     ConnectionActivity setLastDeviceConnectionActivityOfflineTime(Device device, LocalDateTime offline);
 
     List<ConnectionActivity> getConnectionActivity(Device device);
+
+    Device getDeviceByPuzzle(Puzzle puzzle);
 }

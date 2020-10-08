@@ -1,9 +1,24 @@
 package com.ucll.afstudeer.IoT.domain;
 
 public enum Event {
-    REGISTER_DEVICE,
-    PUZZLE_COMPLETED,
-    PUZZLE_SUBSCRIPTION,
-    GAME_STARTED,
-    GAME_ENDED
+    // Register puzzle device
+    REGDEVP,
+
+    // Register feedback device
+    REGDEVF,
+
+    // Puzzle attempt
+    PATMPT,
+
+    // Registration details
+    REGDET,
+
+    // New puzzle solution
+    NEWSOL,
+
+    // Start a puzzle
+    STARTPZL,
+
+    // Game has ended
+    ENDGAME
 }

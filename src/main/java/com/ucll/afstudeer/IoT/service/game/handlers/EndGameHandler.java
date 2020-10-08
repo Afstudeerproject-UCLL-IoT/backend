@@ -14,16 +14,22 @@ public class EndGameHandler {
     public static ServiceActionResponse<GameSession> handle(Game game,
                                                             LocalDateTime endTime,
                                                             GameRepository gameRepository,
-                                                            NotificationService notificationService){
+                                                            NotificationService notificationService) {
         // null checks
-        if(game == null || endTime == null)
+        if (game == null || endTime == null)
             throw new IllegalArgumentException("For ending a game the game and end time cannot be null");
 
         // TODO check if end time is not before start time
 
+        // update game end time
         var session = gameRepository.updateLastGameSessionEndTimeInAGame(game, endTime);
 
-        notificationService.send(Event.GAME_ENDED);
+        // get all devices in the game
+        var devices = gameRepository.getAllDevicesInAGame(game);
+
+        // sent game ended event to all the devices in that game
+        devices.forEach(device ->
+                notificationService.send(device, Event.ENDGAME, ""));
 
         return new ServiceActionResponse<>(session);
     }

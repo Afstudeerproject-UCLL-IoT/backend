@@ -123,6 +123,33 @@ public class DeviceRepositoryImpl implements DeviceRepository {
     }
 
     @Override
+    public Device getDeviceByPuzzle(Puzzle puzzle) {
+        // aliases
+        var d = DEVICE.as("d");
+        var p = PUZZLE.as("p");
+
+
+        var record = context
+                .select(d.ID, d.TYPE, p.NAME, p.SOLUTION)
+                .from(p.innerJoin(d)
+                        .on(p.NAME.eq(puzzle.getName())
+                                .and(p.DEVICE_OWNER_ID.eq(d.ID))))
+                .fetchOne();
+
+        if (record == null)
+            return null;
+
+        return new Device.Builder()
+                .withId(record.value1())
+                .withDeviceType(DeviceType.valueOf(record.value2()))
+                .withPuzzle(new Puzzle.Builder()
+                        .withName(record.value3())
+                        .withSolution(record.value4())
+                        .build())
+                .build();
+    }
+
+    @Override
     public Device get(Integer deviceId) {
         var record = context
                 .select(DEVICE.ID, DEVICE.TYPE, PUZZLE.NAME, PUZZLE.SOLUTION)

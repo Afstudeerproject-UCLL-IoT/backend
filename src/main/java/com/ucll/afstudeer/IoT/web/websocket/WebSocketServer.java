@@ -1,7 +1,9 @@
 package com.ucll.afstudeer.IoT.web.websocket;
 
 import com.ucll.afstudeer.IoT.domain.Device;
+import com.ucll.afstudeer.IoT.domain.DeviceType;
 import com.ucll.afstudeer.IoT.domain.Event;
+import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.service.device.DeviceService;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,8 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import java.time.LocalDateTime;
 
 @Component
 public class WebSocketServer extends TextWebSocketHandler {
@@ -27,22 +31,52 @@ public class WebSocketServer extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         System.out.println("\n" + "Message: " + message.getPayload() + "\n");
 
-        var payloadSplit = message.getPayload().split("\\.");
-
-        var device = new Device.Builder()
-                .withoutId()
-                .fromDeviceName(payloadSplit[0])
-                .build();
-
-        var event = Event.valueOf(payloadSplit[1]);
+        // parse event
+        var messageSplit = message.getPayload().split("_");
+        var event = Event.valueOf(messageSplit[0]);
 
         switch (event) {
-            case REGISTER_DEVICE:
-                notificationService.addDeviceConnection(device, session);
-                //deviceService.registerDeviceWithPuzzle(device);
+
+            case REGDEVP:
+                // get the data
+                var onlineAt = LocalDateTime.now(); // not 100% accurate
+                var deviceType = DeviceType.valueOf(messageSplit[1]);
+                var puzzleName = messageSplit[2];
+                var puzzleSolution = messageSplit[3];
+
+                // create the device with the puzzle
+                var device = new Device.Builder()
+                        .withoutId()
+                        .withDeviceType(deviceType)
+                        .withPuzzle(new Puzzle.Builder()
+                                .withName(puzzleName)
+                                .withSolution(puzzleSolution)
+                                .build())
+                        .build();
+
+                // register device
+                var registeredDevice = deviceService.registerDeviceWithPuzzle(device)
+                        .getValue();
+
+                // log online activity and add session to notification service
+                notificationService.addDeviceConnection(registeredDevice, session);
+                deviceService.deviceOnline(registeredDevice, onlineAt);
+
+                // give the client it's registration details back
+                var data = String.format("%d_%s_%s_%s",
+                        registeredDevice.getId(),
+                        registeredDevice.getType().toString(),
+                        registeredDevice.getPuzzle().getName(),
+                        registeredDevice.getPuzzle().getSolution());
+
+                notificationService.send(registeredDevice, Event.REGDET, data);
+
+                // TODO
+                // send it's missed messages
+
+            case REGDEVF:
                 break;
-            case PUZZLE_COMPLETED:
-                deviceService.puzzleIsCompleted(device.getPuzzle());
+            case PATMPT:
                 break;
         }
     }

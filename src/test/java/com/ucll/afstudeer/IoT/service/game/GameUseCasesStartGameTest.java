@@ -52,7 +52,7 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
         verify(gameRepository).exists(anyString());
         verify(gameRepository).addGameSession(eq(game), any(GameSession.class));
         verify(gameRepository).getDeviceInGameByPosition(any(Game.class), eq(1));
-        verify(notificationService).send(eq(device), eq(Event.GAME_STARTED));
+        verify(notificationService).send(eq(device), eq(Event.STARTPZL), eq(device.getPuzzle().getName()));
 
         assertNotNull(startedGameSession);
         assertNotNull(startedGameSession.getStart());
@@ -77,7 +77,7 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
         verify(gameRepository).exists(anyString());
         verify(gameRepository, never()).addGameSession(any(Game.class), any(GameSession.class));
         verify(gameRepository, never()).getDeviceInGameByPosition(any(Game.class), eq(1));
-        verify(notificationService, never()).send(any(Device.class), any(Event.class));
+        verify(notificationService, never()).send(any(Device.class), any(Event.class), anyString());
 
         assertNull(response.getValue());
         assertEquals("The game that is going to start does not exist", response.getMessage());
@@ -90,6 +90,6 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
         verify(gameRepository, never()).exists(anyString());
         verify(gameRepository, never()).addGameSession(any(Game.class), any(GameSession.class));
         verify(gameRepository, never()).getDeviceInGameByPosition(any(Game.class), eq(1));
-        verify(notificationService, never()).send(any(Device.class), any(Event.class));
+        verify(notificationService, never()).send(any(Device.class), any(Event.class), anyString());
     }
 }

@@ -19,18 +19,18 @@ public class NotificationServiceImpl implements NotificationService {
         this.deviceConnections = new HashMap<>();
     }
 
-    // send login
+
     @Override
-    public void send(Event event) {
-        deviceConnections.values()
-                .forEach(connection -> sendMessage(event.toString(), connection));
+    public void sendToFeedback(String data) {
+        // TODO find all feedback devices
     }
 
     @Override
-    public void send(Device device, Event event) {
+    public void send(Device device, Event event, String data) {
         if (deviceConnections.containsKey(device)) {
-            var connection = deviceConnections.get(device);
-            sendMessage(event.toString(), connection);
+            // find the session and send the message
+            var session = deviceConnections.get(device);
+            sendMessage(event, data, session);
         }
 
         // TODO handling of connection loss, cache events for later use
@@ -55,11 +55,14 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     // helpers
-    private void sendMessage(String message, WebSocketSession session) {
-        var textMessage = new TextMessage(message);
+    private void sendMessage(Event event, String data, WebSocketSession session) {
+        // create message
+        var payload = String.format("%s_%s", event.toString(), data);
+        var message = new TextMessage(payload);
 
+        // try to send it
         try {
-            session.sendMessage(textMessage);
+            session.sendMessage(message);
         } catch (IOException e) {
             // TODO error handling
             e.printStackTrace();
