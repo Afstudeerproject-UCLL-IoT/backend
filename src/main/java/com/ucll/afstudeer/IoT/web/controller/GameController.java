@@ -4,6 +4,7 @@ import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
 import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
 import com.ucll.afstudeer.IoT.dto.in.GameSessionEndTime;
+import com.ucll.afstudeer.IoT.dto.in.NewGame;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.service.game.GameService;
@@ -58,6 +59,18 @@ public class GameController {
                 .getValue();
     }
 
+    @Operation(summary = "Create a new game")
+    @PostMapping
+    public Game createGame(@RequestBody NewGame newGame){
+        // create game
+        var game = new Game.Builder()
+                .withName(newGame.getGameName())
+                .build();
+
+        return gameService.createGame(game)
+                .getValue();
+    }
+
     @Operation(summary = "Add puzzle subscriptions from a list containing the subscriptions")
     @PostMapping("/{gameName}")
     public boolean addPuzzleSubscriptions(@PathVariable String gameName, @RequestBody List<PuzzleSubscription> subscriptions){
@@ -86,7 +99,7 @@ public class GameController {
 
     @Operation(summary = "Stop an existing game that is started")
     @PutMapping("/{gameName}/stop")
-    public GameSession startGame(@PathVariable String gameName, @Valid @RequestBody GameSessionEndTime gameSessionEndTime){
+    public GameSession stopGame(@PathVariable String gameName, @Valid @RequestBody GameSessionEndTime gameSessionEndTime){
         // create game
         var game = new Game.Builder()
                 .withName(gameName)
