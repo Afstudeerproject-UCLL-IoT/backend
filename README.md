@@ -22,8 +22,8 @@ An arduino device can interact with the backend by sending and receiving message
 | Registering a feedback device | {EVENT}\_{DeviceType} |  **Sent** | REGDEVF_ARDUINO_FEEDBACK |
 | The player tries to solve the puzzle but failed | {EVENT}\_{PuzzleName}\_Solved\_False |  **Sent** | PATMPT_Puzzle1_Solved_False |
 | The player solves the puzzle | {EVENT}\_{PuzzleName}\_Solved\_True |  **Sent** | PATMPT_Puzzle1_Solved_True |
-| The registration details after registering a puzzle | {Event}\_{DeviceId}\_{DeviceType}\_{PuzzleName}\_{PuzzleSolution} | **Receive** | RD-1-ARDUINO-Puzzle1-666 |
-| The new solution for a puzzle | {Event}\_{PuzzleName}\_{NewPuzzleSolution} | **Receive** | NEWSOL-Puzzle1-999 |
+| The registration details after registering a puzzle | {Event}\_{DeviceId}\_{DeviceType}\_{PuzzleName}\_{PuzzleSolution} | **Receive** | RD_1_ARDUINO_Puzzle1_666 |
+| The new solution for a puzzle | {Event}\_{PuzzleName}\_{NewPuzzleSolution} | **Receive** | NEWSOL_Puzzle1_999 |
 | The puzzle can be started | {Event}\_{PuzzleName} | **Receive** | STARTPZL_Puzzle1 |
 | The active game has ended | {Event} |  **Receive** | GAME_ENDED |
 | Feedback for failed puzzle attempt | {PuzzleName}\_Solved\_False |  **Receive / Feedback** | Puzzle1_Solved_False |
