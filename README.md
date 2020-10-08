@@ -25,3 +25,5 @@ An arduino device can interact with the backend by sending and receiving message
 | The registration details after registering a puzzle | {Event}\_{DeviceId}\_{DeviceType}\_{PuzzleName}\_{PuzzleSolution} | **Receive** | RD-1-ARDUINO-Puzzle1-666 |
 | The new solution for a puzzle | {Event}\_{PuzzleName}\_{NewPuzzleSolution} | **Receive** | NS-Puzzle1-999 |
 | The puzzle can be started | {Event}\_{PuzzleName}\_START | **Receive** | PS-Puzzle1-START |
+| Feedback for failed puzzle attempt | {PuzzleName}\_Solved\_False |  **Receive** | Puzzle1_Solved_False |
+| Feedback for successfull puzzle attempt | {PuzzleName}\_Solved\_True |  **Receive** | Puzzle1_Solved_True |
