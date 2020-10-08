@@ -22,10 +22,10 @@ An arduino device can interact with the backend by sending and receiving message
 | **Example =>** | REGDEVP_ARDUINO_Puzzle1_666 |
 | Registering the only feedback device | {EVENT} | **Sent** |
 | **Example =>** | REGDEVF |
-| The player tries to solve the puzzle but failed | {EVENT}\_{PuzzleName}\_{GameSessionId}\_False | **Sent** |
-| **Example =>** | PATMPT_Puzzle1_123_False |
-| The player solves the puzzle | {EVENT}\_{PuzzleName}\_{GameSessionId}\_True | **Sent** |
-| **Example =>** | PATMPT_Puzzle1_123_True |
+| The player tries to solve the puzzle but failed | {EVENT}\_{PuzzleName}\_{GameSessionId}\_false | **Sent** |
+| **Example =>** | PATMPT_Puzzle1_123_false |
+| The player solves the puzzle | {EVENT}\_{PuzzleName}\_{GameSessionId}\_true | **Sent** |
+| **Example =>** | PATMPT_Puzzle1_123_true |
 | The registration details after registering a puzzle | {Event}\_{DeviceId}\_{DeviceType}\_{PuzzleName}\_{PuzzleSolution} | **Receive** |
 | **Example =>** | REGDET_1_ARDUINO_Puzzle1_666 |
 | The new solution for a puzzle | {Event}\_{PuzzleName}\_{NewPuzzleSolution} | **Receive** |
@@ -36,8 +36,8 @@ An arduino device can interact with the backend by sending and receiving message
 | **Example =>** | STARTPZL_Puzzle1 |
 | The active game has ended | {Event} | **Receive** |
 | **Example =>** | ENDGAME |
-| Feedback for failed puzzle attempt | {Event}-{PuzzleName}\_Solved\_False | **Feedback** |
-| **Example =>** | FEEDBACK_Puzzle1_Solved_False |
-| Feedback for successfull puzzle attempt | {Event}-{PuzzleName}\_Solved\_True | **Feedback** |
-| **Example =>** | FEEDBACK_Puzzle1_Solved_True |
+| Feedback for failed puzzle attempt | {Event}-{PuzzleName}\_Solved\_false | **Feedback** |
+| **Example =>** | FEEDBACK_Puzzle1_Solved_false |
+| Feedback for successfull puzzle attempt | {Event}-{PuzzleName}\_Solved\_true | **Feedback** |
+| **Example =>** | FEEDBACK_Puzzle1_Solved_true |
 
