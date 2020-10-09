@@ -14,6 +14,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Component
 public class WebSocketServer extends TextWebSocketHandler {
@@ -32,12 +33,9 @@ public class WebSocketServer extends TextWebSocketHandler {
     // websocket methods
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        var now = LocalDateTime.now();
-        var hour = now.getHour();
-        var minute = now.getMinute();
-        var second = now.getSecond();
+        var now = LocalTime.now();
 
-        var log = String.format("Date [%d:%d:%d], message: %s", hour, minute, second, message.getPayload());
+        var log = String.format("Time [%s], Message: %s", now.toString(), message.getPayload());
         System.out.println(log);
 
         // parse event
