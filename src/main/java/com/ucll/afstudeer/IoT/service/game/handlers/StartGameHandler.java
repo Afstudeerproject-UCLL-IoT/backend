@@ -34,7 +34,10 @@ public class StartGameHandler {
         // get all the devices in the game
         var devices = gameRepository.getAllDevicesInAGame(game);
 
-        // TODO check if devices are found
+        // check if the game has device puzzles
+        if(devices.isEmpty()){
+            return new ServiceActionResponse<>("Game cannot be started because no devices exists for the game");
+        }
 
         // notify all devices that the game has started
         devices.forEach(device ->
