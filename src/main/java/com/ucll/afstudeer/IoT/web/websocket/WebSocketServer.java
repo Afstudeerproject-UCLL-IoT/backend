@@ -32,7 +32,8 @@ public class WebSocketServer extends TextWebSocketHandler {
     // websocket methods
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("\n" + "Message: " + message.getPayload() + "\n");
+        var log = String.format("Date [%s], message: %s", LocalDateTime.now().toString(), message);
+        System.out.println(log);
 
         // parse event
         var messageSplit = message.getPayload().split("_");
