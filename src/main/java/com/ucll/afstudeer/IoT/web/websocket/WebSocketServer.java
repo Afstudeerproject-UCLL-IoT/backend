@@ -62,7 +62,7 @@ public class WebSocketServer extends TextWebSocketHandler {
                         .getValue();
 
                 // log online activity and add session to notification service
-                notificationService.addDeviceConnection(registeredDevice, session);
+                notificationService.addSession(registeredDevice, session);
                 deviceService.deviceOnline(registeredDevice, onlineAt);
 
                 // give the client it's registration details back
@@ -97,7 +97,7 @@ public class WebSocketServer extends TextWebSocketHandler {
                         .getValue();
 
                 // log online activity and add session to notification service
-                notificationService.addDeviceConnection(feedbackDeviceAdded, session);
+                notificationService.addSession(feedbackDeviceAdded, session);
                 deviceService.deviceOnline(feedbackDeviceAdded, onlineAt);
 
                 break;

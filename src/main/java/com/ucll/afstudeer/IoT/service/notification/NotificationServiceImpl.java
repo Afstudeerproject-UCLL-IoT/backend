@@ -44,12 +44,12 @@ public class NotificationServiceImpl implements NotificationService {
 
     // add and remove connection login
     @Override
-    public void addDeviceConnection(Device device, WebSocketSession session) {
+    public void addSession(Device device, WebSocketSession session) {
         deviceConnections.put(device, session);
     }
 
     @Override
-    public void removeDeviceConnection(Device device, WebSocketSession session) {
+    public void removeSession(WebSocketSession session) {
         var key = deviceConnections.entrySet()
                 .stream()
                 .filter(entry -> session.equals(entry.getValue()))

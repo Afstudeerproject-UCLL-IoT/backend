@@ -12,7 +12,7 @@ public interface NotificationService {
     // send the notification of the occurrence of a device to 1 actor
     void send(Device device, Event event, String data);
 
-    void addDeviceConnection(Device device, WebSocketSession session);
+    void addSession(Device device, WebSocketSession session);
 
-    void removeDeviceConnection(Device device, WebSocketSession session);
+    void removeSession(WebSocketSession session);
 }

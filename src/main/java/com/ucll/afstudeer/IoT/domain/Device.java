@@ -40,8 +40,8 @@ public class Device {
     public boolean equals(Object o) {
         if (o instanceof Device) {
             var other = (Device) o;
-            return other.getPuzzle().equals(getPuzzle()) &&
-                    other.getType().equals(getType());
+            return Objects.equals(other.getPuzzle(), getPuzzle()) &&
+                    Objects.equals(other.getType(), getType());
         }
         return false;
     }
