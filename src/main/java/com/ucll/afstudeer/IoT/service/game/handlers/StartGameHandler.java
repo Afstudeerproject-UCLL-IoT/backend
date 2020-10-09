@@ -34,6 +34,8 @@ public class StartGameHandler {
         // get all the devices in the game
         var devices = gameRepository.getAllDevicesInAGame(game);
 
+        // TODO check if devices are found
+
         // notify all devices that the game has started
         devices.forEach(device ->
                 notificationService.send(device, Event.STARTGAME, String.valueOf(addedGameSession.getId())));

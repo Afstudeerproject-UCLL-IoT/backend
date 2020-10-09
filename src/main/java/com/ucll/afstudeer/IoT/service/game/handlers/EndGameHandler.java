@@ -31,6 +31,9 @@ public class EndGameHandler {
         devices.forEach(device ->
                 notificationService.send(device, Event.ENDGAME, ""));
 
+        // send game ended event to feedback device
+        notificationService.sendToFeedback(Event.ENDGAME.toString());
+
         return new ServiceActionResponse<>(session);
     }
 }
