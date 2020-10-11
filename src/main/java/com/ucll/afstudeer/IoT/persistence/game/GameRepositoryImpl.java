@@ -211,6 +211,16 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
+    public void closeAllGameSessionsBeingPlayed() {
+        // do query
+        context
+                .update(GAME_SESSION)
+                .set(GAME_SESSION.END, LocalDateTime.now())
+                .where(GAME_SESSION.END.isNull())
+                .execute();
+    }
+
+    @Override
     public Game get(String gameName) {
         // query
         var record = context

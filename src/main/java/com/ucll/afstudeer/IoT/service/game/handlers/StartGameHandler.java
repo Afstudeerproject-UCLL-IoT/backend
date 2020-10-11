@@ -22,6 +22,9 @@ public class StartGameHandler {
             return new ServiceActionResponse<>(ServiceError.GAME_DOES_NOT_EXIST);
         }
 
+        // close all other game session if they are still are being played, only 1 game session can be active because we have only 1 room
+        gameRepository.closeAllGameSessionsBeingPlayed();
+
         // create a new game session
         var session = new GameSession.Builder()
                 .withoutId()

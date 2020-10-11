@@ -83,5 +83,10 @@ public interface GameRepository extends GenericRepository<Game, String> {
      */
     boolean gameSessionExistsAndIsBeingPlayed(int gameSessionId);
 
+    /**
+     * Close all the game session that are being played in the data store
+     */
+    void closeAllGameSessionsBeingPlayed();
+
     GameSession getCurrentlyPlayedGameSession(Game game);
 }
