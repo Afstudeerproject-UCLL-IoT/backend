@@ -2,7 +2,7 @@ package com.ucll.afstudeer.IoT.service.notification;
 
 
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.Event;
+import com.ucll.afstudeer.IoT.domain.constant.Event;
 import org.springframework.web.socket.WebSocketSession;
 
 public interface NotificationService {

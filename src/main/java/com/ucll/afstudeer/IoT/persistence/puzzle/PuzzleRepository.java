@@ -11,6 +11,11 @@ public interface PuzzleRepository extends GenericRepository<Puzzle, String> {
     // get all the devices that are subscribed to a puzzle
     List<Device> getSubscriptions(Puzzle puzzle);
 
-    // update the solution of a puzzle
+    /**
+     * In the data store change the solution of a puzzle.
+     * @param puzzle The puzzle
+     * @param newSolution The new solution
+     * @return If the puzzle exists and was updated successfully, the puzzle with the new solution is returned otherwise a null value is returned
+     */
     Puzzle updatePuzzleSolution(Puzzle puzzle, String newSolution);
 }

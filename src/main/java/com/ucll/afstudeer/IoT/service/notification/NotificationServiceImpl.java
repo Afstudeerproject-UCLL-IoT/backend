@@ -1,8 +1,8 @@
 package com.ucll.afstudeer.IoT.service.notification;
 
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.DeviceType;
-import com.ucll.afstudeer.IoT.domain.Event;
+import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
+import com.ucll.afstudeer.IoT.domain.constant.Event;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;

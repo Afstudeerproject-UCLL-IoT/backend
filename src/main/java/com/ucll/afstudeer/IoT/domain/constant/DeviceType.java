@@ -1,4 +1,4 @@
-package com.ucll.afstudeer.IoT.domain;
+package com.ucll.afstudeer.IoT.domain.constant;
 
 public enum DeviceType {
     NONE,

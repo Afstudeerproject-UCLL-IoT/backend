@@ -1,5 +1,7 @@
 package com.ucll.afstudeer.IoT.domain;
 
+import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
+
 import java.util.Objects;
 import java.util.regex.Pattern;
 

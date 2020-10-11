@@ -1,6 +1,6 @@
 package com.ucll.afstudeer.IoT.service.game.handlers;
 
-import com.ucll.afstudeer.IoT.domain.Event;
+import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.PuzzleAttempt;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;

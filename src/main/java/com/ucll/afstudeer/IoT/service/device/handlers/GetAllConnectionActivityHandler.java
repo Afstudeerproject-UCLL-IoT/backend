@@ -10,6 +10,7 @@ import java.util.List;
 public class GetAllConnectionActivityHandler {
 
     public static ServiceActionResponse<List<ConnectionActivity>> handle(Device device, DeviceRepository deviceRepository){
+        // null check
         if(device == null)
             throw new IllegalArgumentException("Null device not allowed");
 

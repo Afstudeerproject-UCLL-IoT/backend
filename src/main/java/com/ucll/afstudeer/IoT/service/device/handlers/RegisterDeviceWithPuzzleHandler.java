@@ -20,7 +20,7 @@ public class RegisterDeviceWithPuzzleHandler {
             return new ServiceActionResponse<>(foundDevice);
         }
 
-        //persist device with puzzle and get it back with the id
+        // persist device with puzzle and get it back with the id
         var addedDevice = deviceRepository.addDeviceWithPuzzle(device);
         return new ServiceActionResponse<>(addedDevice);
     }

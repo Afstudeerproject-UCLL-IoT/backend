@@ -1,8 +1,8 @@
 package com.ucll.afstudeer.IoT.web.websocket;
 
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.DeviceType;
-import com.ucll.afstudeer.IoT.domain.Event;
+import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
+import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.service.device.DeviceService;
 import com.ucll.afstudeer.IoT.service.game.GameService;

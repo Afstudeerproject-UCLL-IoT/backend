@@ -1,5 +1,6 @@
 package com.ucll.afstudeer.IoT.domain;
 
+import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

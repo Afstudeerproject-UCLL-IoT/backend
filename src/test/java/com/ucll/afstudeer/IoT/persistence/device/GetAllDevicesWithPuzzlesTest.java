@@ -1,7 +1,7 @@
 package com.ucll.afstudeer.IoT.persistence.device;
 
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.DeviceType;
+import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import com.ucll.afstudeer.IoT.persistence.PersistenceBase;
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.BeforeEach;

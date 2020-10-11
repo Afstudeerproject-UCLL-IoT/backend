@@ -1,7 +1,7 @@
 package com.ucll.afstudeer.IoT.persistence.puzzle;
 
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.DeviceType;
+import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +56,7 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
 
     @Override
     public Puzzle updatePuzzleSolution(Puzzle puzzle, String newSolution) {
+        // query
         var record = context
                 .update(PUZZLE)
                 .set(PUZZLE.SOLUTION, newSolution)
@@ -63,9 +64,11 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
                 .returningResult(PUZZLE.NAME, PUZZLE.SOLUTION)
                 .fetchOne();
 
+        // check if we got the updated puzzle back
         if(record == null)
             return null;
 
+        // create the puzzle with it's new solution and return it
         return new Puzzle.Builder()
                 .withName(record.value1())
                 .withSolution(record.value2())

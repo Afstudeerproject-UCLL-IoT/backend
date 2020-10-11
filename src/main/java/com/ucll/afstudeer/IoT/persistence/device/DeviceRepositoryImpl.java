@@ -2,7 +2,7 @@ package com.ucll.afstudeer.IoT.persistence.device;
 
 import com.ucll.afstudeer.IoT.domain.ConnectionActivity;
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.DeviceType;
+import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +25,20 @@ public class DeviceRepositoryImpl implements DeviceRepository {
 
     @Override
     public Device addDeviceWithPuzzle(Device device) {
+        // insert the device and get it's id back
         var deviceId = context.insertInto(DEVICE, DEVICE.TYPE)
                 .values(device.getType().toString())
                 .returningResult(DEVICE.ID)
                 .fetchOne()
                 .getValue(DEVICE.ID);
 
+        // insert the puzzle
         var puzzle = device.getPuzzle();
         context.insertInto(PUZZLE, PUZZLE.NAME, PUZZLE.SOLUTION, PUZZLE.DEVICE_OWNER_ID)
                 .values(puzzle.getName(), puzzle.getSolution(), deviceId)
                 .execute();
 
+        // build the device with it's puzzle and return it
         return new Device.Builder()
                 .withId(deviceId)
                 .withDeviceType(device.getType())
@@ -45,12 +48,14 @@ public class DeviceRepositoryImpl implements DeviceRepository {
 
     @Override
     public Device addFeedbackDevice(Device device) {
+        // insert the device and get it's id back
         var deviceId = context.insertInto(DEVICE, DEVICE.TYPE)
                 .values(device.getType().toString())
                 .returningResult(DEVICE.ID)
                 .fetchOne()
                 .getValue(DEVICE.ID);
 
+        // build the feedback device and return it
         return new Device.Builder()
                 .withId(deviceId)
                 .withDeviceType(device.getType())
@@ -60,6 +65,7 @@ public class DeviceRepositoryImpl implements DeviceRepository {
 
     @Override
     public List<Device> getAllDevicesWithPuzzles() {
+        // return result from query
         return context
                 .select(DEVICE.ID, DEVICE.TYPE, PUZZLE.NAME, PUZZLE.SOLUTION)
                 .from(DEVICE.innerJoin(PUZZLE).on(DEVICE.ID.eq(PUZZLE.DEVICE_OWNER_ID)))
@@ -81,12 +87,14 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         // alias
         var ca = CONNECTION_ACTIVITY.as("ca");
 
+        // query
         var record = context
                 .insertInto(ca, ca.ONLINE, ca.OFFLINE, ca.DEVICE_ID)
                 .values(online, null, device.getId())
                 .returningResult(ca.ID, ca.ONLINE, ca.OFFLINE)
                 .fetchOne();
 
+        // build the added connection activity and return it
         return new ConnectionActivity.Builder()
                 .withId(record.value1())
                 .withOnlineTime(record.value2())
@@ -122,12 +130,14 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         // alias
         var ca = CONNECTION_ACTIVITY.as("ca");
 
+        // query
         var records = context
                 .select(ca.ID, ca.ONLINE, ca.OFFLINE)
                 .from(ca)
                 .where(ca.DEVICE_ID.eq(device.getId()))
                 .fetch();
 
+        // map and build to connection activity and return the list
         return records.stream()
                 .map(record -> new ConnectionActivity.Builder()
                         .withId(record.value1())
@@ -144,16 +154,19 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         var p = PUZZLE.as("p");
 
 
+        // query
         var record = context
                 .select(d.ID, d.TYPE, p.NAME, p.SOLUTION)
                 .from(p.innerJoin(d)
                         .on(p.NAME.eq(puzzle.getName())
                                 .and(p.DEVICE_OWNER_ID.eq(d.ID))))
-                .fetchOne();
+                .fetchAny();
 
+        // check if the device puzzle is found
         if (record == null)
             return null;
 
+        // build the device puzzle and return it
         return new Device.Builder()
                 .withId(record.value1())
                 .withDeviceType(DeviceType.valueOf(record.value2()))
@@ -166,20 +179,22 @@ public class DeviceRepositoryImpl implements DeviceRepository {
 
     @Override
     public Device getFeedbackDevice() {
+        // query
         var record = context
                 .selectFrom(DEVICE)
                 .where(DEVICE.TYPE.eq(DeviceType.ARDUINO_FEEDBACK.toString()))
-                .fetchOne();
+                .fetchAny();
 
+        // check if the feedback device is found
         if(record == null)
             return null;
 
+        // build the feedback device and return it
         return new Device.Builder()
                 .withId(record.getId())
                 .withDeviceType(DeviceType.valueOf(record.getType()))
                 .withoutPuzzle()
                 .build();
-
     }
 
     @Override
