@@ -46,17 +46,15 @@ public class GameServiceImpl implements GameService {
         return AddPuzzleSubscriptionHandler.handle(game, subscription, gameRepository);
     }
 
-    // TODO what if 1 subscription fails to add, try again?
     @Override
     public ServiceActionResponse<Boolean> addPuzzleSubscriptions(Game game, List<PuzzleSubscription> subscriptions) {
-        var failed = subscriptions.stream()
+        var failedResponse = subscriptions.stream()
                 .map(subscription -> addPuzzleSubscription(game, subscription))
-                .anyMatch(response -> !response.getValue()); // check is any response was status failed
+                .anyMatch(response -> !response.getValue()); // check if any response was status failed
 
-        if(failed)
-            return new ServiceActionResponse<>(false);
+        // TODO what if 1 subscription fails to add, try again?
 
-        return new ServiceActionResponse<>(true);
+        return new ServiceActionResponse<>(!failedResponse);
     }
 
     @Override

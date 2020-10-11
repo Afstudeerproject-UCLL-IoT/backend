@@ -7,6 +7,7 @@ import com.ucll.afstudeer.IoT.domain.GameSession;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,8 +34,8 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
         when(gameRepository.exists(anyString()))
                 .thenReturn(true);
 
-        when(gameRepository.getDeviceInGameByPosition(any(Game.class), anyInt()))
-                .thenReturn(device);
+        when(gameRepository.getAllDevicesInAGame(any(Game.class)))
+                .thenReturn(List.of(device));
 
         when(gameRepository.addGameSession(any(Game.class), any(GameSession.class)))
                 .thenReturn(session);
@@ -51,7 +52,7 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
 
         verify(gameRepository).exists(anyString());
         verify(gameRepository).addGameSession(eq(game), any(GameSession.class));
-        verify(gameRepository).getDeviceInGameByPosition(any(Game.class), eq(1));
+        verify(gameRepository).getAllDevicesInAGame(any(Game.class));
         verify(notificationService).send(eq(device), eq(Event.STARTPZL), eq(device.getPuzzle().getName()));
 
         assertNotNull(startedGameSession);
@@ -76,7 +77,7 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
 
         verify(gameRepository).exists(anyString());
         verify(gameRepository, never()).addGameSession(any(Game.class), any(GameSession.class));
-        verify(gameRepository, never()).getDeviceInGameByPosition(any(Game.class), eq(1));
+        verify(gameRepository, never()).getAllDevicesInAGame(any(Game.class));
         verify(notificationService, never()).send(any(Device.class), any(Event.class), anyString());
 
         assertNull(response.getValue());
@@ -89,7 +90,7 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
 
         verify(gameRepository, never()).exists(anyString());
         verify(gameRepository, never()).addGameSession(any(Game.class), any(GameSession.class));
-        verify(gameRepository, never()).getDeviceInGameByPosition(any(Game.class), eq(1));
+        verify(gameRepository, never()).getAllDevicesInAGame(any(Game.class));
         verify(notificationService, never()).send(any(Device.class), any(Event.class), anyString());
     }
 }

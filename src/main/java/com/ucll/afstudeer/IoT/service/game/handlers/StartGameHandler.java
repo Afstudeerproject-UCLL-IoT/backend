@@ -3,6 +3,7 @@ package com.ucll.afstudeer.IoT.service.game.handlers;
 import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
+import com.ucll.afstudeer.IoT.domain.constant.ServiceError;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
@@ -18,7 +19,7 @@ public class StartGameHandler {
 
         // check if the game that is going to start exists
         if (!gameRepository.exists(game.getName())) {
-            return new ServiceActionResponse<>("The game that is going to start does not exist");
+            return new ServiceActionResponse<>(ServiceError.GAME_DOES_NOT_EXIST);
         }
 
         // create a new game session
@@ -35,9 +36,8 @@ public class StartGameHandler {
         var devices = gameRepository.getAllDevicesInAGame(game);
 
         // check if the game has device puzzles
-        if(devices.isEmpty()){
-            return new ServiceActionResponse<>("Game cannot be started because no devices exists for the game");
-        }
+        if(devices.isEmpty())
+            return new ServiceActionResponse<>(ServiceError.GAME_HAS_NO_PUZZLES);
 
         // notify all devices that the game has started
         devices.forEach(device ->

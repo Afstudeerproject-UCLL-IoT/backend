@@ -29,6 +29,7 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public Game add(Game game) {
+        // insert operation
         context.insertInto(GAME, GAME.NAME)
                 .values(game.getName())
                 .execute();
@@ -38,11 +39,13 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public GameSession addGameSession(Game game, GameSession session) {
+        // query
         var record = context.insertInto(GAME_SESSION, GAME_SESSION.GAME_NAME, GAME_SESSION.START)
                 .values(game.getName(), session.getStart())
                 .returningResult(GAME_SESSION.ID, GAME_SESSION.START)
                 .fetchOne();
 
+        // build game session and return it
         return new GameSession.Builder()
                 .withId(record.value1())
                 .withStartTime(record.value2())
@@ -52,17 +55,21 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public GameSession updateLastGameSessionEndTimeInAGame(Game game, LocalDateTime endTime) {
-        var record = context
+        // query
+        var records = context
                 .update(GAME_SESSION)
                 .set(GAME_SESSION.END, endTime)
                 .where(GAME_SESSION.GAME_NAME.eq(game.getName())
                         .and(GAME_SESSION.END.isNull()))
                 .returningResult(GAME_SESSION.ID, GAME_SESSION.START, GAME_SESSION.END)
-                .fetchOne();
+                .fetch();
 
-        if (record == null)
+        // check if a record has been updated
+        if (records.isEmpty())
             return null;
 
+        // get the first game session, build it and return it
+        var record = records.get(0);
         return new GameSession.Builder()
                 .withId(record.value1())
                 .withStartTime(record.value2())
@@ -71,43 +78,8 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public Device getDeviceInGameByPosition(Game game, int position) {
-        // aliases
-        var d = DEVICE.as("d");
-        var p = PUZZLE.as("p");
-        var ps = PUZZLE_SUBSCRIBER.as("ps");
-
-        // query
-        var record = context.
-                select(d.ID, d.TYPE, p.NAME, p.SOLUTION)
-                .from(d.innerJoin(p).on(d.ID.eq(p.DEVICE_OWNER_ID)))
-                .whereExists(
-                        context
-                                .selectOne()
-                                .from(ps)
-                                .where(ps.SUBSCRIBER_DEVICE_ID.eq(d.ID)
-                                        .and(ps.GAME_NAME.eq(game.getName()))
-                                        .and(ps.POSITION.eq(position)))
-                )
-                .fetchOne();
-
-        if (record == null) {
-            return null;
-        }
-
-        // TODO take a look at a mapper provided by jooq
-        return new Device.Builder()
-                .withId(record.value1())
-                .withDeviceType(DeviceType.valueOf(record.value2()))
-                .withPuzzle(new Puzzle.Builder()
-                        .withName(record.value3())
-                        .withSolution(record.value4())
-                        .build())
-                .build();
-    }
-
-    @Override
     public boolean gamePuzzleSubscriptionIsPossible(Device subscriber, Puzzle puzzle, Game game) {
+        // query with no puzzle
         if (puzzle == null) {
             return context.fetchExists(
                     context
@@ -117,6 +89,7 @@ public class GameRepositoryImpl implements GameRepository {
             );
         }
 
+        // query with puzzle
         return context.fetchExists(
                 context
                         .selectOne()
@@ -128,8 +101,10 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public void addGamePuzzleSubscription(Device subscriber, Puzzle puzzle, Game game, int position) {
+        // alias
         var ps = PUZZLE_SUBSCRIBER.as("ps");
 
+        // query
         context.insertInto(ps, ps.GAME_NAME, ps.SUBSCRIBED_TO_PUZZLE_NAME, ps.SUBSCRIBER_DEVICE_ID, ps.POSITION)
                 .values(game.getName(), puzzle == null ? null : puzzle.getName(), subscriber.getId(), position)
                 .execute();
@@ -137,6 +112,7 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public List<Game> getAllGames() {
+        // return query
         return context
                 .select(GAME.fields())
                 .from(GAME)
@@ -155,6 +131,7 @@ public class GameRepositoryImpl implements GameRepository {
         var p = PUZZLE.as("p");
         var ps = PUZZLE_SUBSCRIBER.as("ps");
 
+        // return the query
         return context
                 .select(d.ID, d.TYPE, p.NAME, p.SOLUTION)
                 .from(
@@ -178,11 +155,13 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public List<GameSession> getAllGameSessions(Game game) {
+        // the query
         var result = context.
                 selectFrom(GAME_SESSION)
                 .where(GAME_SESSION.GAME_NAME.eq(game.getName()))
                 .orderBy(GAME_SESSION.START.asc());
 
+        // build the game sessions and return it
         return result.stream()
                 .map(record -> new GameSession.Builder()
                         .withId(record.getId())
@@ -214,25 +193,41 @@ public class GameRepositoryImpl implements GameRepository {
         // alias
         var pa = PUZZLE_ATTEMPT.as("pa");
 
+        // query
         context.insertInto(pa, pa.AT, pa.SUCCESS, pa.PUZZLE_NAME, pa.GAME_SESSION_ID)
                 .values(puzzleAttempt.getAt(), puzzleAttempt.isSuccess(), puzzleAttempt.getPuzzleName(), puzzleAttempt.getGameSessionId())
                 .execute();
     }
 
     @Override
+    public boolean gameSessionExistsAndIsBeingPlayed(int gameSessionId) {
+        // return query
+        return context.fetchExists(context
+                .selectOne()
+                .from(GAME_SESSION)
+                .where(GAME_SESSION.ID.eq(gameSessionId)
+                        .and(GAME_SESSION.END.isNull()))
+        );
+    }
+
+    @Override
     public Game get(String gameName) {
+        // query
         var record = context
                 .select(GAME.NAME)
                 .from(Tables.GAME)
                 .where(GAME.NAME.eq(gameName))
-                .fetchOne();
+                .fetchAny();
 
-        if (record != null) {
-            return new Game.Builder()
-                    .withName(record.value1())
-                    .build();
+        // check if the game was found
+        if (record == null) {
+            return null;
         }
-        return null;
+
+        // build the game and return it
+        return new Game.Builder()
+                .withName(record.value1())
+                .build();
     }
 
     @Override

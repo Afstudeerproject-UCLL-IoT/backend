@@ -54,13 +54,11 @@ public class AddGamePuzzleSubscriptionTest extends PersistenceBase {
         assertEquals(3, size);
 
         // check if the device can be found by there position and their data is valid
-        var foundDevice1 = gameRepository.getDeviceInGameByPosition(game, 1);
-        var foundDevice2 = gameRepository.getDeviceInGameByPosition(game, 2);
-        var foundDevice3 = gameRepository.getDeviceInGameByPosition(game, 3);
+        var devices = gameRepository.getAllDevicesInAGame(game);
 
-        assertEquals(device1, foundDevice1);
-        assertEquals(device2, foundDevice2);
-        assertEquals(device3, foundDevice3);
+        assertEquals(device1, devices.get(0));
+        assertEquals(device2, devices.get(1));
+        assertEquals(device3, devices.get(2));
     }
 
 

@@ -8,7 +8,11 @@ import com.ucll.afstudeer.IoT.persistence.GenericRepository;
 import java.util.List;
 
 public interface PuzzleRepository extends GenericRepository<Puzzle, String> {
-    // get all the devices that are subscribed to a puzzle
+    /**
+     * Get all the devices that are subscribed to a puzzle
+     * @param puzzle The puzzle
+     * @return A list containing the subscribed devices or an empty list when there are no subscriptions
+     */
     List<Device> getSubscriptions(Puzzle puzzle);
 
     /**

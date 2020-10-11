@@ -6,13 +6,30 @@ import com.ucll.afstudeer.IoT.domain.constant.Event;
 import org.springframework.web.socket.WebSocketSession;
 
 public interface NotificationService {
-    // send the notification of the occurrence of an event to devices that listen for all events
+    /**
+     * Send data to the feedback device
+     * @param data The data in text format
+     */
     void sendToFeedback(String data);
 
-    // send the notification of the occurrence of a device to 1 actor
+    /**
+     * Send an event with data to the device
+     * @param device The device
+     * @param event The event
+     * @param data The date in text format
+     */
     void send(Device device, Event event, String data);
 
+    /**
+     * Add a session to the connection list
+     * @param device The device that holds the session/connection
+     * @param session The session (websocket)
+     */
     void addSession(Device device, WebSocketSession session);
 
+    /**
+     * Remove a session and it's device from the connection list
+     * @param session The session (websocket)
+     */
     void removeSession(WebSocketSession session);
 }

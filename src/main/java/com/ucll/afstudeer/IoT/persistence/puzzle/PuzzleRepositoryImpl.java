@@ -29,6 +29,7 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
         var p = PUZZLE.as("p");
         var ps = PUZZLE_SUBSCRIBER.as("ps");
 
+        // query
         var records = context
                 .select(d.ID, d.TYPE, p.NAME, p.SOLUTION)
                 .from(d.innerJoin(p).on(d.ID.eq(p.DEVICE_OWNER_ID)))
@@ -40,7 +41,7 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
                 )
                 .fetch();
 
-        // TODO take a look at a mapper provided by jooq
+        // build devices and return it
         return records.stream()
                 .map(record -> new Device.Builder()
                         .withId(record.value1())

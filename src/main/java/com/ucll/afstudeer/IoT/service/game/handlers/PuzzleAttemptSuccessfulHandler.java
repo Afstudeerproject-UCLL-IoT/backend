@@ -3,6 +3,7 @@ package com.ucll.afstudeer.IoT.service.game.handlers;
 import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.PuzzleAttempt;
+import com.ucll.afstudeer.IoT.domain.constant.ServiceError;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
@@ -23,6 +24,10 @@ public class PuzzleAttemptSuccessfulHandler {
         if (puzzle == null)
             throw new IllegalArgumentException("Puzzle cannot be null");
 
+        // check if the game session exists and is in use
+        if(gameRepository.gameSessionExistsAndIsBeingPlayed(gameSessionId))
+            return new ServiceActionResponse<>(ServiceError.NO_GAME_SESSION_WAS_ACTIVE);
+
         // send attempt to feedback device
         notificationService.sendToFeedback(String.format("%s_Solved_%b", puzzle.getName(), true));
 
@@ -34,7 +39,7 @@ public class PuzzleAttemptSuccessfulHandler {
                 notificationService.send(device, Event.STARTPZL, device.getPuzzle().getName()));
 
 
-        // create the attempt and add it
+        // create the attempt
         var attempt = new PuzzleAttempt.Builder()
                 .withoutId()
                 .withAttemptAt(at)
@@ -43,8 +48,8 @@ public class PuzzleAttemptSuccessfulHandler {
                 .withGameSessionId(gameSessionId)
                 .build();
 
+        // add the puzzle attempt
         gameRepository.addPuzzleAttempt(attempt);
-
         return ServiceActionResponse.Success();
     }
 }
