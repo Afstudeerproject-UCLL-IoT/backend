@@ -6,7 +6,7 @@ import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 
 public class RegisterFeedbackDeviceHandler {
 
-    public static ServiceActionResponse<Device> handle(Device device, DeviceRepository deviceRepository){
+    public static ServiceActionResponse<Device> handle(Device device, DeviceRepository deviceRepository) {
         // null check
         if (device == null)
             throw new IllegalArgumentException("Device cannot be null for feedback");

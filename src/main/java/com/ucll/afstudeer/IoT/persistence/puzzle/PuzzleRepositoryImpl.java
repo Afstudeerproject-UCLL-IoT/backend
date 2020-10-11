@@ -1,8 +1,8 @@
 package com.ucll.afstudeer.IoT.persistence.puzzle;
 
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -66,7 +66,7 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
                 .fetchOne();
 
         // check if we got the updated puzzle back
-        if(record == null)
+        if (record == null)
             return null;
 
         // create the puzzle with it's new solution and return it

@@ -12,20 +12,20 @@ public class DeviceOfflineHandler {
 
     public static ServiceActionResponse<ConnectionActivity> handle(Device device,
                                                                    LocalDateTime offlineAt,
-                                                                   DeviceRepository deviceRepository){
+                                                                   DeviceRepository deviceRepository) {
         // null checks
-        if(device == null || offlineAt == null)
+        if (device == null || offlineAt == null)
             throw new IllegalArgumentException("Online activity requires a non null device at date time");
 
         // check if the device exists
-        if(!deviceRepository.exists(device.getId()))
+        if (!deviceRepository.exists(device.getId()))
             return new ServiceActionResponse<>(ServiceError.DEVICE_DOES_NOT_EXIST);
 
         // set the offline time
         var connectionActivity = deviceRepository.setLastDeviceConnectionActivityOfflineTime(device, offlineAt);
 
         // check if the offline time was set
-        if(connectionActivity == null)
+        if (connectionActivity == null)
             return new ServiceActionResponse<>(ServiceError.CONNECTION_ACTIVITY_OFFLINE_NOT_SET);
 
         return new ServiceActionResponse<>(connectionActivity);

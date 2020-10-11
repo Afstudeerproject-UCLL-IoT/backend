@@ -25,7 +25,7 @@ socket.addEventListener('open', async function (event) {
 
     // register device
     addToSend("Send message: " + "REGDEVP_" + device)
-    socket.send("REGDEVP_" + device);    
+    socket.send("REGDEVP_" + device);
 });
 
 // Listen for messages
@@ -33,7 +33,7 @@ socket.addEventListener('message', function (event) {
     var message = event.data;
     var event = message.split("_")[0];
 
-    if(event === "STARTGAME"){
+    if (event === "STARTGAME") {
         gameSession = message.split("_")[1];
     }
 

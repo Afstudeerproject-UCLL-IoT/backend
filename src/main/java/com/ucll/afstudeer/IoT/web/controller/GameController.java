@@ -61,7 +61,7 @@ public class GameController {
 
     @Operation(summary = "Create a new game")
     @PostMapping
-    public Game createGame(@RequestBody NewGame newGame){
+    public Game createGame(@RequestBody NewGame newGame) {
         // create game
         var game = new Game.Builder()
                 .withName(newGame.getGameName())
@@ -73,7 +73,7 @@ public class GameController {
 
     @Operation(summary = "Add puzzle subscriptions from a list containing the subscriptions")
     @PostMapping("/{gameName}")
-    public boolean addPuzzleSubscriptions(@PathVariable String gameName, @RequestBody List<PuzzleSubscription> subscriptions){
+    public boolean addPuzzleSubscriptions(@PathVariable String gameName, @RequestBody List<PuzzleSubscription> subscriptions) {
         // create game
         var game = new Game.Builder()
                 .withName(gameName)
@@ -86,7 +86,7 @@ public class GameController {
 
     @Operation(summary = "Start an existing game")
     @GetMapping("/{gameName}/start")
-    public GameSession startGame(@PathVariable String gameName){
+    public GameSession startGame(@PathVariable String gameName) {
         // create game
         var game = new Game.Builder()
                 .withName(gameName)
@@ -99,7 +99,7 @@ public class GameController {
 
     @Operation(summary = "Stop an existing game that is started")
     @PutMapping("/{gameName}/stop")
-    public GameSession stopGame(@PathVariable String gameName, @Valid @RequestBody GameSessionEndTime gameSessionEndTime){
+    public GameSession stopGame(@PathVariable String gameName, @Valid @RequestBody GameSessionEndTime gameSessionEndTime) {
         // create game
         var game = new Game.Builder()
                 .withName(gameName)

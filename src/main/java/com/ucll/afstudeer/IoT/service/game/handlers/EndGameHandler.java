@@ -1,8 +1,8 @@
 package com.ucll.afstudeer.IoT.service.game.handlers;
 
-import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
+import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.constant.ServiceError;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
@@ -29,7 +29,7 @@ public class EndGameHandler {
         var session = gameRepository.updateLastGameSessionEndTimeInAGame(game, endTime);
 
         // check if game session was updated
-        if(session == null)
+        if (session == null)
             return new ServiceActionResponse<>(ServiceError.NO_GAME_SESSION_WAS_ACTIVE);
 
         // get all devices in the game

@@ -1,8 +1,8 @@
 package com.ucll.afstudeer.IoT.service.game.handlers;
 
-import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
+import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.constant.ServiceError;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
@@ -39,7 +39,7 @@ public class StartGameHandler {
         var devices = gameRepository.getAllDevicesInAGame(game);
 
         // check if the game has device puzzles
-        if(devices.isEmpty())
+        if (devices.isEmpty())
             return new ServiceActionResponse<>(ServiceError.GAME_HAS_NO_PUZZLES);
 
         // notify all devices that the game has started

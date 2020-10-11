@@ -35,32 +35,32 @@ public class ConnectionActivity {
         private LocalDateTime online;
         private LocalDateTime offline;
 
-        public Builder withId(int id){
+        public Builder withId(int id) {
             this.id = id;
             return this;
         }
 
-        public Builder withoutId(){
+        public Builder withoutId() {
             this.id = 0;
             return this;
         }
 
-        public Builder withOnlineTime(LocalDateTime online){
+        public Builder withOnlineTime(LocalDateTime online) {
             this.online = online;
             return this;
         }
 
-        public Builder withOfflineTime(LocalDateTime offline){
+        public Builder withOfflineTime(LocalDateTime offline) {
             this.offline = offline;
             return this;
         }
 
-        public Builder withoutOfflineTime(){
+        public Builder withoutOfflineTime() {
             this.offline = null;
             return this;
         }
 
-        public ConnectionActivity build(){
+        public ConnectionActivity build() {
             return new ConnectionActivity(id, online, offline);
         }
     }

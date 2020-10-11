@@ -11,7 +11,7 @@ public class ServiceActionResponse<T> {
 
     private ServiceActionResponse(T value, ServiceError error) {
         this.value = value;
-        this.error  = error;
+        this.error = error;
     }
 
     public ServiceActionResponse(T value) {

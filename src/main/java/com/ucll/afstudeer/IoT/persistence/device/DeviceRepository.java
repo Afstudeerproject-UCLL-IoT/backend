@@ -11,6 +11,7 @@ import java.util.List;
 public interface DeviceRepository extends GenericRepository<Device, Integer> {
     /**
      * Insert a device with it's puzzle to the data store
+     *
      * @param device The device
      * @return The inserted device with it's puzzle and it's identifier set
      */
@@ -18,6 +19,7 @@ public interface DeviceRepository extends GenericRepository<Device, Integer> {
 
     /**
      * Insert the feedback device to the data store
+     *
      * @param device The feedback device
      * @return The inserted feedback device with it's identifier set
      */
@@ -25,12 +27,14 @@ public interface DeviceRepository extends GenericRepository<Device, Integer> {
 
     /**
      * Get all the device puzzles in the data store
+     *
      * @return A list with the device puzzles or an empty list
      */
     List<Device> getAllDevicesWithPuzzles();
 
     /**
      * Insert a device connection activity to the data store
+     *
      * @param device The device
      * @param online The time the device became online
      * @return The inserted connection activity with it's identifier set
@@ -39,7 +43,8 @@ public interface DeviceRepository extends GenericRepository<Device, Integer> {
 
     /**
      * For a device in the data store that is currently set to online, set it's offline time so that the total connection activity is registered
-     * @param device The device
+     *
+     * @param device  The device
      * @param offline The time it was offline
      * @return The complete connection activity or null when it was not found or the device was not online
      */
@@ -47,6 +52,7 @@ public interface DeviceRepository extends GenericRepository<Device, Integer> {
 
     /**
      * Get all the connection activity from a device in the data store
+     *
      * @param device The device
      * @return A list of the connection activity of the device or an empty list when the device was not found
      */
@@ -54,6 +60,7 @@ public interface DeviceRepository extends GenericRepository<Device, Integer> {
 
     /**
      * Retrieve a device from the data store by it's puzzle
+     *
      * @param puzzle The puzzle
      * @return If the device is found by it's puzzle the device is returned otherwise a null value is returned
      */
@@ -61,6 +68,7 @@ public interface DeviceRepository extends GenericRepository<Device, Integer> {
 
     /**
      * Retrieve the feedback device from the data store
+     *
      * @return If the feedback device is found it's returned otherwise a null value is returned
      */
     Device getFeedbackDevice();

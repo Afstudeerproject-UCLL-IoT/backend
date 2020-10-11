@@ -21,7 +21,7 @@ public class PuzzleAttemptFailedHandler {
             throw new IllegalArgumentException("Puzzle cannot be null");
 
         // check if the game session exists and is in use
-        if(gameRepository.gameSessionExistsAndIsBeingPlayed(gameSessionId))
+        if (gameRepository.gameSessionExistsAndIsBeingPlayed(gameSessionId))
             return new ServiceActionResponse<>(ServiceError.NO_GAME_SESSION_WAS_ACTIVE);
 
         // send attempt to feedback device

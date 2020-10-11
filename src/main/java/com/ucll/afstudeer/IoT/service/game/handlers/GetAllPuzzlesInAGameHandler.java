@@ -9,7 +9,7 @@ import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 public class GetAllPuzzlesInAGameHandler {
 
     public static ServiceActionResponse<GameWithPuzzlesDto> handle(Game game, GameRepository gameRepository) {
-        if(game == null)
+        if (game == null)
             throw new IllegalArgumentException("No valid game given");
 
 

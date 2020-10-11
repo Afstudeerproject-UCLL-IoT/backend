@@ -25,7 +25,7 @@ public class DeviceController {
 
     @GetMapping("/all")
     @Operation(summary = "Get all devices")
-    public List<Device> getAllDevices(){
+    public List<Device> getAllDevices() {
         return deviceService
                 .getAllDevices()
                 .getValue();
@@ -41,7 +41,7 @@ public class DeviceController {
 
     @GetMapping("/{deviceId}")
     @Operation(summary = "Get all of the connection activity for an existing device")
-    public List<ConnectionActivity> getConnectionActivity(@PathVariable int deviceId){
+    public List<ConnectionActivity> getConnectionActivity(@PathVariable int deviceId) {
         // create the device
         var device = new Device.Builder()
                 .withId(deviceId)

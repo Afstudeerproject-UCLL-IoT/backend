@@ -7,7 +7,7 @@ socket.addEventListener('open', async function (event) {
 
     // register device
     addToSend("Send message: REGDEVF")
-    socket.send("REGDEVF");    
+    socket.send("REGDEVF");
 });
 
 // Listen for messages

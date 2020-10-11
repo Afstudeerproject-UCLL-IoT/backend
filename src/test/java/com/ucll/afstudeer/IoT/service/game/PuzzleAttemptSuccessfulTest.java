@@ -1,13 +1,12 @@
 package com.ucll.afstudeer.IoT.service.game;
 
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.domain.constant.Event;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

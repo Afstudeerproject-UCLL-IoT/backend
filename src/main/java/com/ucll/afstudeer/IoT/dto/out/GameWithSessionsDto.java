@@ -1,6 +1,5 @@
 package com.ucll.afstudeer.IoT.dto.out;
 
-import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
 

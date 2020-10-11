@@ -183,7 +183,7 @@ public class GameRepositoryImpl implements GameRepository {
                 .fetchAny();
 
         // check if it was found
-        if(record == null){
+        if (record == null) {
             return null;
         }
 

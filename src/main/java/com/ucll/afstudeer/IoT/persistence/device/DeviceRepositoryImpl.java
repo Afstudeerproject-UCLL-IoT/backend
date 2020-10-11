@@ -2,8 +2,8 @@ package com.ucll.afstudeer.IoT.persistence.device;
 
 import com.ucll.afstudeer.IoT.domain.ConnectionActivity;
 import com.ucll.afstudeer.IoT.domain.Device;
-import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -190,7 +190,7 @@ public class DeviceRepositoryImpl implements DeviceRepository {
                 .fetchAny();
 
         // check if the feedback device is found
-        if(record == null)
+        if (record == null)
             return null;
 
         // build the feedback device and return it

@@ -22,7 +22,7 @@ public class PuzzleController {
 
     @PutMapping("/{puzzleName}")
     @Operation(summary = "Update the solution of an existing puzzle")
-    public Puzzle changePuzzleSolution(@Valid @RequestBody PuzzleNewSolution newSolution, @PathVariable String puzzleName){
+    public Puzzle changePuzzleSolution(@Valid @RequestBody PuzzleNewSolution newSolution, @PathVariable String puzzleName) {
         // create puzzle
         var puzzle = new Puzzle.Builder()
                 .withName(puzzleName)

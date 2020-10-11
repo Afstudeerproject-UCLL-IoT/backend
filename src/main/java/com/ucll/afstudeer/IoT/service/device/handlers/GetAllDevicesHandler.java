@@ -9,7 +9,7 @@ import java.util.List;
 
 public class GetAllDevicesHandler {
 
-    public static ServiceActionResponse<List<Device>> handle(DeviceRepository deviceRepository){
+    public static ServiceActionResponse<List<Device>> handle(DeviceRepository deviceRepository) {
         // get the data
         var devicesWithPuzzles = deviceRepository.getAllDevicesWithPuzzles();
         var feedbackDevice = deviceRepository.getFeedbackDevice();
