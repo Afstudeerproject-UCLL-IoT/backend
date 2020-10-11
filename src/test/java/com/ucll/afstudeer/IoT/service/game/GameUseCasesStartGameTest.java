@@ -4,6 +4,7 @@ import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
+import com.ucll.afstudeer.IoT.domain.constant.ServiceError;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -81,7 +82,7 @@ public class GameUseCasesStartGameTest extends GameServiceBase {
         verify(notificationService, never()).send(any(Device.class), any(Event.class), anyString());
 
         assertNull(response.getValue());
-        assertEquals("The game that is going to start does not exist", response.getMessage());
+        assertEquals(ServiceError.GAME_DOES_NOT_EXIST, response.getError());
     }
 
     @Test

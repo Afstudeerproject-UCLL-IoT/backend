@@ -4,6 +4,7 @@ import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
+import com.ucll.afstudeer.IoT.domain.constant.ServiceError;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -75,7 +76,7 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
         verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
 
         assertFalse(response.getValue());
-        assertEquals("A device cannot subscribe to it's own puzzle", response.getMessage());
+        assertEquals(ServiceError.INVALID_PUZZLE_SUBSCRIPTION, response.getError());
     }
 
     @Test
@@ -109,6 +110,6 @@ public class GameServiceAddPuzzleSubscriptionTest extends GameServiceBase {
         verify(gameRepository, never()).addGamePuzzleSubscription(any(Device.class), any(Puzzle.class), any(Game.class), anyInt());
 
         assertFalse(response.getValue());
-        assertEquals("The device cannot subscribe to the puzzle for a game because not all entities exist", response.getMessage());
+        assertEquals(ServiceError.INVALID_PUZZLE_SUBSCRIPTION, response.getError());
     }
 }
