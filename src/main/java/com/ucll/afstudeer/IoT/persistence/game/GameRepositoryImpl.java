@@ -176,11 +176,18 @@ public class GameRepositoryImpl implements GameRepository {
         // alias
         var gs = GAME_SESSION.as("gs");
 
+        // query
         var record = context
                 .selectFrom(gs)
                 .where(gs.END.isNull())
-                .fetchOne();
+                .fetchAny();
 
+        // check if it was found
+        if(record == null){
+            return null;
+        }
+
+        // build the found game session and return it
         return new GameSession.Builder()
                 .withId(record.getId())
                 .withStartTime(record.getStart())

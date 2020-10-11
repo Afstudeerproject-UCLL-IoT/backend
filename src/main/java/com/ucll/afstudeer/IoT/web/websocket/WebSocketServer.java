@@ -1,12 +1,16 @@
 package com.ucll.afstudeer.IoT.web.websocket;
 
-import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import com.ucll.afstudeer.IoT.domain.constant.Event;
-import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.service.device.DeviceService;
 import com.ucll.afstudeer.IoT.service.game.GameService;
 import com.ucll.afstudeer.IoT.service.notification.NotificationService;
+import com.ucll.afstudeer.IoT.web.websocket.handler.PuzzleAttemptHandler;
+import com.ucll.afstudeer.IoT.web.websocket.handler.RegisterDeviceFeedbackHandler;
+import com.ucll.afstudeer.IoT.web.websocket.handler.RegisterDevicePuzzleHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -22,6 +26,7 @@ public class WebSocketServer extends TextWebSocketHandler {
     private final DeviceService deviceService;
     private final GameService gameService;
     private final NotificationService notificationService;
+    private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
 
     public WebSocketServer(DeviceService deviceService, GameService gameService, NotificationService notificationService) {
         super();
@@ -32,18 +37,15 @@ public class WebSocketServer extends TextWebSocketHandler {
 
     // websocket methods
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        var now = LocalTime.now();
-
-        var log = String.format("Time [%s], Message: %s", now.toString(), message.getPayload());
-        System.out.println(log);
+    protected void handleTextMessage(@NonNull WebSocketSession session, TextMessage message) throws Exception {
+        // log message that we received
+        logger.info(String.format("Time [%s], Message: %s", LocalTime.now().toString(), message.getPayload()));
 
         // parse event
         var messageSplit = message.getPayload().split("_");
         var event = Event.valueOf(messageSplit[0]);
 
         switch (event) {
-
             case REGDEVP: {
                 // get the data
                 var onlineAt = LocalDateTime.now(); // not 100% accurate
@@ -51,36 +53,8 @@ public class WebSocketServer extends TextWebSocketHandler {
                 var puzzleName = messageSplit[2];
                 var puzzleSolution = messageSplit[3];
 
-                // create the device with the puzzle
-                var device = new Device.Builder()
-                        .withoutId()
-                        .withDeviceType(deviceType)
-                        .withPuzzle(new Puzzle.Builder()
-                                .withName(puzzleName)
-                                .withSolution(puzzleSolution)
-                                .build())
-                        .build();
-
-                // register device
-                var registeredDevice = deviceService.registerDeviceWithPuzzle(device)
-                        .getValue();
-
-                // log online activity and add session to notification service
-                notificationService.addSession(registeredDevice, session);
-                deviceService.deviceOnline(registeredDevice, onlineAt);
-
-                // give the client it's registration details back
-                var data = String.format("%d_%s_%s_%s",
-                        registeredDevice.getId(),
-                        registeredDevice.getType().toString(),
-                        registeredDevice.getPuzzle().getName(),
-                        registeredDevice.getPuzzle().getSolution());
-
-                notificationService.send(registeredDevice, Event.REGDET, data);
-
-                // TODO
-                // send it's missed messages
-
+                // handle the event
+                RegisterDevicePuzzleHandler.handle(onlineAt, deviceType, puzzleName, puzzleSolution, deviceService, notificationService, session);
                 break;
             }
 
@@ -89,21 +63,8 @@ public class WebSocketServer extends TextWebSocketHandler {
                 var onlineAt = LocalDateTime.now(); // not 100% accurate
                 var deviceType = DeviceType.ARDUINO_FEEDBACK;
 
-                // create the device with the puzzle
-                var feedbackDevice = new Device.Builder()
-                        .withoutId()
-                        .withDeviceType(deviceType)
-                        .withoutPuzzle()
-                        .build();
-
-                // register the feedback device
-                var feedbackDeviceAdded = deviceService.registerFeedbackDevice(feedbackDevice)
-                        .getValue();
-
-                // log online activity and add session to notification service
-                notificationService.addSession(feedbackDeviceAdded, session);
-                deviceService.deviceOnline(feedbackDeviceAdded, onlineAt);
-
+                // handle the event
+                RegisterDeviceFeedbackHandler.handle(onlineAt, deviceType, deviceService, notificationService, session);
                 break;
             }
 
@@ -114,26 +75,28 @@ public class WebSocketServer extends TextWebSocketHandler {
                 var gameSessionId = Integer.parseInt(messageSplit[2]);
                 boolean isSolved = Boolean.parseBoolean(messageSplit[3]);
 
-                // create the puzzle
-                var puzzle = new Puzzle.Builder()
-                        .withName(puzzleName)
-                        .withoutSolution()
-                        .build();
-
-                // service call
-                if (isSolved) {
-                    gameService.puzzleAttemptSuccessful(puzzle, gameSessionId, puzzleAttemptAt);
-                } else {
-                    gameService.puzzleAttemptFailed(puzzle, gameSessionId, puzzleAttemptAt);
-                }
-
+                // handle the event
+                PuzzleAttemptHandler.handle(puzzleAttemptAt, puzzleName, gameSessionId, isSolved, gameService);
                 break;
         }
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) throws Exception {
+        // data
+        var offlineAt = LocalDateTime.now();
+        var device = notificationService.getDeviceBySession(session);
 
+        // device not found so super and return early
+        if (device == null) {
+            super.afterConnectionClosed(session, status);
+            return;
+        }
+
+        // device found so remove session from notification service and set offline time
+        notificationService.removeSession(session);
+        deviceService.deviceOffline(device, offlineAt);
+        super.afterConnectionClosed(session, status);
     }
 
     @Override

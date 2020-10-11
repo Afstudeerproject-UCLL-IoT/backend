@@ -107,17 +107,21 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         // alias
         var ca = CONNECTION_ACTIVITY.as("ca");
 
-        var record = context
+        // query
+        var records = context
                 .update(ca)
                 .set(ca.OFFLINE, offline)
                 .where(ca.DEVICE_ID.eq(device.getId())
                         .and(ca.OFFLINE.isNull()))
                 .returningResult(ca.ID, ca.ONLINE, ca.OFFLINE)
-                .fetchOne();
+                .fetch();
 
-        if (record == null)
+        // check if the connection activity has been updated for the device
+        if (records.isEmpty())
             return null;
 
+        // build and return the connection activity with the end time set
+        var record = records.get(0);
         return new ConnectionActivity.Builder()
                 .withId(record.value1())
                 .withOnlineTime(record.value2())

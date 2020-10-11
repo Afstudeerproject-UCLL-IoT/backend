@@ -88,5 +88,10 @@ public interface GameRepository extends GenericRepository<Game, String> {
      */
     void closeAllGameSessionsBeingPlayed();
 
+    /**
+     * Get the active game session for a game in the data store
+     * @param game The game
+     * @return The game session of the game that is active or null when the game is not active or does not exist
+     */
     GameSession getCurrentlyPlayedGameSession(Game game);
 }

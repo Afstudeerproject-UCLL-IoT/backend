@@ -37,6 +37,12 @@ public interface DeviceRepository extends GenericRepository<Device, Integer> {
      */
     ConnectionActivity addDeviceConnectionActivity(Device device, LocalDateTime online);
 
+    /**
+     * For a device in the data store that is currently set to online, set it's offline time so that the total connection activity is registered
+     * @param device The device
+     * @param offline The time it was offline
+     * @return The complete connection activity or null when it was not found or the device was not online
+     */
     ConnectionActivity setLastDeviceConnectionActivityOfflineTime(Device device, LocalDateTime offline);
 
     /**

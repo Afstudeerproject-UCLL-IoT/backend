@@ -32,4 +32,11 @@ public interface NotificationService {
      * @param session The session (websocket)
      */
     void removeSession(WebSocketSession session);
+
+    /**
+     * Get the device in the connection list based by the session it belongs to
+     * @param session The websocket session
+     * @return The device or null when it was not found
+     */
+    Device getDeviceBySession(WebSocketSession session);
 }
