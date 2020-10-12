@@ -176,7 +176,7 @@ public class DeviceRepositoryImpl implements DeviceRepository {
 
         // nested select
         var onlineField = context.select(
-                when(ca.OFFLINE.isNull(), "Online")
+                when(ca.OFFLINE.isNull(), "online")
                         .otherwise("offline"))
                 .from(ca)
                 .where(d.ID.eq(ca.DEVICE_ID))
