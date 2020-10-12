@@ -77,10 +77,20 @@ public class NotificationServiceImpl implements NotificationService {
 
         // try to send it
         try {
+            if (!session.isOpen()) {
+                session.close();
+                logger.error("Could not send message to session because it's closed!");
+            }
+
             session.sendMessage(message);
             logger.info(String.format("Message sent to session. Event:%s. Data:%s.", event.toString(), data));
         } catch (IOException e) {
-            logger.error(String.format("Could not send message to session! Event: %s. Data:%s.", event.toString(), data));
+            try {
+                session.close();
+            } catch (IOException ioException) {
+                logger.error("Could not close session " + session);
+            }
+            logger.error("Could not send message to session!");
         }
     }
 }
