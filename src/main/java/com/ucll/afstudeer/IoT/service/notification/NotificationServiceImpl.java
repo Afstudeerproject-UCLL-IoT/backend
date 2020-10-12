@@ -56,7 +56,7 @@ public class NotificationServiceImpl implements NotificationService {
         if (device == null) return;
 
         deviceConnections.remove(device, session);
-        logger.info("Closed connection and session removed: " + device.toString());
+        logger.info("Session removed for device: " + device.toString());
     }
 
     @Override
@@ -77,19 +77,9 @@ public class NotificationServiceImpl implements NotificationService {
 
         // try to send it
         try {
-            if (!session.isOpen()) {
-                session.close();
-                logger.error("Could not send message to session because it's closed!");
-            }
-
             session.sendMessage(message);
             logger.info(String.format("Message sent to session. Event:%s. Data:%s.", event.toString(), data));
         } catch (IOException e) {
-            try {
-                session.close();
-            } catch (IOException ioException) {
-                logger.error("Could not close session " + session);
-            }
             logger.error("Could not send message to session!");
         }
     }

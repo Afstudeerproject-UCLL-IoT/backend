@@ -20,13 +20,11 @@ import java.util.List;
 @Service
 public class GameServiceImpl implements GameService {
 
-    private final DeviceRepository deviceRepository;
     private final GameRepository gameRepository;
     private final PuzzleRepository puzzleRepository;
     private final NotificationService notificationService;
 
-    public GameServiceImpl(DeviceRepository deviceRepository, GameRepository gameRepository, PuzzleRepository puzzleRepository, NotificationService notificationService) {
-        this.deviceRepository = deviceRepository;
+    public GameServiceImpl(GameRepository gameRepository, PuzzleRepository puzzleRepository, NotificationService notificationService) {
         this.gameRepository = gameRepository;
         this.puzzleRepository = puzzleRepository;
         this.notificationService = notificationService;
@@ -65,7 +63,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public ServiceActionResponse<Boolean> puzzleAttemptSuccessful(Puzzle puzzle, int gameSessionId, LocalDateTime at) {
-        return PuzzleAttemptSuccessfulHandler.handle(puzzle, at, gameSessionId, deviceRepository, puzzleRepository, gameRepository, notificationService);
+        return PuzzleAttemptSuccessfulHandler.handle(puzzle, at, gameSessionId, puzzleRepository, gameRepository, notificationService);
     }
 
     @Override
