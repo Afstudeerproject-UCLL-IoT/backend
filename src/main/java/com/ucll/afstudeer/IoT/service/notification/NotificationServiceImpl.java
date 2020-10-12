@@ -6,6 +6,7 @@ import com.ucll.afstudeer.IoT.domain.constant.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -56,7 +57,7 @@ public class NotificationServiceImpl implements NotificationService {
         if (device == null) return;
 
         deviceConnections.remove(device, session);
-        logger.info("Closed connection session removed: " + device.toString());
+        logger.info("Closed connection and session removed: " + device.toString());
     }
 
     @Override
@@ -67,6 +68,22 @@ public class NotificationServiceImpl implements NotificationService {
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public void closeUnresponsiveSessions() {
+        deviceConnections
+                .values()
+                .stream()
+                .filter(session -> !session.isOpen())
+                .forEach(session -> {
+                    removeSession(session);
+                    try {
+                        session.close(CloseStatus.NORMAL);
+                    } catch (IOException e) {
+                        logger.error("Could not close the following session: " + session);
+                    }
+                });
     }
 
     // helpers

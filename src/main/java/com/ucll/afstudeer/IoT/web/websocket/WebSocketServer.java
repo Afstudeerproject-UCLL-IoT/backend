@@ -38,6 +38,9 @@ public class WebSocketServer extends TextWebSocketHandler {
     // websocket methods
     @Override
     protected void handleTextMessage(@NonNull WebSocketSession session, TextMessage message) throws Exception {
+        // close all sessions that are lost
+        notificationService.closeUnresponsiveSessions();
+
         // log message that we received
         logger.info(String.format("Time [%s], Message: %s", LocalTime.now().toString(), message.getPayload()));
 
