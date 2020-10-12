@@ -28,7 +28,6 @@ public class WebSocketServer extends TextWebSocketHandler {
     private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
 
     public WebSocketServer(DeviceService deviceService, GameService gameService, NotificationService notificationService) {
-        super();
         this.deviceService = deviceService;
         this.gameService = gameService;
         this.notificationService = notificationService;
@@ -97,7 +96,6 @@ public class WebSocketServer extends TextWebSocketHandler {
         // device found so remove session from notification service and set offline time
         notificationService.removeSession(session);
         deviceService.deviceOffline(device, offlineAt);
-        super.afterConnectionClosed(session, status);
     }
 
     @Override

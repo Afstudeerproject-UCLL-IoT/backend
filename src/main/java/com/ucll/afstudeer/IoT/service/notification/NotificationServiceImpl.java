@@ -10,6 +10,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.rmi.server.ExportException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,7 +80,8 @@ public class NotificationServiceImpl implements NotificationService {
         try {
             session.sendMessage(message);
             logger.info(String.format("Message sent to session. Event:%s. Data:%s.", event.toString(), data));
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println("\n\n BIG FAIL!!!!!!!! \n\n");
             logger.error("Could not send message to session!");
         }
     }
