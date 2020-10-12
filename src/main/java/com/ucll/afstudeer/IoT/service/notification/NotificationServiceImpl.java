@@ -10,7 +10,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.rmi.server.ExportException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +46,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void addSession(Device device, WebSocketSession session) {
         deviceConnections.put(device, session);
-        logger.info("Connection open for device and session added: " + device.toString());
+        logger.info("Connection open for device and session added: " + device.toString() + " and " + session);
     }
 
     @Override
@@ -80,8 +79,7 @@ public class NotificationServiceImpl implements NotificationService {
         try {
             session.sendMessage(message);
             logger.info(String.format("Message sent to session. Event:%s. Data:%s.", event.toString(), data));
-        } catch (Exception e) {
-            System.out.println("\n\n BIG FAIL!!!!!!!! \n\n");
+        } catch (IOException e) {
             logger.error("Could not send message to session!");
         }
     }
