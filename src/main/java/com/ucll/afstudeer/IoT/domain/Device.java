@@ -32,10 +32,10 @@ public class Device {
     @Override
     public String toString() {
         if (id == 0) {
-            return String.format("%s-%s", type.toString(), puzzle.toString());
+            return String.format("%s-%s", type.toString(), puzzle == null ? "" : puzzle.toString());
         }
 
-        return String.format("%d-%s-%s", id, type.toString(), puzzle.toString());
+        return String.format("%d-%s-%s", id, type.toString(), puzzle == null ? "" : puzzle.toString());
     }
 
     @Override
