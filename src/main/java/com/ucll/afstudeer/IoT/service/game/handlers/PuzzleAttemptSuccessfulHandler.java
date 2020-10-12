@@ -4,6 +4,7 @@ import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.PuzzleAttempt;
 import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.constant.ServiceError;
+import com.ucll.afstudeer.IoT.persistence.device.DeviceRepository;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
@@ -16,6 +17,7 @@ public class PuzzleAttemptSuccessfulHandler {
     public static ServiceActionResponse<Boolean> handle(Puzzle puzzle,
                                                         LocalDateTime at,
                                                         int gameSessionId,
+                                                        DeviceRepository deviceRepository,
                                                         PuzzleRepository puzzleRepository,
                                                         GameRepository gameRepository,
                                                         NotificationService notificationService) {
@@ -32,7 +34,15 @@ public class PuzzleAttemptSuccessfulHandler {
         notificationService.sendToFeedback(String.format("%s_Solved_%b", puzzle.getName(), true));
 
         // find the devices that are subscribed to this puzzle
+        // puzzle can have many subscribers but currently it's only 1
         var devices = puzzleRepository.getSubscriptions(puzzle);
+
+        // TODO if more devices subscribe to a puzzle check all their online statuses
+        // check if this device is online, if not skip the puzzle
+        if(!devices.isEmpty() && !deviceRepository.getOnlineStatus(devices.get(0))){
+            var device = devices.get(0);
+            return PuzzleAttemptSuccessfulHandler.handle(device.getPuzzle(), at, gameSessionId, deviceRepository, puzzleRepository, gameRepository, notificationService);
+        }
 
         // start the next puzzle
         devices.forEach(device ->

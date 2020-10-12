@@ -78,9 +78,9 @@ public class NotificationServiceImpl implements NotificationService {
         // try to send it
         try {
             session.sendMessage(message);
-            logger.info(String.format("Message sent to session.\nEvent:%s\nData:%s", event.toString(), data));
+            logger.info(String.format("Message sent to session. Event:%s. Data:%s.", event.toString(), data));
         } catch (IOException e) {
-            logger.error(String.format("Could not send message to session!\nEvent: %s\nData:%s", event.toString(), data));
+            logger.error(String.format("Could not send message to session! Event: %s. Data:%s.", event.toString(), data));
         }
     }
 }

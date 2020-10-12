@@ -6,6 +6,7 @@ import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
+import com.ucll.afstudeer.IoT.persistence.device.DeviceRepository;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
@@ -19,11 +20,13 @@ import java.util.List;
 @Service
 public class GameServiceImpl implements GameService {
 
+    private final DeviceRepository deviceRepository;
     private final GameRepository gameRepository;
     private final PuzzleRepository puzzleRepository;
     private final NotificationService notificationService;
 
-    public GameServiceImpl(GameRepository gameRepository, PuzzleRepository puzzleRepository, NotificationService notificationService) {
+    public GameServiceImpl(DeviceRepository deviceRepository, GameRepository gameRepository, PuzzleRepository puzzleRepository, NotificationService notificationService) {
+        this.deviceRepository = deviceRepository;
         this.gameRepository = gameRepository;
         this.puzzleRepository = puzzleRepository;
         this.notificationService = notificationService;
@@ -62,7 +65,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public ServiceActionResponse<Boolean> puzzleAttemptSuccessful(Puzzle puzzle, int gameSessionId, LocalDateTime at) {
-        return PuzzleAttemptSuccessfulHandler.handle(puzzle, at, gameSessionId, puzzleRepository, gameRepository, notificationService);
+        return PuzzleAttemptSuccessfulHandler.handle(puzzle, at, gameSessionId, deviceRepository, puzzleRepository, gameRepository, notificationService);
     }
 
     @Override
