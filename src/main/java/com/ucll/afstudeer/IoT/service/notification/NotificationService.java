@@ -23,6 +23,11 @@ public interface NotificationService {
     void send(Device device, Event event, String data);
 
     /**
+     * Sent an event to all devices
+     */
+    void sendToAll(Event event, String data);
+
+    /**
      * Add a session to the connection list
      *
      * @param device  The device that holds the session/connection

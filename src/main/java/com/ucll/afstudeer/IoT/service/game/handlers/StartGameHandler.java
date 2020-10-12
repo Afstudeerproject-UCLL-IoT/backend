@@ -42,9 +42,12 @@ public class StartGameHandler {
         if (devices.isEmpty())
             return new ServiceActionResponse<>(ServiceError.GAME_HAS_NO_PUZZLES);
 
-        // notify all devices that the game has started
-        devices.forEach(device ->
-                notificationService.send(device, Event.STARTGAME, String.valueOf(addedGameSession.getId())));
+        // reset all the devices and notify that the game has started
+        notificationService.sendToFeedback(Event.ENDGAME.toString());
+        devices.forEach(device -> {
+            notificationService.send(device, Event.ENDGAME, "");
+            notificationService.send(device, Event.STARTGAME, String.valueOf(addedGameSession.getId()));
+        });
 
         // notify the first device that it's puzzle can be started
         var firstDevice = devices.get(0);

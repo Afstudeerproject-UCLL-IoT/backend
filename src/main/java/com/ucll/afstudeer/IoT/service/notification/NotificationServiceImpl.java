@@ -44,6 +44,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public void sendToAll(Event event, String data) {
+        deviceConnections.values()
+                .forEach(session -> sendMessage(event, data, session));
+    }
+
+    @Override
     public void addSession(Device device, WebSocketSession session) {
         deviceConnections.put(device, session);
         logger.info("Connection open for device and session added: " + device.toString() + " and " + session);
