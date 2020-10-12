@@ -18,7 +18,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Component
 public class WebSocketServer extends TextWebSocketHandler {
@@ -38,11 +37,8 @@ public class WebSocketServer extends TextWebSocketHandler {
     // websocket methods
     @Override
     protected void handleTextMessage(@NonNull WebSocketSession session, TextMessage message) throws Exception {
-        // close all sessions that are lost
-        notificationService.closeUnresponsiveSessions();
-
         // log message that we received
-        logger.info(String.format("Time [%s], Message: %s", LocalTime.now().toString(), message.getPayload()));
+        logger.info("Received message: " + message.getPayload());
 
         // parse event
         var messageSplit = message.getPayload().split("_");

@@ -44,9 +44,4 @@ public interface NotificationService {
      * @return The device or null when it was not found
      */
     Device getDeviceBySession(WebSocketSession session);
-
-    /**
-     * When an arduino devices loses power the system does not get a closed call in time, so check this manually
-     */
-    void closeUnresponsiveSessions();
 }

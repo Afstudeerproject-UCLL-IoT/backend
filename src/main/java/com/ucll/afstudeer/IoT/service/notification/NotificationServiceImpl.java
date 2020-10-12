@@ -70,22 +70,6 @@ public class NotificationServiceImpl implements NotificationService {
                 .orElse(null);
     }
 
-    @Override
-    public void closeUnresponsiveSessions() {
-        deviceConnections
-                .values()
-                .stream()
-                .filter(session -> !session.isOpen())
-                .forEach(session -> {
-                    removeSession(session);
-                    try {
-                        session.close(CloseStatus.NORMAL);
-                    } catch (IOException e) {
-                        logger.error("Could not close the following session: " + session);
-                    }
-                });
-    }
-
     // helpers
     private void sendMessage(Event event, String data, WebSocketSession session) {
         // create message
