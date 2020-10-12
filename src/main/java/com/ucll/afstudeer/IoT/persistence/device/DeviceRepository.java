@@ -3,6 +3,7 @@ package com.ucll.afstudeer.IoT.persistence.device;
 import com.ucll.afstudeer.IoT.domain.ConnectionActivity;
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.dto.out.DeviceWithOnlineStatus;
 import com.ucll.afstudeer.IoT.persistence.GenericRepository;
 
 import java.time.LocalDateTime;
@@ -57,6 +58,21 @@ public interface DeviceRepository extends GenericRepository<Device, Integer> {
      * @return A list of the connection activity of the device or an empty list when the device was not found
      */
     List<ConnectionActivity> getConnectionActivity(Device device);
+
+    /**
+     * For a device in the data store get it's online status
+     *
+     * @param device The device
+     * @return A boolean indicating if the device is online or not
+     */
+    boolean getOnlineStatus(Device device);
+
+    /**
+     * For all devices in the data store get their online status
+     *
+     * @return A boolean indicating if the device is online or not
+     */
+    List<DeviceWithOnlineStatus> getOnlineStatuses();
 
     /**
      * Retrieve a device from the data store by it's puzzle

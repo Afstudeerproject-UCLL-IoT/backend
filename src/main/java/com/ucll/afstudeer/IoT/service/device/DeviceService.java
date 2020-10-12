@@ -3,6 +3,7 @@ package com.ucll.afstudeer.IoT.service.device;
 import com.ucll.afstudeer.IoT.domain.ConnectionActivity;
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.dto.out.DeviceWithOnlineStatus;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
 
 import java.time.LocalDateTime;
@@ -79,4 +80,11 @@ public interface DeviceService {
      * @return A list of all the devices or an empty list when nothing was found
      */
     ServiceActionResponse<List<Device>> getAllDevices();
+
+    /**
+     * Get the online status for all devices in the system
+     *
+     * @return A list containing DeviceWithOnlineStatus objects
+     */
+    ServiceActionResponse<List<DeviceWithOnlineStatus>> getOnlineStatusForAlDevices();
 }

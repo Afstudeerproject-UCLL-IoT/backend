@@ -4,6 +4,7 @@ import com.ucll.afstudeer.IoT.domain.ConnectionActivity;
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
+import com.ucll.afstudeer.IoT.dto.out.DeviceWithOnlineStatus;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static infrastructure.persistence.Tables.*;
+import static org.jooq.impl.DSL.when;
 
 @Repository
 public class DeviceRepositoryImpl implements DeviceRepository {
@@ -148,6 +150,52 @@ public class DeviceRepositoryImpl implements DeviceRepository {
                         .withOnlineTime(record.value2())
                         .withOfflineTime(record.value3())
                         .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean getOnlineStatus(Device device) {
+        // alias
+        var ca = CONNECTION_ACTIVITY.as("ca");
+
+        // return query
+        return context.fetchExists(
+                context
+                        .selectOne()
+                        .from(ca)
+                        .where(ca.DEVICE_ID.eq(device.getId())
+                                .and(ca.OFFLINE.isNull()))
+        );
+    }
+
+    @Override
+    public List<DeviceWithOnlineStatus> getOnlineStatuses() {
+        // alias
+        var ca = CONNECTION_ACTIVITY.as("ca");
+        var d = DEVICE.as("d");
+
+        // nested select
+        var onlineField = context.select(
+                when(ca.OFFLINE.isNull(), "Online")
+                        .otherwise("offline"))
+                .from(ca)
+                .where(d.ID.eq(ca.DEVICE_ID))
+                .orderBy(ca.ID.desc())
+                .limit(1)
+                .asField("online_status");
+
+        // query
+        var records = context
+                .select(d.ID, d.TYPE, onlineField)
+                .from(d);
+
+        // build device with status and return
+        return records.stream()
+                .map(record -> new DeviceWithOnlineStatus(
+                        record.value1(),
+                        DeviceType.valueOf(record.value2()),
+                        record.value3().equals("online"))
+                )
                 .collect(Collectors.toList());
     }
 

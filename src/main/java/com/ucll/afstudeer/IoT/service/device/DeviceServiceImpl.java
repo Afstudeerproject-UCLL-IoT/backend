@@ -3,6 +3,7 @@ package com.ucll.afstudeer.IoT.service.device;
 import com.ucll.afstudeer.IoT.domain.ConnectionActivity;
 import com.ucll.afstudeer.IoT.domain.Device;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
+import com.ucll.afstudeer.IoT.dto.out.DeviceWithOnlineStatus;
 import com.ucll.afstudeer.IoT.persistence.device.DeviceRepository;
 import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
@@ -65,5 +66,10 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public ServiceActionResponse<List<Device>> getAllDevices() {
         return GetAllDevicesHandler.handle(deviceRepository);
+    }
+
+    @Override
+    public ServiceActionResponse<List<DeviceWithOnlineStatus>> getOnlineStatusForAlDevices() {
+        return GetOnlineStatusForAlDevicesHandler.handle(deviceRepository);
     }
 }

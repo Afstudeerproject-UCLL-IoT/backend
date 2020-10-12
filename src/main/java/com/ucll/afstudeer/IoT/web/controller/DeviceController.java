@@ -2,6 +2,7 @@ package com.ucll.afstudeer.IoT.web.controller;
 
 import com.ucll.afstudeer.IoT.domain.ConnectionActivity;
 import com.ucll.afstudeer.IoT.domain.Device;
+import com.ucll.afstudeer.IoT.dto.out.DeviceWithOnlineStatus;
 import com.ucll.afstudeer.IoT.service.device.DeviceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,6 +37,14 @@ public class DeviceController {
     public List<Device> getAllDevicesWithPuzzles() {
         return deviceService
                 .getAllDevicesWithPuzzleHandler()
+                .getValue();
+    }
+
+    @GetMapping("/status")
+    @Operation(summary = "Get all devices with their current online status")
+    public List<DeviceWithOnlineStatus> getAllDevicesWithTheirOnlineStatus() {
+        return deviceService
+                .getOnlineStatusForAlDevices()
                 .getValue();
     }
 
