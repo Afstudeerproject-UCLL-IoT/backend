@@ -23,7 +23,9 @@ public class StartGameHandler {
         }
 
         // close all other game session if they are still are being played, only 1 game session can be active because we have only 1 room
+        // reset all the other devices
         gameRepository.closeAllGameSessionsBeingPlayed();
+        notificationService.sendToAll(Event.ENDGAME, "");
 
         // create a new game session
         var session = new GameSession.Builder()
@@ -42,12 +44,9 @@ public class StartGameHandler {
         if (devices.isEmpty())
             return new ServiceActionResponse<>(ServiceError.GAME_HAS_NO_PUZZLES);
 
-        // reset all the devices and notify that the game has started
-        notificationService.sendToFeedback(Event.ENDGAME.toString());
-        devices.forEach(device -> {
-            notificationService.send(device, Event.ENDGAME, "");
-            notificationService.send(device, Event.STARTGAME, String.valueOf(addedGameSession.getId()));
-        });
+        // notify that the game has started
+        devices.forEach(device ->
+                notificationService.send(device, Event.STARTGAME, String.valueOf(addedGameSession.getId())));
 
         // notify the first device that it's puzzle can be started
         var firstDevice = devices.get(0);
