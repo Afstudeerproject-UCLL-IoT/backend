@@ -46,7 +46,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void addSession(Device device, WebSocketSession session) {
         deviceConnections.put(device, session);
-        logger.info("Connection open for device " + device.toString());
+        logger.info("Connection open for device and session added: " + device.toString());
     }
 
     @Override
@@ -56,7 +56,7 @@ public class NotificationServiceImpl implements NotificationService {
         if (device == null) return;
 
         deviceConnections.remove(device, session);
-        logger.info("Connection closed for device: " + device.toString());
+        logger.info("Closed connection session removed: " + device.toString());
     }
 
     @Override
