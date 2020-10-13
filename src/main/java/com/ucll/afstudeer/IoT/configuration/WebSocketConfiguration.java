@@ -8,6 +8,8 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 @EnableWebSocket
 public class WebSocketConfiguration implements WebSocketConfigurer {
@@ -22,7 +24,7 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
     public ServletServerContainerFactoryBean createWebSocketContainer() {
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
 
-        container.setMaxSessionIdleTimeout(5000L);
+        container.setMaxSessionIdleTimeout(TimeUnit.SECONDS.toMillis(3));
         return container;
     }
 
