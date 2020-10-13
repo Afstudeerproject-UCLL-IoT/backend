@@ -45,6 +45,8 @@ public class WebSocketServer extends TextWebSocketHandler {
         var event = Event.valueOf(messageSplit[0]);
 
         switch (event) {
+            case ALIVE:
+                break;
             case REGDEVP: {
                 // get the data
                 var onlineAt = LocalDateTime.now(); // not 100% accurate

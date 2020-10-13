@@ -26,5 +26,7 @@ public enum Event {
     ENDGAME,
 
     // Feedback
-    FEEDBACK
+    FEEDBACK,
+
+    ALIVE
 }
