@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static infrastructure.persistence.Tables.*;
@@ -194,7 +195,7 @@ public class DeviceRepositoryImpl implements DeviceRepository {
                 .map(record -> new DeviceWithOnlineStatus(
                         record.value1(),
                         DeviceType.valueOf(record.value2()),
-                        record.value3().equals("online"))
+                        Objects.equals(record.value3(), "online"))
                 )
                 .collect(Collectors.toList());
     }
