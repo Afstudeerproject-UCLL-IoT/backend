@@ -37,12 +37,14 @@ public class WebSocketServer extends TextWebSocketHandler {
     // websocket methods
     @Override
     protected void handleTextMessage(@NonNull WebSocketSession session, TextMessage message) throws Exception {
-        // log message that we received
-        logger.info("Received message: " + message.getPayload());
-
         // parse event
         var messageSplit = message.getPayload().split("_");
         var event = Event.valueOf(messageSplit[0]);
+
+        if (event != Event.ALIVE) {
+            // log message that we received
+            logger.info("Received message: " + message.getPayload());
+        }
 
         switch (event) {
             case ALIVE:

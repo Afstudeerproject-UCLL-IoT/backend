@@ -46,6 +46,17 @@ public class GameController {
                 .getValue();
     }
 
+    @Operation(summary = "Get the progress of the game if it's being played")
+    @GetMapping("/{gameName}/progress")
+    public void getGameProgress(@PathVariable String gameName){
+        // create game
+        var game = new Game.Builder()
+                .withName(gameName)
+                .build();
+
+
+    }
+
     @Operation(summary = "Get all the sessions of a game")
     @GetMapping("/{gameName}/session")
     public GameWithSessionsDto getAllGameSessionsInAGame(@PathVariable String gameName) {
