@@ -45,8 +45,14 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendToAll(Event event, String data) {
-        deviceConnections.values()
-                .forEach(session -> sendMessage(event, data, session));
+        deviceConnections.forEach((key, value) -> {
+            if (key.getType() != DeviceType.ARDUINO_FEEDBACK) {
+                sendMessage(event, data, value);
+
+            } else {
+                sendMessage(Event.FEEDBACK, event.toString(), value);
+            }
+        });
     }
 
     @Override
