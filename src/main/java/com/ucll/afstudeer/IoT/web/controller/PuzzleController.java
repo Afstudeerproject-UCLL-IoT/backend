@@ -20,7 +20,7 @@ public class PuzzleController {
         this.deviceService = deviceService;
     }
 
-    @PutMapping("/{puzzleName}")
+    @PutMapping("/{puzzleName}/solution")
     @Operation(summary = "Update the solution of an existing puzzle")
     public Puzzle changePuzzleSolution(@Valid @RequestBody PuzzleNewSolution newSolution, @PathVariable String puzzleName) {
         // create puzzle
@@ -32,5 +32,18 @@ public class PuzzleController {
         // update solution
         return deviceService.updatePuzzleSolution(puzzle, newSolution.getValue())
                 .getValue();
+    }
+
+
+    @PutMapping("/{puzzleName}/completed")
+    @Operation(summary = "Complete a puzzle")
+    public Puzzle setThePuzzleToCompleted(@PathVariable String puzzleName) {
+        // create puzzle
+        var puzzle = new Puzzle.Builder()
+                .withName(puzzleName)
+                .withoutSolution()
+                .build();
+
+
     }
 }

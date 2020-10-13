@@ -44,6 +44,8 @@ public class WebSocketServer extends TextWebSocketHandler {
         if (event != Event.ALIVE) {
             // log message that we received
             logger.info("Received message: " + message.getPayload());
+        } else {
+            logger.debug(message.getPayload());
         }
 
         switch (event) {
