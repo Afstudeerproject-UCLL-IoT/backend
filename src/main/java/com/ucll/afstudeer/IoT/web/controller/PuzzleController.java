@@ -46,7 +46,6 @@ public class PuzzleController {
         // time
         var at = LocalDateTime.now();
 
-
         // create puzzle
         var puzzle = new Puzzle.Builder()
                 .withName(puzzleName)

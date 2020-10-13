@@ -88,7 +88,7 @@ public class WebSocketServer extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) throws Exception {
-        logger.info("Connection closed for session: " + session);
+        logger.info("Connection closed for session: " + session.getId());
 
         // data
         var offlineAt = LocalDateTime.now();
