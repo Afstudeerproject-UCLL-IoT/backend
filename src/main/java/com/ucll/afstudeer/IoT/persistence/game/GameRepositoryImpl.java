@@ -179,7 +179,8 @@ public class GameRepositoryImpl implements GameRepository {
         // query
         var record = context
                 .selectFrom(gs)
-                .where(gs.END.isNull())
+                .where(gs.END.isNull()
+                        .and(gs.GAME_NAME.eq(game.getName())))
                 .fetchAny();
 
         // check if it was found

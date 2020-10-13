@@ -2,6 +2,7 @@ package com.ucll.afstudeer.IoT.web.controller;
 
 import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.GameSession;
+import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
 import com.ucll.afstudeer.IoT.dto.in.GameSessionEndTime;
 import com.ucll.afstudeer.IoT.dto.in.NewGame;
@@ -10,9 +11,12 @@ import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.service.game.GameService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Tag(name = "Game calls")
@@ -48,7 +52,7 @@ public class GameController {
 
     @Operation(summary = "Get the progress of the game if it's being played")
     @GetMapping("/{gameName}/progress")
-    public void getGameProgress(@PathVariable String gameName){
+    public void getGameProgress(@PathVariable String gameName) {
         // create game
         var game = new Game.Builder()
                 .withName(gameName)
@@ -119,5 +123,36 @@ public class GameController {
         // start game
         return gameService.endGame(game, gameSessionEndTime.getValue())
                 .getValue();
+    }
+
+    @PutMapping("/{gameName}/{puzzleName}/completed")
+    @Operation(summary = "Complete a puzzle")
+    public ResponseEntity setThePuzzleToCompleted(@PathVariable String puzzleName, @PathVariable String gameName) {
+        // time
+        var at = LocalDateTime.now();
+
+        // create puzzle
+        var puzzle = new Puzzle.Builder()
+                .withName(puzzleName)
+                .withoutSolution()
+                .build();
+
+        // create game
+        var game = new Game.Builder()
+                .withName(gameName)
+                .build();
+
+        // get current game that is being played (the session)
+        var gameSession = gameService.getCurrentlyPlayedGameSession(game)
+                .getValue();
+
+        if (gameSession == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Game is not active: " + gameName);
+        }
+
+        gameService.puzzleAttemptSuccessful(puzzle, gameSession.getId(), at);
+        return ResponseEntity.ok("");
     }
 }

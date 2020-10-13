@@ -38,20 +38,4 @@ public class PuzzleController {
         return deviceService.updatePuzzleSolution(puzzle, newSolution.getValue())
                 .getValue();
     }
-
-
-    @PutMapping("/{puzzleName}/completed")
-    @Operation(summary = "Complete a puzzle")
-    public void setThePuzzleToCompleted(@Valid @RequestBody GameSessionId gameSessionId, @PathVariable String puzzleName) {
-        // time
-        var at = LocalDateTime.now();
-
-        // create puzzle
-        var puzzle = new Puzzle.Builder()
-                .withName(puzzleName)
-                .withoutSolution()
-                .build();
-
-        gameService.puzzleAttemptSuccessful(puzzle, gameSessionId.getValue(), at);
-    }
 }

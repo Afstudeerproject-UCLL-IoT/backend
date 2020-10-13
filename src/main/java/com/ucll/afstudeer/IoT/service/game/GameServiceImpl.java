@@ -6,7 +6,6 @@ import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
-import com.ucll.afstudeer.IoT.persistence.device.DeviceRepository;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
@@ -84,5 +83,10 @@ public class GameServiceImpl implements GameService {
     @Override
     public ServiceActionResponse<GameWithSessionsDto> getAllGameSessions(Game game) {
         return GetAllGameSessionsHandler.handle(game, gameRepository);
+    }
+
+    @Override
+    public ServiceActionResponse<GameSession> getCurrentlyPlayedGameSession(Game game) {
+        return GetCurrentlyPlayedGameSessionHandler.handle(game, gameRepository);
     }
 }

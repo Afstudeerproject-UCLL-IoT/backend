@@ -102,4 +102,11 @@ public interface GameService {
      * @return A GameWithsessionsDto
      */
     ServiceActionResponse<GameWithSessionsDto> getAllGameSessions(Game game);
+
+    /**
+     * For a game that is being played, get it's session
+     *
+     * @return The game session or a service error indicating that no game is being played
+     */
+    ServiceActionResponse<GameSession> getCurrentlyPlayedGameSession(Game game);
 }
