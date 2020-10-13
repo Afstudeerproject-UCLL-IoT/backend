@@ -10,6 +10,8 @@ import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.service.game.GameService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -127,7 +129,12 @@ public class GameController {
 
     @PutMapping("/{gameName}/{puzzleName}/completed")
     @Operation(summary = "Complete a puzzle")
-    public ResponseEntity setThePuzzleToCompleted(@PathVariable String puzzleName, @PathVariable String gameName) {
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Happens when their is no game currently being played"),
+            @ApiResponse(responseCode = "200", description = "The puzzle is set to completed")
+    }
+    )
+    public ResponseEntity<String> setThePuzzleToCompleted(@PathVariable String puzzleName, @PathVariable String gameName) {
         // time
         var at = LocalDateTime.now();
 
