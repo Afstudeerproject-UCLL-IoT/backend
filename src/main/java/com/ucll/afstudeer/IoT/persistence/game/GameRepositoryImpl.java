@@ -253,6 +253,23 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
+    public Game getGameBySession(int gameSessionId) {
+        var result = context
+                .select(GAME_SESSION.GAME_NAME)
+                .from(GAME_SESSION)
+                .where(GAME_SESSION.ID.eq(gameSessionId))
+                .fetchAny();
+
+        if (result == null) {
+            return null;
+        }
+
+        return new Game.Builder()
+                .withName(result.value1())
+                .build();
+    }
+
+    @Override
     public void addPuzzleAttempt(PuzzleAttempt puzzleAttempt) {
         // alias
         var pa = PUZZLE_ATTEMPT.as("pa");

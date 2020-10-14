@@ -41,7 +41,7 @@ public class GetSubscriptionsTest extends PersistenceBase {
         gameRepository.addGamePuzzleSubscription(device1, null, game, 1);
 
         // check size
-        var subscriptions = puzzleRepository.getSubscriptions(device1.getPuzzle());
+        var subscriptions = puzzleRepository.getSubscriptions(game, device1.getPuzzle());
         assertEquals(1, subscriptions.size());
 
         // check data
@@ -62,7 +62,7 @@ public class GetSubscriptionsTest extends PersistenceBase {
         gameRepository.addGamePuzzleSubscription(device1, null, game, 1);
 
         // check size
-        var subscriptions = puzzleRepository.getSubscriptions(device1.getPuzzle());
+        var subscriptions = puzzleRepository.getSubscriptions(game, device1.getPuzzle());
         assertEquals(3, subscriptions.size());
 
         // check data
@@ -79,7 +79,7 @@ public class GetSubscriptionsTest extends PersistenceBase {
         gameRepository.addGamePuzzleSubscription(device1, null, game, 1);
 
         // check size
-        var subscriptions = puzzleRepository.getSubscriptions(device1.getPuzzle());
+        var subscriptions = puzzleRepository.getSubscriptions(game, device1.getPuzzle());
         assertEquals(0, subscriptions.size());
 
     }

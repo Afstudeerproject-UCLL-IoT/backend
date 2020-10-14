@@ -1,6 +1,7 @@
 package com.ucll.afstudeer.IoT.persistence.puzzle;
 
 import com.ucll.afstudeer.IoT.domain.Device;
+import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import org.jooq.DSLContext;
@@ -23,7 +24,7 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
     }
 
     @Override
-    public List<Device> getSubscriptions(Puzzle puzzle) {
+    public List<Device> getSubscriptions(Game game, Puzzle puzzle) {
         // aliases
         var d = DEVICE.as("d");
         var p = PUZZLE.as("p");
@@ -38,6 +39,7 @@ public class PuzzleRepositoryImpl implements PuzzleRepository {
                         .from(ps)
                         .where(ps.SUBSCRIBER_DEVICE_ID.eq(d.ID))
                         .and(ps.SUBSCRIBED_TO_PUZZLE_NAME.eq(puzzle.getName()))
+                        .and(ps.GAME_NAME.eq(game.getName()))
                 )
                 .fetch();
 

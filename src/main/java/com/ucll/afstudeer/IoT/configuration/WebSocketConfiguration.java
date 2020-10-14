@@ -20,11 +20,11 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
         this.webSocketServer = webSocketServer;
     }
 
-    
+    @Bean
     public ServletServerContainerFactoryBean createWebSocketContainer() {
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
 
-        container.setMaxSessionIdleTimeout(TimeUnit.SECONDS.toMillis(3));
+        container.setMaxSessionIdleTimeout(TimeUnit.SECONDS.toMillis(5));
         return container;
     }
 

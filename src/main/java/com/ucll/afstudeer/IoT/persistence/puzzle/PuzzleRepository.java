@@ -2,6 +2,7 @@ package com.ucll.afstudeer.IoT.persistence.puzzle;
 
 
 import com.ucll.afstudeer.IoT.domain.Device;
+import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.persistence.GenericRepository;
 
@@ -9,12 +10,13 @@ import java.util.List;
 
 public interface PuzzleRepository extends GenericRepository<Puzzle, String> {
     /**
-     * Get all the devices that are subscribed to a puzzle
+     * Get all the devices that are subscribed to a puzzle for a current game
      *
+     * @param game   An active game
      * @param puzzle The puzzle
      * @return A list containing the subscribed devices or an empty list when there are no subscriptions
      */
-    List<Device> getSubscriptions(Puzzle puzzle);
+    List<Device> getSubscriptions(Game game, Puzzle puzzle);
 
     /**
      * In the data store change the solution of a puzzle.

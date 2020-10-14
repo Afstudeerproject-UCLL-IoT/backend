@@ -4,7 +4,6 @@ import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.PuzzleAttempt;
 import com.ucll.afstudeer.IoT.domain.constant.Event;
 import com.ucll.afstudeer.IoT.domain.constant.ServiceError;
-import com.ucll.afstudeer.IoT.persistence.device.DeviceRepository;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
 import com.ucll.afstudeer.IoT.persistence.puzzle.PuzzleRepository;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
@@ -29,11 +28,19 @@ public class PuzzleAttemptSuccessfulHandler {
         if (!gameRepository.gameSessionExistsAndIsBeingPlayed(gameSessionId))
             return new ServiceActionResponse<>(ServiceError.NO_GAME_SESSION_WAS_ACTIVE);
 
+        // get the game by it's session
+        var game = gameRepository.getGameBySession(gameSessionId);
+
+        // sanity check
+        if (game == null) {
+            return new ServiceActionResponse<>(ServiceError.GAME_DOES_NOT_EXIST);
+        }
+
         // send attempt to feedback device
         notificationService.sendToFeedback(String.format("%s_Solved_%b", puzzle.getName(), true));
 
         // find the devices that are subscribed to this puzzle
-        var devices = puzzleRepository.getSubscriptions(puzzle);
+        var devices = puzzleRepository.getSubscriptions(game, puzzle);
 
         // start the next puzzle
         devices.forEach(device ->

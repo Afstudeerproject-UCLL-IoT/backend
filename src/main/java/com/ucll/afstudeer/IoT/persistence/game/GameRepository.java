@@ -113,4 +113,11 @@ public interface GameRepository extends GenericRepository<Game, String> {
      * @return A list containing the puzzle progresses or an empty list when no progress was found
      */
     List<PuzzleProgress> getAllPuzzleProgressesForAGameWithGameSession(Game game, GameSession gameSession);
+
+    /**
+     * The a game in the data store based on it's session
+     * @param gameSessionId the session
+     * @return The game or null when it was not found
+     */
+    Game getGameBySession(int gameSessionId);
 }

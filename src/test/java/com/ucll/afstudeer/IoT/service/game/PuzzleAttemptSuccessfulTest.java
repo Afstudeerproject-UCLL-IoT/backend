@@ -1,6 +1,7 @@
 package com.ucll.afstudeer.IoT.service.game;
 
 import com.ucll.afstudeer.IoT.domain.Device;
+import com.ucll.afstudeer.IoT.domain.Game;
 import com.ucll.afstudeer.IoT.domain.Puzzle;
 import com.ucll.afstudeer.IoT.domain.constant.Event;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +24,7 @@ public class PuzzleAttemptSuccessfulTest extends GameServiceBase {
                 .build();
 
         // stub
-        when(puzzleRepository.getSubscriptions(any(Puzzle.class)))
+        when(puzzleRepository.getSubscriptions(any(Game.class), any(Puzzle.class)))
                 .thenReturn(Collections.singletonList(subscriber));
 
         // create device
@@ -33,7 +34,7 @@ public class PuzzleAttemptSuccessfulTest extends GameServiceBase {
                 .build();
 
         //var response = gameService.puzzleAttemptSuccessful(device.getPuzzle())
-        verify(puzzleRepository).getSubscriptions(any(Puzzle.class));
+        verify(puzzleRepository).getSubscriptions(any(Game.class), any(Puzzle.class));
         verify(notificationService, atLeastOnce()).send(eq(subscriber), eq(Event.STARTPZL), eq(subscriber.getPuzzle().getName()));
         //assertTrue(response.getValue());
     }
