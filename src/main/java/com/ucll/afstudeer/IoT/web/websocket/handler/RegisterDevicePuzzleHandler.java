@@ -35,8 +35,8 @@ public class RegisterDevicePuzzleHandler {
                 .getValue();
 
         // log online activity and add session to notification service
-        deviceService.deviceOnline(registeredDevice, onlineAt);
         notificationService.addSession(registeredDevice, session);
+        deviceService.deviceOnline(registeredDevice, onlineAt);
 
         // give the client it's registration details back
         var data = String.format("%d_%s_%s_%s",

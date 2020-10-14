@@ -58,17 +58,13 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void addSession(Device device, WebSocketSession session) {
         deviceConnections.put(device, session);
-        logger.info(String.format("Connection open for device: %s and session: %s", device, session.getId()));
+        logger.info(String.format("Session open for device (%s, %s)", device, session.getId()));
     }
 
     @Override
-    public void removeSession(WebSocketSession session) {
-        // find the device, not found => return early
-        var device = getDeviceBySession(session);
-        if (device == null) return;
-
+    public void removeSession(Device device, WebSocketSession session) {
         deviceConnections.remove(device, session);
-        logger.info("Session removed for device: " + device);
+        logger.info(String.format("Session closed for device (%s, %s)", device, session.getId()));
     }
 
     @Override
@@ -90,9 +86,9 @@ public class NotificationServiceImpl implements NotificationService {
         // try to send it
         try {
             session.sendMessage(message);
-            logger.info(String.format("Message sent to session. Event:%s. Data:%s.", event, data));
+            logger.info(String.format("Message sent to session (%s, %s)", event, data));
         } catch (IOException e) {
-            logger.error("Could not send message to session!");
+            logger.error("Could not send message to session " + session.getId());
         }
     }
 }

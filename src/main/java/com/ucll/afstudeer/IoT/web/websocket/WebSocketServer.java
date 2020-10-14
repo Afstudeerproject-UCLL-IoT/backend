@@ -88,20 +88,19 @@ public class WebSocketServer extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) throws Exception {
-        logger.info("Connection closed for session: " + session.getId());
-
         // data
         var offlineAt = LocalDateTime.now();
         var device = notificationService.getDeviceBySession(session);
 
         // device not found so super and return early
         if (device == null) {
+            logger.error("No device found for session " + session.getId());
             super.afterConnectionClosed(session, status);
             return;
         }
 
         // device found so remove session from notification service and set offline time
-        notificationService.removeSession(session);
+        notificationService.removeSession(device, session);
         deviceService.deviceOffline(device, offlineAt);
         super.afterConnectionClosed(session, status);
     }

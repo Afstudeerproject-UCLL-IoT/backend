@@ -36,11 +36,11 @@ public interface NotificationService {
     void addSession(Device device, WebSocketSession session);
 
     /**
-     * Remove a session and it's device from the connection list
+     * Remove a session for a device from the connection list
      *
-     * @param session The session (websocket)
+     * @param device The device that holds the session (websocket)
      */
-    void removeSession(WebSocketSession session);
+    void removeSession(Device device, WebSocketSession session);
 
     /**
      * Get the device in the connection list based by the session it belongs to

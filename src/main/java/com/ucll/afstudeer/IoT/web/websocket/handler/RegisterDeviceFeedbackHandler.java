@@ -28,7 +28,7 @@ public class RegisterDeviceFeedbackHandler {
                 .getValue();
 
         // log online activity and add session to notification service
-        deviceService.deviceOnline(feedbackDeviceAdded, onlineAt);
         notificationService.addSession(feedbackDeviceAdded, session);
+        deviceService.deviceOnline(feedbackDeviceAdded, onlineAt);
     }
 }
