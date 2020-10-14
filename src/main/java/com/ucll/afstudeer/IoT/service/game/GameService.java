@@ -1,9 +1,6 @@
 package com.ucll.afstudeer.IoT.service.game;
 
-import com.ucll.afstudeer.IoT.domain.Game;
-import com.ucll.afstudeer.IoT.domain.GameSession;
-import com.ucll.afstudeer.IoT.domain.Puzzle;
-import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
+import com.ucll.afstudeer.IoT.domain.*;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.service.ServiceActionResponse;
@@ -109,4 +106,12 @@ public interface GameService {
      * @return The game session or a service error indicating that no game is being played
      */
     ServiceActionResponse<GameSession> getCurrentlyPlayedGameSession(Game game);
+
+    /**
+     * Get the game progress of the game that is currently being played
+     *
+     * @param game The game that is active
+     * @return ...
+     */
+    ServiceActionResponse<GameProgress> getGameProgress(Game game);
 }

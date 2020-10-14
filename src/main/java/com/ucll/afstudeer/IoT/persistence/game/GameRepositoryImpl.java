@@ -4,6 +4,7 @@ import com.ucll.afstudeer.IoT.domain.*;
 import com.ucll.afstudeer.IoT.domain.constant.DeviceType;
 import infrastructure.persistence.Tables;
 import org.jooq.DSLContext;
+import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +18,7 @@ import static infrastructure.persistence.tables.Game.GAME;
 import static infrastructure.persistence.tables.GameSession.GAME_SESSION;
 import static infrastructure.persistence.tables.Puzzle.PUZZLE;
 import static infrastructure.persistence.tables.PuzzleSubscriber.PUZZLE_SUBSCRIBER;
+import static org.jooq.impl.DSL.*;
 
 @Repository
 public class GameRepositoryImpl implements GameRepository {
@@ -194,6 +196,60 @@ public class GameRepositoryImpl implements GameRepository {
                 .withStartTime(record.getStart())
                 .withEndTime(record.getEnd())
                 .build();
+    }
+
+    @Override
+    public List<PuzzleProgress> getAllPuzzleProgressesForAGameWithGameSession(Game game, GameSession gameSession) {
+        // alias
+        var p = PUZZLE.as("p");
+        var pa = PUZZLE_ATTEMPT.as("pa");
+        var ps = PUZZLE_SUBSCRIBER.as("ps");
+
+        // subquery
+        Table<?> summary = context
+                .select(p.NAME.as("puzzle_name"),
+                        ps.POSITION,
+                        min(pa.AT).as("first_attempt"),
+                        max(pa.AT).as("last_attempt"),
+                        count(pa.PUZZLE_NAME).as("total_attempts"),
+                        boolOr(pa.SUCCESS).as("completed"))
+                .from(ps.innerJoin(p).on(p.DEVICE_OWNER_ID.eq(ps.SUBSCRIBER_DEVICE_ID))
+                        .leftJoin(pa).on(p.NAME.eq(pa.PUZZLE_NAME)
+                                .and(pa.GAME_SESSION_ID.eq(gameSession.getId()))))
+                .where(ps.GAME_NAME.eq(game.getName()))
+                .groupBy(p.NAME, ps.POSITION)
+                .orderBy(ps.POSITION.asc())
+                .asTable("summary");
+
+        // fields
+        var puzzleName = summary.field("puzzle_name").coerce(String.class);
+        var firstAttempt = summary.field("first_attempt").coerce(LocalDateTime.class);
+        var lastAttempt = summary.field("last_attempt").coerce(LocalDateTime.class);
+        var totalAttempts = summary.field("total_attempts").coerce(Integer.class);
+        var completed = summary.field("completed").coerce(Boolean.class);
+
+        // query
+        var result = context
+                .select(
+                        puzzleName,
+                        when(lag(completed, 1).over(orderBy(firstAttempt)).isTrue(), lag(lastAttempt, 1).over(orderBy(firstAttempt)))
+                                .otherwise(inline(null, LocalDateTime.class)).as("start_time"),
+                        when(completed.isTrue(), lastAttempt)
+                                .otherwise(inline(null, LocalDateTime.class)).as("end_time"),
+                        totalAttempts
+                )
+                .from(summary)
+                .fetch();
+
+        // build objects and return
+        return result.stream()
+                .map(record -> new PuzzleProgress.Builder()
+                        .withPuzzleName(record.value1())
+                        .withStartTime(record.value2())
+                        .withEndTime(record.value3())
+                        .withAmountOfAttempts(record.value4())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Override

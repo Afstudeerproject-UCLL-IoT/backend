@@ -32,7 +32,7 @@ public class GameSession {
     @Override
     public String toString() {
         var startFormat = start.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        var endFormat = end.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        var endFormat = end == null ? "" : end.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         return String.format("Game session %d: %s-%s", id, startFormat, endFormat);
     }

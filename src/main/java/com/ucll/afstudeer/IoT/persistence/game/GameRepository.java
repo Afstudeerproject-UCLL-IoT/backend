@@ -105,4 +105,12 @@ public interface GameRepository extends GenericRepository<Game, String> {
      * @return The game session of the game that is active or null when the game is not active or does not exist
      */
     GameSession getCurrentlyPlayedGameSession(Game game);
+
+    /**
+     * For a game session in the date store get the progress of all the puzzles
+     *
+     * @param gameSession The active game session
+     * @return A list containing the puzzle progresses or an empty list when no progress was found
+     */
+    List<PuzzleProgress> getAllPuzzleProgressesForAGameWithGameSession(Game game, GameSession gameSession);
 }

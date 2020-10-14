@@ -1,9 +1,6 @@
 package com.ucll.afstudeer.IoT.web.controller;
 
-import com.ucll.afstudeer.IoT.domain.Game;
-import com.ucll.afstudeer.IoT.domain.GameSession;
-import com.ucll.afstudeer.IoT.domain.Puzzle;
-import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
+import com.ucll.afstudeer.IoT.domain.*;
 import com.ucll.afstudeer.IoT.dto.in.GameSessionEndTime;
 import com.ucll.afstudeer.IoT.dto.in.NewGame;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
@@ -54,13 +51,14 @@ public class GameController {
 
     @Operation(summary = "Get the progress of the game if it's being played")
     @GetMapping("/{gameName}/progress")
-    public void getGameProgress(@PathVariable String gameName) {
+    public GameProgress getGameProgress(@PathVariable String gameName) {
         // create game
         var game = new Game.Builder()
                 .withName(gameName)
                 .build();
 
-
+        return gameService.getGameProgress(game)
+                .getValue();
     }
 
     @Operation(summary = "Get all the sessions of a game")

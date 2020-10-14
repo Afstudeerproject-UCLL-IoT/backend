@@ -20,7 +20,7 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
         this.webSocketServer = webSocketServer;
     }
 
-    @Bean
+    
     public ServletServerContainerFactoryBean createWebSocketContainer() {
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
 

@@ -1,9 +1,6 @@
 package com.ucll.afstudeer.IoT.service.game;
 
-import com.ucll.afstudeer.IoT.domain.Game;
-import com.ucll.afstudeer.IoT.domain.GameSession;
-import com.ucll.afstudeer.IoT.domain.Puzzle;
-import com.ucll.afstudeer.IoT.domain.PuzzleSubscription;
+import com.ucll.afstudeer.IoT.domain.*;
 import com.ucll.afstudeer.IoT.dto.out.GameWithPuzzlesDto;
 import com.ucll.afstudeer.IoT.dto.out.GameWithSessionsDto;
 import com.ucll.afstudeer.IoT.persistence.game.GameRepository;
@@ -88,5 +85,10 @@ public class GameServiceImpl implements GameService {
     @Override
     public ServiceActionResponse<GameSession> getCurrentlyPlayedGameSession(Game game) {
         return GetCurrentlyPlayedGameSessionHandler.handle(game, gameRepository);
+    }
+
+    @Override
+    public ServiceActionResponse<GameProgress> getGameProgress(Game game) {
+        return GetGameProgressHandler.handle(game, gameRepository);
     }
 }
