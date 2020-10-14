@@ -94,7 +94,7 @@ public class WebSocketServer extends TextWebSocketHandler {
 
         // device not found so super and return early
         if (device == null) {
-            logger.error("No device found for session " + session.getId());
+            logger.warn("Dangling session found: " + session.getId());
             super.afterConnectionClosed(session, status);
             return;
         }

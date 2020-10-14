@@ -57,8 +57,13 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void addSession(Device device, WebSocketSession session) {
-        deviceConnections.put(device, session);
-        logger.info(String.format("Session open for device (%s, %s)", device, session.getId()));
+        if (deviceConnections.containsKey(device)) {
+            deviceConnections.replace(device, session);
+            logger.info(String.format("Session reopened for device (%s, %s)", device, session.getId()));
+        } else {
+            deviceConnections.put(device, session);
+            logger.info(String.format("Session open for device (%s, %s)", device, session.getId()));
+        }
     }
 
     @Override

@@ -28,7 +28,7 @@ public interface NotificationService {
     void sendToAll(Event event, String data);
 
     /**
-     * Add a session to the connection list
+     * Add a new session to the connection list, if the session already exists it's replaced
      *
      * @param device  The device that holds the session/connection
      * @param session The session (websocket)
@@ -36,9 +36,9 @@ public interface NotificationService {
     void addSession(Device device, WebSocketSession session);
 
     /**
-     * Remove a session for a device from the connection list
+     * Remove an existing session for a device from the connection list
      *
-     * @param device The device that holds the session (websocket)
+     * @param device The device that holds the session (websocket) and is present in the connection list
      */
     void removeSession(Device device, WebSocketSession session);
 
