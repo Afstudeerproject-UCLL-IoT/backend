@@ -37,5 +37,5 @@ An arduino device can interact with the backend by sending and receiving message
 - [ ] Make the domain class more OOP like with relations instead of simple POJO classes that are combinded in DTO's. When you do this you can also take input DTOS from the controllers/WebSocket and map them to a specific domain class. So don't take domain classes as input in Controllers for example. Now we have a simple domain so it can be argued that this is overkill. I don't really know.
 - [ ] The tests are not up to date anymore so fix those.
 - [ ] Exceptions vs ServiceActionResponse? I don't know maybe we should just use Exceptions and use a ControllerAdvice class for handling them.
-- [ ] The controllers needs to check for all the possible ServiceErrors and do a correct translation to a http status code. Also provide those as a Response so that the swagger ui can display the different response types.
-- [ ] Maybe use something like STOMP on top of WebSockets so we don't need to interfact as much with a lower level class like WebSockets, this is also recommended by the Spring docs.
+- [ ] The controllers need to check for all the possible ServiceErrors and do a correct translation to a http status code. Also provide those as a Response so that the swagger ui can display the different response types.
+- [ ] Maybe use something like STOMP on top of WebSockets so we don't need to interfact as much with a lower level class, this is also recommended by the Spring docs.
