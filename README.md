@@ -22,6 +22,7 @@ An arduino device can interact with the backend by sending and receiving message
 | Registering the only feedback device | {EVENT} | **Sent** | REGDEVF |
 | The player tries to solve the puzzle but failed | {EVENT}\_{PuzzleName}\_{GameSessionId}\_false | **Sent** | PATMPT_Puzzle1_123_false |
 | The player solves the puzzle | {EVENT}\_{PuzzleName}\_{GameSessionId}\_true | **Sent** | PATMPT_Puzzle1_123_true |
+| The session is not idle | {EVENT} | **Sent** | ALIVE |
 | The registration details after registering a puzzle | {Event}\_{DeviceId}\_{DeviceType}\_{PuzzleName}\_{PuzzleSolution} | **Receive** | REGDET_1_ARDUINO_Puzzle1_666 |
 | The new solution for a puzzle | {Event}\_{PuzzleName}\_{NewPuzzleSolution} | **Receive** | NEWSOL_Puzzle1_999 |
 | The game has started | {Event}\_{GameSessionId} | **Receive** | STARTGAME_123 |
